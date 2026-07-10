@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Eva Holding — Tecnologia, IA e Infraestrutura</title>
+  <meta name="description" content="Eva Holding é um grupo de tecnologia que constrói produtos digitais, agentes de IA, infraestrutura e automações para empresas que querem escalar.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+  <script>if (sessionStorage.getItem("eva_loaded")) { document.documentElement.classList.add("no-loader"); }</script>
+
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <img src="assets/logo-glow.png" alt="" class="loader-mark">
+      <div class="loader-bar"><div class="loader-bar-fill" id="loaderBarFill"></div></div>
+      <div class="loader-pct" id="loaderPct"><b>0</b>%</div>
+    </div>
+  </div>
+
+  <header class="site-header" id="site-header">
+    <div class="topbar">
+      <div class="topbar-in">
+        <a href="contato.html">Fale Conosco</a>
+        <span class="topbar-divider"></span>
+        <a href="faq.html">Central de Ajuda</a>
+        <span class="topbar-divider"></span>
+        <a href="quem-somos.html">Quem Somos</a>
+        <span class="topbar-spacer"></span>
+        <span>Brasil · PT</span>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <a href="index.html" class="brand">
+        <img src="assets/logo-crisp.png" alt="Eva Holding" class="brand-mark">
+        <span class="brand-name">EVA<b>Holding</b></span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <div class="nav-item">
+          <button type="button">Soluções
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="mega">
+            <a href="solucoes-web.html"><div><div class="mega-tag">Web &amp; Produto</div><div class="mega-title">Sites &amp; Produtos Digitais</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-ia.html"><div><div class="mega-tag">Inteligência Artificial</div><div class="mega-title">Agentes de IA</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-infraestrutura.html"><div><div class="mega-tag">Cloud &amp; Infra</div><div class="mega-title">Infraestrutura</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-automacao.html"><div><div class="mega-tag">Operação</div><div class="mega-title">Automações</div></div><span class="mega-arrow">↗</span></a>
+            <div class="mega-foot">Ver todas as soluções →</div>
+          </div>
+        </div>
+        <a href="quem-somos.html">Quem Somos</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contato.html">Contato</a>
+      </nav>
+
+      <a href="contato.html" class="btn btn--ghost header-cta">Fale com a Eva</a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <nav>
+      <a href="solucoes-web.html">Web &amp; Produto</a>
+      <a href="solucoes-ia.html">Agentes de IA</a>
+      <a href="solucoes-infraestrutura.html">Infraestrutura</a>
+      <a href="solucoes-automacao.html">Automações</a>
+      <a href="quem-somos.html">Quem Somos</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </div>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <canvas id="bg-canvas"></canvas>
+      <div class="grain"></div>
+
+      <div class="hero-inner">
+        <p class="eyebrow reveal">Holding de Tecnologia</p>
+
+        <h1 class="hero-title">
+          <span class="line reveal-word"><em>Construímos</em></span>
+          <span class="line reveal-word">o motor</span>
+          <span class="line reveal-word">digital do <em>futuro</em></span>
+        </h1>
+
+        <div class="hero-foot">
+          <p class="hero-lead reveal">
+            A Eva Holding reúne produtos, times e tecnologia sob um mesmo propósito:
+            transformar operações inteiras através de software, inteligência artificial
+            e infraestrutura sob medida.
+          </p>
+          <a href="#verticais" class="scroll-cue reveal">
+            <span>Explorar</span>
+            <i></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Web &amp; Produtos Digitais</span><span>·</span>
+        <span>Agentes de IA</span><span>·</span>
+        <span>Infraestrutura Cloud</span><span>·</span>
+        <span>Automação &amp; Integrações</span><span>·</span>
+        <span>Web &amp; Produtos Digitais</span><span>·</span>
+        <span>Agentes de IA</span><span>·</span>
+        <span>Infraestrutura Cloud</span><span>·</span>
+        <span>Automação &amp; Integrações</span><span>·</span>
+      </div>
+    </div>
+
+    <!-- VERTICAIS -->
+    <section class="verticals on-dark" id="verticais">
+      <div class="center">
+        <p class="section-label reveal">O que movemos</p>
+        <h2 class="section-title reveal">Quatro frentes,<br>uma só engenharia.</h2>
+
+        <ul class="vertical-list">
+          <li class="vertical-item reveal" style="--i:0">
+            <a href="solucoes-web.html">
+              <div class="vertical-icn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <div class="vertical-item-top">
+                <span class="vertical-index">01</span>
+                <span class="vertical-tag">Web &amp; Produto</span>
+              </div>
+              <h3>Sites &amp; Produtos Digitais</h3>
+              <p>Sites institucionais, plataformas e produtos web de alta performance — design premium com engenharia de verdade por trás.</p>
+            </a>
+          </li>
+
+          <li class="vertical-item reveal" style="--i:1">
+            <a href="solucoes-ia.html">
+              <div class="vertical-icn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v1a3 3 0 0 0-2 2.83V12a3 3 0 0 0 1 2.24V16a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-1.76A3 3 0 0 0 18 12v-2.17A3 3 0 0 0 16 7V6a4 4 0 0 0-4-4Z"/><path d="M9 10h.01M15 10h.01M9 18v2M15 18v2"/></svg>
+              </div>
+              <div class="vertical-item-top">
+                <span class="vertical-index">02</span>
+                <span class="vertical-tag">Inteligência Artificial</span>
+              </div>
+              <h3>Agentes de IA</h3>
+              <p>Agentes que atendem, vendem, qualificam e decidem — treinados para operar dentro do fluxo real do seu negócio, 24/7.</p>
+            </a>
+          </li>
+
+          <li class="vertical-item reveal" style="--i:2">
+            <a href="solucoes-infraestrutura.html">
+              <div class="vertical-icn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="6" rx="1.5"/><rect x="2" y="15" width="20" height="6" rx="1.5"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              </div>
+              <div class="vertical-item-top">
+                <span class="vertical-index">03</span>
+                <span class="vertical-tag">Cloud &amp; Infra</span>
+              </div>
+              <h3>Infraestrutura</h3>
+              <p>Arquitetura de servidores, dados e integrações desenhada para escalar sem quebrar — segura, observável e sob controle.</p>
+            </a>
+          </li>
+
+          <li class="vertical-item reveal" style="--i:3">
+            <a href="solucoes-automacao.html">
+              <div class="vertical-icn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+              </div>
+              <div class="vertical-item-top">
+                <span class="vertical-index">04</span>
+                <span class="vertical-tag">Operação</span>
+              </div>
+              <h3>Automações</h3>
+              <p>Processos manuais viram fluxos automáticos entre sistemas, times e clientes — menos operação, mais resultado.</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="about on-light" id="sobre">
+      <div class="center">
+        <p class="section-label reveal">Quem é a Eva</p>
+        <h2 class="about-title reveal">
+          Não somos uma agência.<br>
+          Somos o <em>time de tecnologia</em><br>
+          que sua empresa não tem.
+        </h2>
+
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>A Eva Holding nasceu para eliminar a distância entre uma boa ideia e um sistema
+            funcionando em produção. Reunimos engenharia de software, ciência de dados e design
+            em uma estrutura enxuta, capaz de tirar do papel — e manter no ar — o que grandes
+            empresas de tecnologia levam anos para construir.</p>
+          </div>
+          <div class="about-stats reveal">
+            <div class="stat">
+              <span class="stat-number">4</span>
+              <span class="stat-label">verticais integradas</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">24/7</span>
+              <span class="stat-label">operação assistida por IA</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">1</span>
+              <span class="stat-label">time, do design ao deploy</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top:40px;">
+          <a href="quem-somos.html" class="btn btn--ghost">Conhecer a Eva Holding</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ABORDAGEM -->
+    <section class="approach on-dark" id="abordagem">
+      <div class="center">
+        <p class="section-label reveal">Como pensamos</p>
+        <h2 class="section-title reveal">Princípios que guiam<br>cada linha de código.</h2>
+
+        <div class="approach-grid">
+          <div class="approach-card reveal" style="--i:0">
+            <span class="approach-num">01</span>
+            <h3>Velocidade com critério</h3>
+            <p>Entregamos rápido porque cortamos o supérfluo, não a qualidade.</p>
+          </div>
+          <div class="approach-card reveal" style="--i:1">
+            <span class="approach-num">02</span>
+            <h3>Tecnologia invisível</h3>
+            <p>A melhor infraestrutura é a que ninguém percebe — só sente que funciona.</p>
+          </div>
+          <div class="approach-card reveal" style="--i:2">
+            <span class="approach-num">03</span>
+            <h3>IA aplicada, não vitrine</h3>
+            <p>Agentes que resolvem problema real de negócio, não demos bonitos.</p>
+          </div>
+          <div class="approach-card reveal" style="--i:3">
+            <span class="approach-num">04</span>
+            <h3>Parceria de longo prazo</h3>
+            <p>Construímos como sócios do resultado, não como fornecedor pontual.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA / CONTATO -->
+    <section class="cta on-dark" id="contato">
+      <div class="center">
+        <p class="section-label reveal">Vamos construir</p>
+        <h2 class="cta-title reveal">Pronto para colocar<br>a <em>Eva</em> pra trabalhar?</h2>
+        <p class="cta-lead reveal">Conte um pouco sobre o desafio da sua empresa. Respondemos pessoalmente.</p>
+        <a href="contato.html" class="btn btn--solid cta-btn reveal">Fale com a gente</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="center">
+      <div class="footer-top">
+        <div class="footer-col">
+          <div class="footer-brand" style="margin-bottom:16px;">
+            <img src="assets/logo-crisp.png" alt="Eva Holding" class="footer-mark">
+            <span>EVA HOLDING</span>
+          </div>
+          <p class="footer-blurb">Holding de tecnologia: sites, agentes de IA, infraestrutura e automações para empresas que querem escalar.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Soluções</h5>
+          <a href="solucoes-web.html">Web &amp; Produto</a>
+          <a href="solucoes-ia.html">Agentes de IA</a>
+          <a href="solucoes-infraestrutura.html">Infraestrutura</a>
+          <a href="solucoes-automacao.html">Automações</a>
+        </div>
+        <div class="footer-col">
+          <h5>Institucional</h5>
+          <a href="quem-somos.html">Quem Somos</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contato.html">Contato</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contato</h5>
+          <a href="mailto:contato@evaholding.com">contato@evaholding.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Eva Holding. Todos os direitos reservados.</span>
+        <span>Feito com engenharia própria.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </div>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div class="chat-head-l">
+        <img class="chat-avatar" src="assets/logo-crisp.png" alt="">
+        <div>
+          <b>Eva</b>
+          <div class="status"><i></i> online agora</div>
+        </div>
+      </div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-body" id="chatBody"><div class="chat-msg bot">Olá! Sou a Eva 👋 Posso te explicar sobre sites, agentes de IA, infraestrutura ou automações. Digite ou mande um áudio 🎙️</div></div>
+    <div class="chat-foot">
+      <div class="chat-input-row">
+        <input id="chatInput" type="text" placeholder="Digite sua pergunta...">
+        <button class="icon-btn mic" id="micBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg></button>
+        <button class="icon-btn send" id="chatSend"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
