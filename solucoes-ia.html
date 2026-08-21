@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Agentes de IA — Eva Holding</title>
+  <meta name="description" content="Agentes de IA que atendem, vendem, qualificam e decidem — treinados para operar dentro do fluxo real do seu negócio, 24/7.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+  <script>if (sessionStorage.getItem("eva_loaded")) { document.documentElement.classList.add("no-loader"); }</script>
+
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <img src="assets/logo-glow.png" alt="" class="loader-mark">
+      <div class="loader-bar"><div class="loader-bar-fill" id="loaderBarFill"></div></div>
+      <div class="loader-pct" id="loaderPct"><b>0</b>%</div>
+    </div>
+  </div>
+
+  <canvas id="bg-canvas"></canvas>
+  <div class="grain"></div>
+
+  <header class="site-header" id="site-header">
+    <div class="topbar">
+      <div class="topbar-in">
+        <a href="contato.html">Fale Conosco</a>
+        <span class="topbar-divider"></span>
+        <a href="faq.html">Central de Ajuda</a>
+        <span class="topbar-divider"></span>
+        <a href="quem-somos.html">Quem Somos</a>
+        <span class="topbar-spacer"></span>
+        <span>Brasil · PT</span>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <a href="index.html" class="brand">
+        <img src="assets/logo-crisp.png" alt="Eva Holding" class="brand-mark">
+        <span class="brand-name">EVA<b>Holding</b></span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <div class="nav-item">
+          <button type="button">Soluções
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="mega">
+            <a href="solucoes-web.html"><div><div class="mega-tag">Web &amp; Produto</div><div class="mega-title">Sites &amp; Produtos Digitais</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-ia.html"><div><div class="mega-tag">Inteligência Artificial</div><div class="mega-title">Agentes de IA</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-infraestrutura.html"><div><div class="mega-tag">Cloud &amp; Infra</div><div class="mega-title">Infraestrutura</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-automacao.html"><div><div class="mega-tag">Operação</div><div class="mega-title">Automações</div></div><span class="mega-arrow">↗</span></a>
+            <div class="mega-foot">Ver todas as soluções →</div>
+          </div>
+        </div>
+        <a href="quem-somos.html">Quem Somos</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contato.html">Contato</a>
+      </nav>
+
+      <a href="contato.html" class="btn btn--ghost header-cta">Fale com a Eva</a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <nav>
+      <a href="solucoes-web.html">Web &amp; Produto</a>
+      <a href="solucoes-ia.html">Agentes de IA</a>
+      <a href="solucoes-infraestrutura.html">Infraestrutura</a>
+      <a href="solucoes-automacao.html">Automações</a>
+      <a href="quem-somos.html">Quem Somos</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="pg-hero">
+      <div class="center reveal">
+        <p class="eyebrow">Inteligência Artificial · 02</p>
+        <h1 class="pg-hero-title">Um agente que atende <em>de verdade</em>, não um chatbot de vitrine.</h1>
+        <p class="pg-lead">Agentes de IA treinados com o contexto real do seu negócio — atendem, qualificam, vendem e escalam para humano quando faz sentido, 24 horas por dia.</p>
+      </div>
+    </section>
+
+    <section class="on-light">
+      <div class="center">
+        <p class="section-label reveal">O que entregamos</p>
+        <h2 class="section-title reveal">Um agente que conhece o seu negócio.</h2>
+
+        <div class="feature-list">
+          <div class="feature-item reveal" style="--i:0">
+            <h3>Atendimento 24/7</h3>
+            <p>Responde clientes a qualquer hora, em texto ou áudio, sem fila de espera.</p>
+          </div>
+          <div class="feature-item reveal" style="--i:1">
+            <h3>Qualificação &amp; vendas</h3>
+            <p>Identifica intenção de compra, qualifica o lead e conduz até o próximo passo certo.</p>
+          </div>
+          <div class="feature-item reveal" style="--i:2">
+            <h3>Multicanal</h3>
+            <p>WhatsApp, site, Instagram — o mesmo agente, com contexto compartilhado entre canais.</p>
+          </div>
+          <div class="feature-item reveal" style="--i:3">
+            <h3>Aprendizado contínuo</h3>
+            <p>Ajustamos o comportamento do agente com base em conversas reais, não só no treino inicial.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="on-dark">
+      <div class="center">
+        <p class="section-label reveal">Como funciona</p>
+        <h2 class="section-title reveal">Da conversa ao sistema, sem gargalo.</h2>
+
+        <div class="proc-list">
+          <div class="proc-item reveal">
+            <span class="proc-num">01</span>
+            <div><h3>Mapeamento do fluxo</h3><p>Entendemos as perguntas mais comuns, objeções e o caminho ideal de atendimento.</p></div>
+          </div>
+          <div class="proc-item reveal">
+            <span class="proc-num">02</span>
+            <div><h3>Treinamento do agente</h3><p>Construímos a base de conhecimento e o tom de voz alinhados à sua marca.</p></div>
+          </div>
+          <div class="proc-item reveal">
+            <span class="proc-num">03</span>
+            <div><h3>Integração com sistemas</h3><p>Conectamos o agente ao CRM, agenda, catálogo ou o que for necessário para ele agir, não só responder.</p></div>
+          </div>
+          <div class="proc-item reveal">
+            <span class="proc-num">04</span>
+            <div><h3>Monitoramento &amp; ajuste</h3><p>Acompanhamos as conversas reais e refinamos o agente continuamente.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta on-dark">
+      <div class="center">
+        <p class="section-label reveal">Vamos construir</p>
+        <h2 class="cta-title reveal">Quer ver um agente<br>rodando no seu caso?</h2>
+        <a href="contato.html" class="btn btn--solid cta-btn reveal">Fale com a gente</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="center">
+      <div class="footer-top">
+        <div class="footer-col">
+          <div class="footer-brand" style="margin-bottom:16px;">
+            <img src="assets/logo-crisp.png" alt="Eva Holding" class="footer-mark">
+            <span>EVA HOLDING</span>
+          </div>
+          <p class="footer-blurb">Holding de tecnologia: sites, agentes de IA, infraestrutura e automações para empresas que querem escalar.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Soluções</h5>
+          <a href="solucoes-web.html">Web &amp; Produto</a>
+          <a href="solucoes-ia.html">Agentes de IA</a>
+          <a href="solucoes-infraestrutura.html">Infraestrutura</a>
+          <a href="solucoes-automacao.html">Automações</a>
+        </div>
+        <div class="footer-col">
+          <h5>Institucional</h5>
+          <a href="quem-somos.html">Quem Somos</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contato.html">Contato</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contato</h5>
+          <a href="mailto:contato@evaholding.com">contato@evaholding.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Eva Holding. Todos os direitos reservados.</span>
+        <span>Feito com engenharia própria.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </div>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div class="chat-head-l">
+        <img class="chat-avatar" src="assets/logo-crisp.png" alt="">
+        <div>
+          <b>Eva</b>
+          <div class="status"><i></i> online agora</div>
+        </div>
+      </div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-body" id="chatBody"><div class="chat-msg bot">Olá! Sou a Eva 👋 Posso te explicar sobre sites, agentes de IA, infraestrutura ou automações. Digite ou mande um áudio 🎙️</div></div>
+    <div class="chat-foot">
+      <div class="chat-input-row">
+        <input id="chatInput" type="text" placeholder="Digite sua pergunta...">
+        <button class="icon-btn mic" id="micBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg></button>
+        <button class="icon-btn send" id="chatSend"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
