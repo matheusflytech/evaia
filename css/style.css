@@ -116,7 +116,7 @@ main, .site-header, .site-footer, .marquee { position: relative; z-index: 2; }
 
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-mark { width: 26px; }
-.brand-wordmark { height: 17px; width: auto; }
+.brand-wordmark { height: 22px; width: auto; }
 .brand-name { font-family: var(--font-logo); font-weight: 800; letter-spacing: .02em; font-size: 15px; text-transform: uppercase; color: var(--ink-100); }
 .brand-name b { font-weight: 500; color: var(--ink-500); margin-left: 3px; }
 
@@ -286,7 +286,7 @@ section { padding: 140px 0; position: relative; }
 .footer-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 40px; flex-wrap: wrap; gap: 24px; }
 .footer-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .06em; color: var(--ink-100); }
 .footer-mark { width: 22px; }
-.footer-wordmark { height: 15px; width: auto; }
+.footer-wordmark { height: 18px; width: auto; }
 .footer-nav { display: flex; gap: 28px; }
 .footer-nav a { font-size: 14px; color: var(--ink-300); }
 .footer-nav a:hover { color: var(--ink-100); }
@@ -387,15 +387,15 @@ section { padding: 140px 0; position: relative; }
 .contact-card p.card-desc { color: var(--ink-d500); font-size: 14px; line-height: 1.6; }
 button.contact-card { font: inherit; text-align: left; width: 100%; cursor: pointer; }
 
-/* ===== Demo request section (mint gradient, form card) ===== */
-.demo-section { background: var(--gradient-mint); padding: 120px 0; }
+/* ===== Demo request section (dark gradient, form card) ===== */
+.demo-section { background: var(--gradient-dark); padding: 120px 0; }
 .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.demo-copy .section-label { color: rgba(6,20,15,.6); }
-.demo-copy h1, .demo-copy h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 4.2vw, 48px); line-height: 1.12; margin-bottom: 20px; letter-spacing: -.02em; color: #06140f; }
-.demo-lead { font-size: 17px; line-height: 1.65; color: rgba(6,20,15,.72); margin-bottom: 36px; max-width: 460px; }
+.demo-copy .section-label { color: var(--accent-2); }
+.demo-copy h1, .demo-copy h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 4.2vw, 48px); line-height: 1.12; margin-bottom: 20px; letter-spacing: -.02em; color: var(--ink-100); }
+.demo-lead { font-size: 17px; line-height: 1.65; color: var(--ink-300); margin-bottom: 36px; max-width: 460px; }
 .demo-points { display: flex; flex-direction: column; gap: 16px; }
-.demo-point { display: flex; align-items: center; gap: 14px; font-size: 14.5px; font-weight: 600; color: #06140f; }
-.demo-point-icn { flex: none; width: 34px; height: 34px; border-radius: 10px; background: rgba(6,20,15,.12); display: flex; align-items: center; justify-content: center; color: #06140f; }
+.demo-point { display: flex; align-items: center; gap: 14px; font-size: 14.5px; font-weight: 600; color: var(--ink-100); }
+.demo-point-icn { flex: none; width: 34px; height: 34px; border-radius: 10px; background: var(--card-dark); border: 1px solid var(--card-dark-border); display: flex; align-items: center; justify-content: center; color: var(--accent-2); }
 
 .demo-card { background: #fff; border-radius: 22px; padding: 40px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.35); }
 .demo-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--ink-d900); margin-bottom: 6px; }
