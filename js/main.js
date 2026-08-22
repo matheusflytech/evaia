@@ -3,7 +3,7 @@
 
   /* ===== Loader (counts up 0-100%, only once per browser session) ===== */
   (function () {
-    var SESSION_KEY = "eva_loaded";
+    var SESSION_KEY = "beeno_loaded";
 
     if (sessionStorage.getItem(SESSION_KEY)) {
       document.body.classList.add("is-loaded");
@@ -66,10 +66,10 @@
     });
 
     var blobs = [
-      { baseX: 0.18, baseY: 0.25, r: 0.42, hue: "48,140,232", speed: 0.55, phase: 0 },
-      { baseX: 0.82, baseY: 0.18, r: 0.36, hue: "153,204,255", speed: 0.4, phase: 2 },
-      { baseX: 0.5, baseY: 0.85, r: 0.5, hue: "48,140,232", speed: 0.3, phase: 4 },
-      { baseX: 0.9, baseY: 0.75, r: 0.3, hue: "153,204,255", speed: 0.62, phase: 1.3 }
+      { baseX: 0.18, baseY: 0.25, r: 0.42, hue: "0,205,138", speed: 0.55, phase: 0 },
+      { baseX: 0.82, baseY: 0.18, r: 0.36, hue: "110,231,183", speed: 0.4, phase: 2 },
+      { baseX: 0.5, baseY: 0.85, r: 0.5, hue: "0,205,138", speed: 0.3, phase: 4 },
+      { baseX: 0.9, baseY: 0.75, r: 0.3, hue: "110,231,183", speed: 0.62, phase: 1.3 }
     ];
 
     var t = 0;
@@ -185,11 +185,11 @@
   /* ===== AI chat widget ===== */
   var chatFab = document.getElementById("chatFab");
   if (chatFab) {
-    var WEBHOOK_URL = "https://integrations-hook.beeno.ai/webhook/evaai";
-    var CHAT_KEY = "eva_chat_messages";
-    var SESSION_KEY = "eva_chat_session";
-    var DRAFT_KEY = "eva_chat_draft";
-    var OPEN_KEY = "eva_chat_open";
+    var WEBHOOK_URL = "https://integrations-hook.beeno.ai/webhook/beeno-agent";
+    var CHAT_KEY = "beeno_chat_messages";
+    var SESSION_KEY = "beeno_chat_session";
+    var DRAFT_KEY = "beeno_chat_draft";
+    var OPEN_KEY = "beeno_chat_open";
 
     var sessionId = sessionStorage.getItem(SESSION_KEY);
     if (!sessionId) {
@@ -234,9 +234,9 @@
     }
 
     var SUGGESTIONS = [
-      "Quanto custa um site?",
-      "Como funciona o agente de IA?",
-      "Quero automatizar meu negócio"
+      "Quanto custa o Beeno?",
+      "Como funciona o funil de vendas?",
+      "Quero ser parceiro"
     ];
 
     function renderSuggestions() {
@@ -368,11 +368,11 @@
   /* ===== Lead capture modal (Orçamento / Contato -> WhatsApp) ===== */
   var leadModal = document.getElementById("leadModal");
   if (leadModal) {
-    var WHATSAPP_NUMBER = "5521969156116";
+    var WHATSAPP_NUMBER = "5519983277167";
 
     var FLOWS = {
       orcamento: {
-        title: "Fazer um orçamento",
+        title: "Agendar demonstração",
         questions: [
           { key: "nome", q: "Qual seu nome?" },
           { key: "empresa", q: "Qual o nome da sua empresa?" },
@@ -383,7 +383,7 @@
           { key: "whatsapp", q: "Qual o seu número de WhatsApp?" }
         ],
         buildMessage: function (a) {
-          return "Olá! Vim pelo site da Eva Holding e quero um orçamento.\n\n" +
+          return "Olá! Vim pelo site do Beeno e quero uma demonstração.\n\n" +
             "*Nome:* " + a.nome + "\n" +
             "*Empresa:* " + a.empresa + "\n" +
             "*Nicho de atuação:* " + a.nicho + "\n" +
@@ -401,7 +401,7 @@
           { key: "contatoInfo", q: "Qual o seu e-mail ou WhatsApp pra te responder?" }
         ],
         buildMessage: function (a) {
-          return "Olá! Vim pelo site da Eva Holding.\n\n" +
+          return "Olá! Vim pelo site do Beeno.\n\n" +
             "*Nome:* " + a.nome + "\n" +
             "*Mensagem:* " + a.mensagem + "\n" +
             "*Contato:* " + a.contatoInfo;

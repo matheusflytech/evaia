@@ -2,31 +2,31 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  /* dark palette (hero, header, footer, dark sections) */
-  --navy-950: hsl(220, 50%, 6%);
-  --navy-900: hsl(220, 50%, 9%);
-  --navy-800: hsl(220, 40%, 12%);
-  --navy-700: hsl(220, 30%, 18%);
-  --navy-600: hsl(220, 28%, 26%);
-  --gradient-dark: linear-gradient(135deg, rgb(8,16,33), rgb(17,31,59), rgb(20,51,82));
-  --ink-100: hsl(210, 40%, 96%);
-  --ink-300: hsl(215, 20%, 72%);
-  --ink-500: hsl(215, 20%, 55%);
-  --line: hsla(220, 30%, 60%, 0.16);
-  --card-dark: hsla(220, 51%, 12%, 0.6);
-  --card-dark-border: hsla(220, 20%, 70%, 0.16);
+  /* dark palette (hero, header, footer, dark sections) — Beeno green-black */
+  --navy-950: hsl(160, 45%, 5%);
+  --navy-900: hsl(160, 42%, 8%);
+  --navy-800: hsl(160, 34%, 11%);
+  --navy-700: hsl(158, 26%, 17%);
+  --navy-600: hsl(158, 22%, 25%);
+  --gradient-dark: linear-gradient(135deg, rgb(6,18,14), rgb(9,32,24), rgb(8,48,35));
+  --ink-100: hsl(150, 24%, 96%);
+  --ink-300: hsl(150, 12%, 72%);
+  --ink-500: hsl(150, 10%, 55%);
+  --line: hsla(160, 30%, 60%, 0.16);
+  --card-dark: hsla(160, 45%, 10%, 0.6);
+  --card-dark-border: hsla(160, 20%, 70%, 0.16);
 
   /* light palette (content sections) */
-  --bg-light: hsl(220, 30%, 97%);
+  --bg-light: hsl(150, 22%, 97%);
   --surface: #ffffff;
-  --ink-d900: hsl(220, 50%, 12%);
-  --ink-d500: hsl(220, 15%, 42%);
-  --line-light: hsla(220, 25%, 40%, 0.14);
+  --ink-d900: hsl(155, 45%, 9%);
+  --ink-d500: hsl(155, 12%, 40%);
+  --line-light: hsla(155, 20%, 40%, 0.14);
 
-  /* shared accent */
-  --accent: hsl(210, 80%, 55%);
-  --accent-2: hsl(210, 100%, 80%);
-  --accent-soft: hsla(210, 80%, 55%, 0.1);
+  /* shared accent — Beeno brand green (#00CD8A) */
+  --accent: hsl(160, 100%, 40%);
+  --accent-2: hsl(155, 85%, 68%);
+  --accent-soft: hsla(160, 100%, 40%, 0.1);
 
   --font-display: "Plus Jakarta Sans", sans-serif;
   --font-logo: "Montserrat", sans-serif;
@@ -135,7 +135,7 @@ main, .site-header, .site-footer, .marquee { position: relative; z-index: 2; }
   transition: all .3s ease; white-space: nowrap;
 }
 .btn--ghost { border: 1px solid var(--line); color: var(--ink-100); }
-.btn--ghost:hover { border-color: var(--accent-2); background: hsla(210, 100%, 80%, .08); }
+.btn--ghost:hover { border-color: var(--accent-2); background: hsla(155, 85%, 68%, .08); }
 .btn--solid { background: var(--accent); color: #fff; }
 .btn--solid:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
@@ -212,9 +212,11 @@ main, .site-header, .site-footer, .marquee { position: relative; z-index: 2; }
   border-bottom: 1px solid var(--line-light);
   overflow: hidden; white-space: nowrap; padding: 20px 0;
 }
-.marquee-track { display: inline-flex; gap: 18px; animation: scroll-left 26s linear infinite; }
+.marquee-track { display: inline-flex; align-items: center; gap: 46px; animation: scroll-left 40s linear infinite; }
 .marquee-track span { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: var(--ink-d500); }
 .marquee-track span:nth-child(2n) { color: var(--accent); font-family: var(--font-mono); font-weight: 500; font-size: 13px; align-self: center; }
+.marquee-logo { height: 30px; width: auto; max-width: 130px; object-fit: contain; flex: none; filter: grayscale(1); opacity: .55; transition: opacity .25s ease, filter .25s ease; }
+.marquee-logo:hover { filter: grayscale(0); opacity: 1; }
 @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ===== Section shared ===== */
@@ -240,7 +242,7 @@ section { padding: 140px 0; position: relative; }
   background: var(--card-dark); border: 1px solid var(--card-dark-border);
   border-radius: 16px; padding: 40px; transition: background .3s ease, border-color .3s ease, transform .3s ease;
 }
-.vertical-item:hover { background: hsla(220, 51%, 16%, 0.75); border-color: hsla(210,80%,55%,0.4); transform: translateY(-3px); }
+.vertical-item:hover { background: hsla(160, 45%, 16%, 0.75); border-color: hsla(160,100%,40%,0.4); transform: translateY(-3px); }
 .vertical-item > a { display: block; }
 .vertical-icn {
   width: 52px; height: 52px; border-radius: 14px; background: var(--accent-soft);
@@ -371,7 +373,7 @@ section { padding: 140px 0; position: relative; }
 /* ===== Contact cards (light) ===== */
 .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .contact-card { background: var(--surface); border: 1px solid var(--line-light); border-radius: 16px; padding: 40px; transition: all .25s ease; display: block; box-shadow: 0 1px 3px rgba(16,24,40,.05); }
-.contact-card:hover { border-color: hsla(210,80%,55%,0.4); transform: translateY(-3px); box-shadow: 0 12px 28px rgba(16,24,40,.08); }
+.contact-card:hover { border-color: hsla(160,100%,40%,0.4); transform: translateY(-3px); box-shadow: 0 12px 28px rgba(16,24,40,.08); }
 .contact-icn {
   width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
   background: var(--accent-soft); color: var(--accent); font-size: 19px; margin-bottom: 24px;
@@ -467,7 +469,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   width: 60px; height: 60px; border-radius: 50%;
   background: var(--accent);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  box-shadow: 0 14px 34px -8px hsla(210, 80%, 55%, 0.55);
+  box-shadow: 0 14px 34px -8px hsla(160, 100%, 40%, 0.55);
   transition: transform .25s ease;
 }
 .chat-fab:hover { transform: scale(1.06); }
@@ -504,7 +506,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   font-size: 12.5px; font-family: var(--font-body); font-weight: 500; padding: 9px 14px;
   border-radius: 100px; cursor: pointer; transition: all .2s ease;
 }
-.chip:hover { border-color: var(--accent-2); background: hsla(210,100%,80%,.08); color: var(--accent-2); }
+.chip:hover { border-color: var(--accent-2); background: hsla(155,85%,68%,.08); color: var(--accent-2); }
 
 .chat-foot { padding: 16px 20px 20px; border-top: 1px solid var(--line); }
 .chat-input-row {
