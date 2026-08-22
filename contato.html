@@ -43,7 +43,7 @@
     <div class="nav-row">
       <a href="index.html" class="brand">
         <img src="assets/beeno-b.png" alt="Beeno" class="brand-mark">
-        <span class="brand-name">Beeno</span>
+        <img src="assets/beeno-wordmark.webp" alt="Beeno" class="brand-wordmark">
       </a>
 
       <nav class="main-nav" id="main-nav">
@@ -53,7 +53,7 @@
           </button>
           <div class="mega">
             <a href="solucoes-web.html"><div><div class="mega-tag">Funil de Vendas</div><div class="mega-title">Vendas</div></div><span class="mega-arrow">↗</span></a>
-            <a href="solucoes-ia.html"><div><div class="mega-tag">E-mail &amp; Páginas</div><div class="mega-title">Marketing</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-ia.html"><div><div class="mega-tag">Email &amp; Páginas</div><div class="mega-title">Marketing</div></div><span class="mega-arrow">↗</span></a>
             <a href="solucoes-infraestrutura.html"><div><div class="mega-tag">Ligações</div><div class="mega-title">Atendimento</div></div><span class="mega-arrow">↗</span></a>
             <a href="solucoes-automacao.html"><div><div class="mega-tag">Receita recorrente</div><div class="mega-title">Parceiros</div></div><span class="mega-arrow">↗</span></a>
             <div class="mega-foot">Ver todos os recursos →</div>
@@ -85,17 +85,76 @@
   </div>
 
   <main>
-    <section class="pg-hero">
-      <div class="center reveal">
-        <p class="eyebrow">Contato</p>
-        <h1 class="pg-hero-title">Vamos <em>conversar</em>.</h1>
-        <p class="pg-lead">Agende uma demonstração com um consultor da Skeps. Em 30 minutos a gente mostra o Beeno rodando para o seu cenário — sem custo e sem compromisso.</p>
+    <section class="demo-section">
+      <div class="center">
+        <div class="demo-grid">
+          <div class="demo-copy reveal">
+            <p class="section-label">Contato</p>
+            <h1>Pronto para transformar<br>a sua gestão comercial?</h1>
+            <p class="demo-lead">Agende uma demonstração com um consultor da Skeps. Em 30 minutos a gente mostra o Beeno rodando para o seu cenário.</p>
+            <div class="demo-points">
+              <div class="demo-point">
+                <span class="demo-point-icn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+                Resposta de um consultor em até 1 dia útil
+              </div>
+              <div class="demo-point">
+                <span class="demo-point-icn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg></span>
+                Sem custo, sem compromisso de assinar
+              </div>
+              <div class="demo-point">
+                <span class="demo-point-icn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></span>
+                Demo 1:1 já no contexto da sua operação
+              </div>
+            </div>
+          </div>
+
+          <form class="demo-card reveal" id="demoForm">
+            <h3>Agendar demonstração</h3>
+            <p class="demo-card-sub">Leva 2 minutos. Campos com <span>*</span> são obrigatórios.</p>
+
+            <div class="demo-form-row">
+              <div class="demo-field">
+                <label>Nome completo <span>*</span></label>
+                <input type="text" id="demoNome" placeholder="Como podemos te chamar?" required>
+              </div>
+              <div class="demo-field">
+                <label>Email corporativo <span>*</span></label>
+                <input type="email" id="demoEmail" placeholder="voce@empresa.com" required>
+              </div>
+            </div>
+            <div class="demo-form-row">
+              <div class="demo-field">
+                <label>WhatsApp / Telefone <span>*</span></label>
+                <input type="text" id="demoTelefone" placeholder="(00) 00000-0000" required>
+              </div>
+              <div class="demo-field">
+                <label>Empresa <span>*</span></label>
+                <input type="text" id="demoEmpresa" placeholder="Nome da empresa" required>
+              </div>
+            </div>
+            <div class="demo-field">
+              <label>Cargo (opcional)</label>
+              <input type="text" id="demoCargo" placeholder="Ex.: Diretor Comercial, Gerente de Vendas...">
+            </div>
+            <div class="demo-field">
+              <label>Como podemos ajudar? (opcional)</label>
+              <textarea id="demoMensagem" placeholder="Tamanho do time, principal desafio, ferramentas atuais..."></textarea>
+            </div>
+
+            <label class="demo-check">
+              <input type="checkbox" id="demoConsent" required>
+              Autorizo o contato do time Beeno e concordo com a Política de Privacidade.<span>*</span>
+            </label>
+
+            <button type="submit" class="btn btn--solid demo-submit">Quero uma demo →</button>
+          </form>
+        </div>
       </div>
     </section>
 
     <section class="on-light">
       <div class="center">
-        <p class="section-label reveal">Como podemos ajudar</p>
+        <p class="section-label reveal">Prefere outro caminho?</p>
         <h2 class="section-title reveal">Escolha o que faz mais sentido agora.</h2>
         <div class="contact-grid reveal">
           <button type="button" class="contact-card lead-trigger" data-flow="orcamento">
@@ -119,7 +178,7 @@
         <div class="contact-grid reveal">
           <a class="contact-card" href="mailto:contato@beeno.ai">
             <span class="contact-icn">✉</span>
-            <p class="card-eyebrow">E-mail</p>
+            <p class="card-eyebrow">Email</p>
             <p class="card-title">contato@beeno.ai</p>
             <p class="card-desc">Para propostas, parcerias e qualquer dúvida sobre o Beeno.</p>
           </a>
@@ -127,7 +186,7 @@
             <span class="contact-icn">💬</span>
             <p class="card-eyebrow">Chat com o Beeno</p>
             <p class="card-title">Fale com nosso agente</p>
-            <p class="card-desc">Resposta imediata sobre funil de vendas, e-mail marketing, landing pages ou parceiros.</p>
+            <p class="card-desc">Resposta imediata sobre funil de vendas, email marketing, landing pages ou parceiros.</p>
           </a>
         </div>
       </div>
@@ -149,7 +208,7 @@
         <div class="footer-col">
           <div class="footer-brand" style="margin-bottom:16px;">
             <img src="assets/beeno-b.png" alt="Beeno" class="footer-mark">
-            <span>BEENO</span>
+            <img src="assets/beeno-wordmark.webp" alt="Beeno" class="footer-wordmark">
           </div>
           <p class="footer-blurb">O CRM de vendas e marketing da Skeps. Capte, nutra e feche sem trocar de ferramenta.</p>
         </div>
@@ -193,7 +252,7 @@
       </div>
       <button class="chat-close" id="chatClose">✕</button>
     </div>
-    <div class="chat-body" id="chatBody"><div class="chat-msg bot">Olá! Sou o assistente do Beeno 👋 Posso te explicar sobre funil de vendas, e-mail marketing, landing pages, ligações ou o programa de parceiros. Digite ou mande um áudio 🎙️</div></div>
+    <div class="chat-body" id="chatBody"><div class="chat-msg bot">Olá! Sou o assistente do Beeno 👋 Posso te explicar sobre funil de vendas, email marketing, landing pages, ligações ou o programa de parceiros. Digite ou mande um áudio 🎙️</div></div>
     <div class="chat-foot">
       <div class="chat-input-row">
         <input id="chatInput" type="text" placeholder="Digite sua pergunta...">

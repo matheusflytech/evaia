@@ -308,7 +308,7 @@
         appendMsg(data.reply || "Desculpe, não consegui responder agora.", "bot");
       } catch (err) {
         typing.remove();
-        appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
+        appendMsg("Assistente indisponível no momento. Fale com a gente por email!", "bot");
       }
     }
     document.getElementById("chatSend").addEventListener("click", sendChat);
@@ -358,11 +358,37 @@
           appendMsg(data.reply || "Desculpe, não consegui entender o áudio.", "bot");
         } catch (err) {
           typing.remove();
-          appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
+          appendMsg("Assistente indisponível no momento. Fale com a gente por email!", "bot");
         }
       };
       reader.readAsDataURL(blob);
     }
+  }
+
+  /* ===== Demo request form (full form -> WhatsApp) ===== */
+  var demoForm = document.getElementById("demoForm");
+  if (demoForm) {
+    demoForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var nome = document.getElementById("demoNome").value.trim();
+      var email = document.getElementById("demoEmail").value.trim();
+      var telefone = document.getElementById("demoTelefone").value.trim();
+      var empresa = document.getElementById("demoEmpresa").value.trim();
+      var cargo = document.getElementById("demoCargo").value.trim();
+      var mensagem = document.getElementById("demoMensagem").value.trim();
+
+      var text = "Olá! Vim pelo site do Beeno e quero agendar uma demonstração.\n\n" +
+        "*Nome:* " + nome + "\n" +
+        "*Email:* " + email + "\n" +
+        "*WhatsApp:* " + telefone + "\n" +
+        "*Empresa:* " + empresa +
+        (cargo ? "\n*Cargo:* " + cargo : "") +
+        (mensagem ? "\n*Como podemos ajudar:* " + mensagem : "");
+
+      var url = "https://wa.me/5519983277167?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+      demoForm.reset();
+    });
   }
 
   /* ===== Lead capture modal (Orçamento / Contato -> WhatsApp) ===== */
@@ -379,7 +405,7 @@
           { key: "nicho", q: "Qual seu nicho de atuação?" },
           { key: "desafio", q: "Qual seu maior desafio hoje?" },
           { key: "faturamento", q: "Qual seu faturamento mensal aproximado?" },
-          { key: "email", q: "Qual o seu e-mail?" },
+          { key: "email", q: "Qual o seu email?" },
           { key: "whatsapp", q: "Qual o seu número de WhatsApp?" }
         ],
         buildMessage: function (a) {
@@ -389,7 +415,7 @@
             "*Nicho de atuação:* " + a.nicho + "\n" +
             "*Maior desafio:* " + a.desafio + "\n" +
             "*Faturamento mensal:* " + a.faturamento + "\n" +
-            "*E-mail:* " + a.email + "\n" +
+            "*Email:* " + a.email + "\n" +
             "*WhatsApp:* " + a.whatsapp;
         }
       },
@@ -398,7 +424,7 @@
         questions: [
           { key: "nome", q: "Qual seu nome?" },
           { key: "mensagem", q: "O que você gostaria de saber ou precisa?" },
-          { key: "contatoInfo", q: "Qual o seu e-mail ou WhatsApp pra te responder?" }
+          { key: "contatoInfo", q: "Qual o seu email ou WhatsApp pra te responder?" }
         ],
         buildMessage: function (a) {
           return "Olá! Vim pelo site do Beeno.\n\n" +
