@@ -512,7 +512,7 @@
       progressFill.style.width = "100%";
       modalBody.innerHTML =
         '<p class="lead-step-label">Tudo certo!</p>' +
-        '<h3 class="lead-question">Abrimos o WhatsApp com sua mensagem pronta — é só enviar por lá.</h3>' +
+        '<h3 class="lead-question">Abrimos o WhatsApp com sua mensagem pronta, é só enviar por lá.</h3>' +
         '<div class="lead-actions"><span></span><button type="button" class="btn btn--solid" id="leadDone">Fechar</button></div>';
       document.getElementById("leadDone").addEventListener("click", closeLeadModal);
     }
