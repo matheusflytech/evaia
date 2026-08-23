@@ -494,7 +494,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .feature-icn { width: 48px; height: 48px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
 
 /* ===== Footer (multi-column, always dark) ===== */
-.footer-top { align-items: flex-start; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 30px; }
+.footer-top { align-items: flex-start; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; gap: 30px; }
 .footer-col h5 {
   font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
   color: var(--ink-500); margin-bottom: 18px;
