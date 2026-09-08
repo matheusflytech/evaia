@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body class="is-loading">
   <script>if (sessionStorage.getItem("eva_loaded")) { document.documentElement.classList.add("no-loader"); }</script>
@@ -30,13 +30,23 @@
   <header class="site-header" id="site-header">
     <div class="topbar">
       <div class="topbar-in">
-        <a href="contato.html">Fale Conosco</a>
+        <a href="contato.html" data-i18n="topbar.fale">Fale Conosco</a>
         <span class="topbar-divider"></span>
-        <a href="faq.html">Central de Ajuda</a>
+        <a href="faq.html" data-i18n="topbar.central">Central de Ajuda</a>
         <span class="topbar-divider"></span>
-        <a href="quem-somos.html">Quem Somos</a>
+        <a href="quem-somos.html" data-i18n="topbar.quemsomos">Quem Somos</a>
         <span class="topbar-spacer"></span>
-        <span>Brasil · PT</span>
+        <div class="lang-switch" id="langSwitch">
+          <button type="button" class="lang-switch-btn" id="langSwitchBtn">
+            <span class="lang-flag" id="langFlag">🇧🇷</span><span id="langCode">PT</span>
+            <svg width="8" height="5" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="lang-switch-menu" id="langSwitchMenu">
+            <button type="button" data-lang="pt">🇧🇷 Português</button>
+            <button type="button" data-lang="en">🇺🇸 English</button>
+            <button type="button" data-lang="es">🇪🇸 Español</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -48,23 +58,23 @@
 
       <nav class="main-nav" id="main-nav">
         <div class="nav-item">
-          <button type="button">Soluções
+          <button type="button"><span data-i18n="nav.solucoes">Soluções</span>
             <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           </button>
           <div class="mega">
-            <a href="solucoes-web.html"><div><div class="mega-tag">Web &amp; Produto</div><div class="mega-title">Sites &amp; Produtos Digitais</div></div><span class="mega-arrow">↗</span></a>
-            <a href="solucoes-ia.html"><div><div class="mega-tag">Inteligência Artificial</div><div class="mega-title">Agentes de IA</div></div><span class="mega-arrow">↗</span></a>
-            <a href="solucoes-infraestrutura.html"><div><div class="mega-tag">Cloud &amp; Infra</div><div class="mega-title">Infraestrutura</div></div><span class="mega-arrow">↗</span></a>
-            <a href="solucoes-automacao.html"><div><div class="mega-tag">Operação</div><div class="mega-title">Automações</div></div><span class="mega-arrow">↗</span></a>
-            <div class="mega-foot">Ver todas as soluções →</div>
+            <a href="solucoes-web.html"><div><div class="mega-tag" data-i18n="nav.mega.web.tag">Web &amp; Produto</div><div class="mega-title" data-i18n="nav.mega.web.title">Sites &amp; Produtos Digitais</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-ia.html"><div><div class="mega-tag" data-i18n="nav.mega.ia.tag">Inteligência Artificial</div><div class="mega-title" data-i18n="nav.mega.ia.title">Agentes de IA</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-infraestrutura.html"><div><div class="mega-tag" data-i18n="nav.mega.infra.tag">Cloud &amp; Infra</div><div class="mega-title" data-i18n="nav.mega.infra.title">Infraestrutura</div></div><span class="mega-arrow">↗</span></a>
+            <a href="solucoes-automacao.html"><div><div class="mega-tag" data-i18n="nav.mega.automacao.tag">Operação</div><div class="mega-title" data-i18n="nav.mega.automacao.title">Automações</div></div><span class="mega-arrow">↗</span></a>
+            <div class="mega-foot" data-i18n="nav.mega.foot">Ver todas as soluções →</div>
           </div>
         </div>
-        <a href="quem-somos.html">Quem Somos</a>
-        <a href="faq.html">FAQ</a>
-        <a href="contato.html">Contato</a>
+        <a href="quem-somos.html" data-i18n="nav.quemsomos">Quem Somos</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contato.html" data-i18n="nav.contato">Contato</a>
       </nav>
 
-      <a href="contato.html" class="btn btn--ghost header-cta">Fale com a Eva</a>
+      <a href="contato.html" class="btn btn--ghost header-cta" data-i18n="header.cta">Fale com a Eva</a>
 
       <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
         <span></span><span></span><span></span>
@@ -74,13 +84,13 @@
 
   <div class="mobile-menu" id="mobile-menu">
     <nav>
-      <a href="solucoes-web.html">Web &amp; Produto</a>
-      <a href="solucoes-ia.html">Agentes de IA</a>
-      <a href="solucoes-infraestrutura.html">Infraestrutura</a>
-      <a href="solucoes-automacao.html">Automações</a>
-      <a href="quem-somos.html">Quem Somos</a>
-      <a href="faq.html">FAQ</a>
-      <a href="contato.html">Contato</a>
+      <a href="solucoes-web.html" data-i18n="nav.web">Web &amp; Produto</a>
+      <a href="solucoes-ia.html" data-i18n="nav.ia">Agentes de IA</a>
+      <a href="solucoes-infraestrutura.html" data-i18n="nav.infra">Infraestrutura</a>
+      <a href="solucoes-automacao.html" data-i18n="nav.automacao">Automações</a>
+      <a href="quem-somos.html" data-i18n="nav.quemsomos">Quem Somos</a>
+      <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+      <a href="contato.html" data-i18n="nav.contato">Contato</a>
     </nav>
   </div>
 
@@ -162,31 +172,31 @@
             <img src="assets/logo-crisp.png" alt="Eva Holding" class="footer-mark">
             <span>EVA HOLDING</span>
           </div>
-          <p class="footer-blurb">Holding de tecnologia: sites, agentes de IA, infraestrutura e automações para empresas que querem escalar.</p>
+          <p class="footer-blurb" data-i18n="footer.blurb">Holding de tecnologia: sites, agentes de IA, infraestrutura e automações para empresas que querem escalar.</p>
         </div>
         <div class="footer-col">
-          <h5>Soluções</h5>
-          <a href="solucoes-web.html">Web &amp; Produto</a>
-          <a href="solucoes-ia.html">Agentes de IA</a>
-          <a href="solucoes-infraestrutura.html">Infraestrutura</a>
-          <a href="solucoes-automacao.html">Automações</a>
+          <h5 data-i18n="footer.h5.solucoes">Soluções</h5>
+          <a href="solucoes-web.html" data-i18n="nav.web">Web &amp; Produto</a>
+          <a href="solucoes-ia.html" data-i18n="nav.ia">Agentes de IA</a>
+          <a href="solucoes-infraestrutura.html" data-i18n="nav.infra">Infraestrutura</a>
+          <a href="solucoes-automacao.html" data-i18n="nav.automacao">Automações</a>
         </div>
         <div class="footer-col">
-          <h5>Institucional</h5>
-          <a href="quem-somos.html">Quem Somos</a>
-          <a href="faq.html">FAQ</a>
-          <a href="contato.html">Contato</a>
+          <h5 data-i18n="footer.h5.institucional">Institucional</h5>
+          <a href="quem-somos.html" data-i18n="nav.quemsomos">Quem Somos</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+          <a href="contato.html" data-i18n="nav.contato">Contato</a>
         </div>
         <div class="footer-col">
-          <h5>Contato</h5>
+          <h5 data-i18n="footer.h5.contato">Contato</h5>
           <a href="mailto:evaholdingroup@gmail.com">evaholdingroup@gmail.com</a>
           <a href="https://wa.me/5521969156116" target="_blank" rel="noopener noreferrer">(21) 96915-6116</a>
           <a class="footer-address" href="https://www.google.com/maps/place/Barra+da+Tijuca,+Rio+de+Janeiro+-+RJ/@-23.010379,-43.4514573,12z/data=!3m1!4b1!4m6!3m5!1s0x9bda4a27b6fe5d:0x63c3f6d1d89e0f4e!8m2!3d-23.0040194!4d-43.3661069!16s%2Fg%2F11b76h6hc0?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Barra da Tijuca, Rio de Janeiro</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2025 Eva Holding. Todos os direitos reservados.</span>
-        <span>Feito com engenharia própria.</span>
+        <span data-i18n="footer.rights">© 2025 Eva Holding. Todos os direitos reservados.</span>
+        <span data-i18n="footer.madewith">Feito com engenharia própria.</span>
       </div>
     </div>
   </footer>
@@ -200,15 +210,15 @@
         <img class="chat-avatar" src="assets/logo-crisp.png" alt="">
         <div>
           <b>Eva</b>
-          <div class="status"><i></i> online agora</div>
+          <div class="status"><i></i> <span data-i18n="chat.status">online agora</span></div>
         </div>
       </div>
       <button class="chat-close" id="chatClose">✕</button>
     </div>
-    <div class="chat-body" id="chatBody"><div class="chat-msg bot">Olá! Sou a Eva 👋 Posso te explicar sobre sites, agentes de IA, infraestrutura ou automações. Digite ou mande um áudio 🎙️</div></div>
+    <div class="chat-body" id="chatBody"><div class="chat-msg bot" data-i18n="chat.greeting">Olá! Sou a Eva 👋 Posso te explicar sobre sites, agentes de IA, infraestrutura ou automações. Digite ou mande um áudio 🎙️</div></div>
     <div class="chat-foot">
       <div class="chat-input-row">
-        <input id="chatInput" type="text" placeholder="Digite sua pergunta...">
+        <input id="chatInput" type="text" placeholder="Digite sua pergunta..." data-i18n-placeholder="chat.placeholder">
         <button class="icon-btn mic" id="micBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg></button>
         <button class="icon-btn send" id="chatSend"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/></svg></button>
       </div>
@@ -216,5 +226,6 @@
   </div>
 
   <script src="js/main.js?v=3"></script>
+  <script src="js/i18n.js?v=1"></script>
 </body>
 </html>
