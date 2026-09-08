@@ -212,7 +212,7 @@ main, .site-header, .site-footer, .marquee { position: relative; z-index: 2; }
   border-bottom: 1px solid var(--line-light);
   overflow: hidden; white-space: nowrap; padding: 20px 0;
 }
-.marquee-track { display: inline-flex; gap: 18px; animation: scroll-left 26s linear infinite; }
+.marquee-track { display: inline-flex; gap: 18px; animation: scroll-left 48s linear infinite; will-change: transform; }
 .marquee-track span { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: var(--ink-d500); }
 .marquee-track span:nth-child(2n) { color: var(--accent); font-family: var(--font-mono); font-weight: 500; font-size: 13px; align-self: center; }
 @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -459,6 +459,8 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 }
 .footer-col a, .footer-col p { display: block; font-size: 14px; margin-bottom: 12px; color: var(--ink-300); }
 .footer-col a:hover { color: var(--accent-2); }
+.footer-col a.footer-address { display: flex; align-items: center; gap: 6px; }
+.footer-col a.footer-address svg { flex: none; }
 .footer-blurb { max-width: 230px; color: var(--ink-500); font-size: 13.5px; line-height: 1.6; }
 
 /* ===== Chat widget (always dark) ===== */
