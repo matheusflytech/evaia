@@ -35,7 +35,6 @@
     requestAnimationFrame(tick);
   })();
 
-  document.getElementById("year").textContent = new Date().getFullYear();
 
   /* ===== Animated background (moving blobs, scoped to the hero section) ===== */
   var canvas = document.getElementById("bg-canvas");
