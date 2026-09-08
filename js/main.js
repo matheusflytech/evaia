@@ -207,10 +207,88 @@
       catch (e) { return []; }
     }
 
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function inlineMarkdown(s) {
+      s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+      s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, "$1<em>$2</em>");
+      return s;
+    }
+
+    function isTableSeparator(line) {
+      return /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)+\|?\s*$/.test(line);
+    }
+
+    function splitTableRow(line) {
+      var cells = line.split("|").map(function (c) { return c.trim(); });
+      if (cells.length && cells[0] === "") cells.shift();
+      if (cells.length && cells[cells.length - 1] === "") cells.pop();
+      return cells;
+    }
+
+    function renderMarkdown(raw) {
+      var lines = escapeHtml(raw).split("\n");
+      var html = "";
+      var inList = false;
+      var i = 0;
+
+      function closeList() { if (inList) { html += "</ul>"; inList = false; } }
+
+      while (i < lines.length) {
+        var line = lines[i];
+
+        if (line.indexOf("|") !== -1 && lines[i + 1] && isTableSeparator(lines[i + 1])) {
+          closeList();
+          var headerCells = splitTableRow(line);
+          html += '<div class="chat-table-wrap"><table class="chat-table"><thead><tr>';
+          headerCells.forEach(function (c) { html += "<th>" + inlineMarkdown(c) + "</th>"; });
+          html += "</tr></thead><tbody>";
+          i += 2;
+          while (i < lines.length && lines[i].indexOf("|") !== -1) {
+            var rowCells = splitTableRow(lines[i]);
+            html += "<tr>";
+            rowCells.forEach(function (c) { html += "<td>" + inlineMarkdown(c) + "</td>"; });
+            html += "</tr>";
+            i++;
+          }
+          html += "</tbody></table></div>";
+          continue;
+        }
+
+        var h = line.match(/^(#{1,6})\s+(.*)$/);
+        if (h) {
+          closeList();
+          var level = Math.min(h[1].length + 2, 6);
+          html += "<h" + level + ">" + inlineMarkdown(h[2]) + "</h" + level + ">";
+          i++; continue;
+        }
+
+        var li = line.match(/^\s*[-*]\s+(.*)$/);
+        if (li) {
+          if (!inList) { html += "<ul>"; inList = true; }
+          html += "<li>" + inlineMarkdown(li[1]) + "</li>";
+          i++; continue;
+        }
+
+        closeList();
+        if (line.trim() === "") { i++; continue; }
+        html += "<p>" + inlineMarkdown(line) + "</p>";
+        i++;
+      }
+      closeList();
+      return html;
+    }
+
     function renderMsg(text, who) {
       var d = document.createElement("div");
       d.className = "chat-msg " + who;
-      d.textContent = text;
+      if (who === "bot") {
+        d.innerHTML = renderMarkdown(text);
+      } else {
+        d.textContent = text;
+      }
       chatBody.appendChild(d);
       chatBody.scrollTop = chatBody.scrollHeight;
       return d;

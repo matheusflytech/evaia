@@ -494,6 +494,24 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .chat-msg { max-width: 86%; padding: 12px 15px; border-radius: 14px; line-height: 1.5; }
 .chat-msg.bot { background: var(--navy-800); color: var(--ink-100); align-self: flex-start; }
 .chat-msg.user { background: var(--accent); color: #fff; align-self: flex-end; font-weight: 600; }
+
+.chat-msg.bot p { margin: 0 0 8px; }
+.chat-msg.bot p:last-child { margin-bottom: 0; }
+.chat-msg.bot h3, .chat-msg.bot h4, .chat-msg.bot h5, .chat-msg.bot h6 {
+  font-family: var(--font-display); font-size: 14px; font-weight: 700;
+  margin: 2px 0 6px; color: var(--ink-100);
+}
+.chat-msg.bot ul { margin: 0 0 8px 18px; }
+.chat-msg.bot li { margin-bottom: 4px; }
+.chat-msg.bot li:last-child { margin-bottom: 0; }
+.chat-msg.bot strong { font-weight: 700; color: #fff; }
+.chat-msg.bot em { font-style: italic; }
+.chat-msg.bot .chat-table-wrap { overflow-x: auto; margin: 4px 0 8px; }
+.chat-msg.bot table.chat-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+.chat-msg.bot table.chat-table th, .chat-msg.bot table.chat-table td {
+  border: 1px solid var(--line); padding: 5px 8px; text-align: left; white-space: nowrap;
+}
+.chat-msg.bot table.chat-table th { background: var(--navy-700); font-weight: 700; color: var(--ink-100); }
 .chat-msg.typing { display: flex; gap: 5px; padding: 15px; }
 .chat-msg.typing span { width: 6px; height: 6px; background: var(--ink-500); border-radius: 50%; animation: bounce 1.2s infinite; }
 .chat-msg.typing span:nth-child(2) { animation-delay: .15s; }
