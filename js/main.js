@@ -316,6 +316,34 @@
     chatInput.addEventListener("input", function (e) { sessionStorage.setItem(DRAFT_KEY, e.target.value); });
 
     var mediaRecorder, audioChunks = [], recording = false;
+    var recordStartTime = 0, recordingInterval = null, lastRecordingDuration = 0;
+    var recordingTimerEl = null;
+
+    function formatDuration(ms) {
+      var totalSec = Math.floor(ms / 1000);
+      var m = Math.floor(totalSec / 60);
+      var s = totalSec % 60;
+      return m + ":" + (s < 10 ? "0" : "") + s;
+    }
+
+    function showRecordingTimer() {
+      chatInput.style.display = "none";
+      recordingTimerEl = document.createElement("div");
+      recordingTimerEl.className = "recording-timer";
+      recordingTimerEl.innerHTML = '<span class="rec-dot"></span><span class="rec-time">0:00</span>';
+      chatInput.parentNode.insertBefore(recordingTimerEl, chatInput);
+    }
+
+    function updateRecordingTimer() {
+      if (!recordingTimerEl) return;
+      recordingTimerEl.querySelector(".rec-time").textContent = formatDuration(Date.now() - recordStartTime);
+    }
+
+    function hideRecordingTimer() {
+      if (recordingTimerEl) { recordingTimerEl.remove(); recordingTimerEl = null; }
+      chatInput.style.display = "";
+    }
+
     async function toggleRecording() {
       if (!recording) {
         try {
@@ -327,10 +355,16 @@
           mediaRecorder.start();
           recording = true;
           micBtn.classList.add("recording");
+          recordStartTime = Date.now();
+          showRecordingTimer();
+          recordingInterval = setInterval(updateRecordingTimer, 200);
         } catch (err) {
           appendMsg("Não consegui acessar o microfone.", "bot");
         }
       } else {
+        lastRecordingDuration = Date.now() - recordStartTime;
+        clearInterval(recordingInterval);
+        hideRecordingTimer();
         mediaRecorder.stop();
         mediaRecorder.stream.getTracks().forEach(function (t) { t.stop(); });
         recording = false;
@@ -345,7 +379,7 @@
       reader.onloadend = async function () {
         var base64 = reader.result.split(",")[1];
         removeSuggestions();
-        appendMsg("🎙️ Mensagem de voz enviada", "user");
+        appendMsg("🎙️ Mensagem de voz (" + formatDuration(lastRecordingDuration) + ")", "user");
         var typing = appendTyping();
         try {
           var res = await fetch(WEBHOOK_URL, {

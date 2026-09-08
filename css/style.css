@@ -516,6 +516,10 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .icon-btn.mic { background: var(--navy-700); color: var(--ink-300); }
 .icon-btn.mic.recording { background: #ff5b5b; color: #fff; animation: pulse-rec 1s infinite; }
 @keyframes pulse-rec { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
+
+.recording-timer { flex: 1; display: flex; align-items: center; gap: 8px; padding-left: 10px; }
+.recording-timer .rec-dot { width: 9px; height: 9px; border-radius: 50%; background: #ff5b5b; flex: none; animation: pulse-rec 1s infinite; }
+.recording-timer .rec-time { font-family: var(--font-mono); font-size: 13.5px; color: var(--ink-100); }
 .icon-btn.send { background: var(--accent); color: #fff; }
 
 /* ===== Responsive ===== */
