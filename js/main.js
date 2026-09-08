@@ -3,7 +3,7 @@
 
   /* ===== Loader (counts up 0-100%, only once per browser session) ===== */
   (function () {
-    var SESSION_KEY = "beeno_loaded";
+    var SESSION_KEY = "eva_loaded";
 
     if (sessionStorage.getItem(SESSION_KEY)) {
       document.body.classList.add("is-loaded");
@@ -35,6 +35,7 @@
     requestAnimationFrame(tick);
   })();
 
+  document.getElementById("year").textContent = new Date().getFullYear();
 
   /* ===== Animated background (moving blobs, scoped to the hero section) ===== */
   var canvas = document.getElementById("bg-canvas");
@@ -65,10 +66,10 @@
     });
 
     var blobs = [
-      { baseX: 0.18, baseY: 0.25, r: 0.42, hue: "0,205,138", speed: 0.55, phase: 0 },
-      { baseX: 0.82, baseY: 0.18, r: 0.36, hue: "110,231,183", speed: 0.4, phase: 2 },
-      { baseX: 0.5, baseY: 0.85, r: 0.5, hue: "0,205,138", speed: 0.3, phase: 4 },
-      { baseX: 0.9, baseY: 0.75, r: 0.3, hue: "110,231,183", speed: 0.62, phase: 1.3 }
+      { baseX: 0.18, baseY: 0.25, r: 0.42, hue: "48,140,232", speed: 0.55, phase: 0 },
+      { baseX: 0.82, baseY: 0.18, r: 0.36, hue: "153,204,255", speed: 0.4, phase: 2 },
+      { baseX: 0.5, baseY: 0.85, r: 0.5, hue: "48,140,232", speed: 0.3, phase: 4 },
+      { baseX: 0.9, baseY: 0.75, r: 0.3, hue: "153,204,255", speed: 0.62, phase: 1.3 }
     ];
 
     var t = 0;
@@ -184,11 +185,11 @@
   /* ===== AI chat widget ===== */
   var chatFab = document.getElementById("chatFab");
   if (chatFab) {
-    var WEBHOOK_URL = "https://integrations-hook.beeno.ai/webhook/beeno-agent";
-    var CHAT_KEY = "beeno_chat_messages";
-    var SESSION_KEY = "beeno_chat_session";
-    var DRAFT_KEY = "beeno_chat_draft";
-    var OPEN_KEY = "beeno_chat_open";
+    var WEBHOOK_URL = "https://integrations-hook.beeno.ai/webhook/evaai";
+    var CHAT_KEY = "eva_chat_messages";
+    var SESSION_KEY = "eva_chat_session";
+    var DRAFT_KEY = "eva_chat_draft";
+    var OPEN_KEY = "eva_chat_open";
 
     var sessionId = sessionStorage.getItem(SESSION_KEY);
     if (!sessionId) {
@@ -233,9 +234,9 @@
     }
 
     var SUGGESTIONS = [
-      "Quanto custa o Beeno?",
-      "Como funciona o funil de vendas?",
-      "Quero ser parceiro"
+      "Quanto custa um site?",
+      "Como funciona o agente de IA?",
+      "Quero automatizar meu negócio"
     ];
 
     function renderSuggestions() {
@@ -307,7 +308,7 @@
         appendMsg(data.reply || "Desculpe, não consegui responder agora.", "bot");
       } catch (err) {
         typing.remove();
-        appendMsg("Assistente indisponível no momento. Fale com a gente por email!", "bot");
+        appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
       }
     }
     document.getElementById("chatSend").addEventListener("click", sendChat);
@@ -357,64 +358,38 @@
           appendMsg(data.reply || "Desculpe, não consegui entender o áudio.", "bot");
         } catch (err) {
           typing.remove();
-          appendMsg("Assistente indisponível no momento. Fale com a gente por email!", "bot");
+          appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
         }
       };
       reader.readAsDataURL(blob);
     }
   }
 
-  /* ===== Demo request form (full form -> WhatsApp) ===== */
-  var demoForm = document.getElementById("demoForm");
-  if (demoForm) {
-    demoForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var nome = document.getElementById("demoNome").value.trim();
-      var email = document.getElementById("demoEmail").value.trim();
-      var telefone = document.getElementById("demoTelefone").value.trim();
-      var empresa = document.getElementById("demoEmpresa").value.trim();
-      var cargo = document.getElementById("demoCargo").value.trim();
-      var mensagem = document.getElementById("demoMensagem").value.trim();
-
-      var text = "Olá! Vim pelo site do Beeno e quero agendar uma demonstração.\n\n" +
-        "*Nome:* " + nome + "\n" +
-        "*Email:* " + email + "\n" +
-        "*WhatsApp:* " + telefone + "\n" +
-        "*Empresa:* " + empresa +
-        (cargo ? "\n*Cargo:* " + cargo : "") +
-        (mensagem ? "\n*Como podemos ajudar:* " + mensagem : "");
-
-      var url = "https://wa.me/5519983277167?text=" + encodeURIComponent(text);
-      window.open(url, "_blank");
-      demoForm.reset();
-    });
-  }
-
   /* ===== Lead capture modal (Orçamento / Contato -> WhatsApp) ===== */
   var leadModal = document.getElementById("leadModal");
   if (leadModal) {
-    var WHATSAPP_NUMBER = "5519983277167";
+    var WHATSAPP_NUMBER = "5521969156116";
 
     var FLOWS = {
       orcamento: {
-        title: "Agendar demonstração",
+        title: "Fazer um orçamento",
         questions: [
           { key: "nome", q: "Qual seu nome?" },
           { key: "empresa", q: "Qual o nome da sua empresa?" },
           { key: "nicho", q: "Qual seu nicho de atuação?" },
           { key: "desafio", q: "Qual seu maior desafio hoje?" },
           { key: "faturamento", q: "Qual seu faturamento mensal aproximado?" },
-          { key: "email", q: "Qual o seu email?" },
+          { key: "email", q: "Qual o seu e-mail?" },
           { key: "whatsapp", q: "Qual o seu número de WhatsApp?" }
         ],
         buildMessage: function (a) {
-          return "Olá! Vim pelo site do Beeno e quero uma demonstração.\n\n" +
+          return "Olá! Vim pelo site da Eva Holding e quero um orçamento.\n\n" +
             "*Nome:* " + a.nome + "\n" +
             "*Empresa:* " + a.empresa + "\n" +
             "*Nicho de atuação:* " + a.nicho + "\n" +
             "*Maior desafio:* " + a.desafio + "\n" +
             "*Faturamento mensal:* " + a.faturamento + "\n" +
-            "*Email:* " + a.email + "\n" +
+            "*E-mail:* " + a.email + "\n" +
             "*WhatsApp:* " + a.whatsapp;
         }
       },
@@ -423,10 +398,10 @@
         questions: [
           { key: "nome", q: "Qual seu nome?" },
           { key: "mensagem", q: "O que você gostaria de saber ou precisa?" },
-          { key: "contatoInfo", q: "Qual o seu email ou WhatsApp pra te responder?" }
+          { key: "contatoInfo", q: "Qual o seu e-mail ou WhatsApp pra te responder?" }
         ],
         buildMessage: function (a) {
-          return "Olá! Vim pelo site do Beeno.\n\n" +
+          return "Olá! Vim pelo site da Eva Holding.\n\n" +
             "*Nome:* " + a.nome + "\n" +
             "*Mensagem:* " + a.mensagem + "\n" +
             "*Contato:* " + a.contatoInfo;
@@ -511,7 +486,7 @@
       progressFill.style.width = "100%";
       modalBody.innerHTML =
         '<p class="lead-step-label">Tudo certo!</p>' +
-        '<h3 class="lead-question">Abrimos o WhatsApp com sua mensagem pronta, é só enviar por lá.</h3>' +
+        '<h3 class="lead-question">Abrimos o WhatsApp com sua mensagem pronta — é só enviar por lá.</h3>' +
         '<div class="lead-actions"><span></span><button type="button" class="btn btn--solid" id="leadDone">Fechar</button></div>';
       document.getElementById("leadDone").addEventListener("click", closeLeadModal);
     }
