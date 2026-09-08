@@ -311,9 +311,9 @@
     }
 
     var SUGGESTIONS = [
-      "Quanto custa um site?",
-      "Como funciona o agente de IA?",
-      "Quero automatizar meu negócio"
+      "Como funciona um agente de IA?",
+      "Quero automatizar meu negócio",
+      "Quais integrações vocês fazem?"
     ];
 
     function renderSuggestions() {
