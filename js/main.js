@@ -300,7 +300,7 @@
         var res = await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg, sessionId: sessionId })
+          body: JSON.stringify({ message: msg, conversation_id: sessionId })
         });
         var data = await res.json();
         typing.remove();
@@ -384,7 +384,7 @@
           var res = await fetch(WEBHOOK_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ audio: base64, mimeType: "audio/webm", sessionId: sessionId })
+            body: JSON.stringify({ audio_base64: base64, audio_mime: "audio/webm", conversation_id: sessionId })
           });
           var data = await res.json();
           typing.remove();
