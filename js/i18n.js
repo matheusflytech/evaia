@@ -2,7 +2,11 @@
   "use strict";
 
   var STORAGE_KEY = "eva_lang";
-  var FLAGS = { pt: "🇧🇷", en: "🇺🇸", es: "🇪🇸" };
+  var FLAGS = {
+    pt: '<svg viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="14" fill="#009c3b"/><polygon points="10,2 18,7 10,12 2,7" fill="#ffdf00"/><circle cx="10" cy="7" r="3" fill="#002776"/></svg>',
+    en: '<svg viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="14" fill="#fff"/><rect y="0" width="20" height="1.08" fill="#B22234"/><rect y="2.15" width="20" height="1.08" fill="#B22234"/><rect y="4.31" width="20" height="1.08" fill="#B22234"/><rect y="6.46" width="20" height="1.08" fill="#B22234"/><rect y="8.62" width="20" height="1.08" fill="#B22234"/><rect y="10.77" width="20" height="1.08" fill="#B22234"/><rect y="12.92" width="20" height="1.08" fill="#B22234"/><rect width="8" height="7.5" fill="#3C3B6E"/></svg>',
+    es: '<svg viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="14" fill="#AA151B"/><rect y="3.5" width="20" height="7" fill="#F1BF00"/></svg>'
+  };
   var LABELS = { pt: "Português", en: "English", es: "Español" };
   var CODES = { pt: "PT", en: "EN", es: "ES" };
 
@@ -221,7 +225,7 @@
 
     var flagEl = document.getElementById("langFlag");
     var codeEl = document.getElementById("langCode");
-    if (flagEl) flagEl.textContent = FLAGS[lang];
+    if (flagEl) flagEl.innerHTML = FLAGS[lang];
     if (codeEl) codeEl.textContent = CODES[lang];
 
     document.querySelectorAll(".lang-switch-menu button").forEach(function (btn) {
@@ -256,4 +260,6 @@
     initSwitcher();
     applyLang(getLang());
   });
+
+  window.EvaI18n = { getLang: getLang };
 })();
