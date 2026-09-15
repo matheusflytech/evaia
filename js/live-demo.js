@@ -1,11 +1,11 @@
 /* ===== Live demo — perguntas pré-montadas que alimentam o CRM ao vivo =====
    Seção do hero: um mockup de iPhone com uma tela de início com botão,
-   depois 5 perguntas fixas, uma de cada vez (a anterior some da tela assim
-   que respondida, pra não poluir), enquanto a barra de progresso no topo
-   vai acendendo os segmentos conforme avança. É o mesmo motor que atende
-   os clientes de verdade, rodando num agente dedicado ("Landing
-   Interativa"), separado do agente de vendas real. EVA_STUDIO_ORIGIN
-   aponta pro localhost enquanto testamos, trocar pra
+   depois 5 perguntas fixas, uma de cada vez — cada pergunta e resposta
+   acumula na tela e sobe conforme chegam novas (igual WhatsApp), enquanto
+   a barra de progresso no topo vai acendendo os segmentos conforme avança.
+   É o mesmo motor que atende os clientes de verdade, rodando num agente
+   dedicado ("Landing Interativa"), separado do agente de vendas real.
+   EVA_STUDIO_ORIGIN aponta pro localhost enquanto testamos, trocar pra
    https://evapp.vercel.app antes de subir de verdade. */
 (function () {
   var EVA_STUDIO_ORIGIN = "https://evapp.vercel.app";
@@ -243,7 +243,8 @@
   function showQuestion() {
     var key = QUESTION_KEY[stageIndex];
     if (!key) return;
-    messagesEl.innerHTML = "";
+    var typing = messagesEl.querySelector(".chat-msg.typing");
+    if (typing) typing.remove();
     clearError();
     setupInputForStage();
     appendMessage(t(key), "bot");
@@ -271,7 +272,8 @@
     ended = true;
     inputRow.style.display = "none";
     if (errorEl) errorEl.hidden = true;
-    messagesEl.innerHTML = "";
+    var typing = messagesEl.querySelector(".chat-msg.typing");
+    if (typing) typing.remove();
     appendMessage(t("cta_bot_message"), "bot");
     var waUrl = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(t("cta_message"));
     var box = document.createElement("div");
@@ -296,7 +298,8 @@
         return data;
       })
       .catch(function () {
-        messagesEl.innerHTML = "";
+        var typing = messagesEl.querySelector(".chat-msg.typing");
+        if (typing) typing.remove();
         appendMessage(t("network_error"), "bot");
       });
   }
