@@ -644,7 +644,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   50% { box-shadow: 0 0 0 8px hsla(210, 80%, 55%, 0.07); }
 }
 
-.live-demo-panel { display: flex; justify-content: center; align-items: center; gap: 28px; }
+.live-demo-panel { display: flex; justify-content: center; align-items: center; gap: 28px; min-width: 0; }
 
 /* moldura de iPhone */
 .ld-phone {
@@ -680,7 +680,14 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .ld-seg--active { background: var(--accent-2); }
 
 .live-demo-chat { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-.live-demo-messages { flex: 1; padding: 10px 18px 6px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.live-demo-messages {
+  flex: 1; padding: 10px 18px 6px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+  scrollbar-width: thin; scrollbar-color: hsla(220, 20%, 70%, 0.3) transparent;
+}
+.live-demo-messages::-webkit-scrollbar { width: 6px; }
+.live-demo-messages::-webkit-scrollbar-track { background: transparent; }
+.live-demo-messages::-webkit-scrollbar-thumb { background: hsla(220, 20%, 70%, 0.3); border-radius: 999px; }
+.live-demo-messages::-webkit-scrollbar-thumb:hover { background: hsla(220, 20%, 70%, 0.5); }
 .live-demo-messages .chat-msg { max-width: 88%; }
 .live-demo-input-row { display: flex; gap: 8px; padding: 12px 16px; }
 .live-demo-input-row input {
@@ -736,10 +743,10 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 }
 
 @media (max-width: 900px) {
-  .live-demo-inner { grid-template-columns: 1fr; }
+  .live-demo-inner { grid-template-columns: minmax(0, 1fr); }
   /* Trilho continua ao lado do celular (não empilhado em cima) — só fica
      mais estreito, sem os rótulos, pra caber ao lado do celular menor. */
-  .live-demo-panel { gap: 14px; }
+  .live-demo-panel { gap: 14px; padding: 0 10px; }
   .ld-trail { width: 40px; }
   .ld-trail-label { display: none; }
   .ld-trail-node { justify-content: center; padding: 5px 0; }
