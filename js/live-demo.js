@@ -35,17 +35,26 @@
   var phoneHomeParent = phoneEl ? phoneEl.parentNode : null;
   var phoneHomeNextSibling = phoneEl ? phoneEl.nextSibling : null;
 
+  var enteringFullscreen = false;
   function enterFullscreen() {
-    if (!isMobile() || !phoneEl) return;
-    // O header do site e o balão de chat flutuante vivem em contextos de
-    // empilhamento próprios (fora do <main>) — só subir o z-index não basta
-    // pra ficar por cima deles. Move o telefone pro fim do <body> enquanto
-    // dura a tela cheia, e devolve pro lugar de origem ao fechar.
-    document.body.appendChild(phoneEl);
-    phoneEl.classList.add("is-fullscreen");
-    document.body.classList.add("ld-scroll-locked");
-    if (clockEl) clockEl.hidden = true;
-    if (fullscreenCloseBtn) fullscreenCloseBtn.hidden = false;
+    if (!isMobile() || !phoneEl || enteringFullscreen) return;
+    enteringFullscreen = true;
+    if (!phoneEl.classList.contains("is-fullscreen")) {
+      var hadFocus = document.activeElement === inputEl;
+      // O header do site e o balão de chat flutuante vivem em contextos de
+      // empilhamento próprios (fora do <main>) — só subir o z-index não basta
+      // pra ficar por cima deles. Move o telefone pro fim do <body> enquanto
+      // dura a tela cheia, e devolve pro lugar de origem ao fechar.
+      document.body.appendChild(phoneEl);
+      phoneEl.classList.add("is-fullscreen");
+      document.body.classList.add("ld-scroll-locked");
+      if (clockEl) clockEl.hidden = true;
+      if (fullscreenCloseBtn) fullscreenCloseBtn.hidden = false;
+      // Mover o nó na DOM tira o foco do campo — restaura, senão o
+      // teclado fecha e o toque não vira digitação nenhuma.
+      if (hadFocus) inputEl.focus();
+    }
+    enteringFullscreen = false;
   }
   function exitFullscreen() {
     if (!phoneEl) return;
@@ -53,6 +62,7 @@
     document.body.classList.remove("ld-scroll-locked");
     if (clockEl) clockEl.hidden = false;
     if (fullscreenCloseBtn) fullscreenCloseBtn.hidden = true;
+    inputEl.blur(); // solta o foco pra um próximo toque no campo disparar "focus" de novo e reabrir a tela cheia
     if (phoneHomeParent) {
       if (phoneHomeNextSibling) phoneHomeParent.insertBefore(phoneEl, phoneHomeNextSibling);
       else phoneHomeParent.appendChild(phoneEl);
@@ -392,6 +402,10 @@
   }
   sendBtn.addEventListener("click", submit);
   inputEl.addEventListener("keydown", function (e) { if (e.key === "Enter") submit(); });
+
+  // Sempre que o campo ganha foco no celular, reabre a tela cheia — mesmo
+  // depois de já ter fechado uma vez com o botão de voltar.
+  inputEl.addEventListener("focus", enterFullscreen);
 
   showIntro();
 })();
