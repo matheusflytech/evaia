@@ -181,10 +181,19 @@
     });
   });
 
-  /* ===== AI chat widget ===== */
+  /* ===== AI chat widget =====
+     Passou a falar com o Eva Studio (agente "Vendedor Virtual") em vez de
+     chamar o webhook do n8n direto — o Eva Studio delega pro MESMO webhook
+     por baixo dos panos (agent.outboundUrl), então a resposta da IA é
+     idêntica; a diferença é que agora a conversa fica registrada e o lead
+     cai na página Leads do Eva Studio. EVA_STUDIO_ORIGIN aponta pro
+     localhost enquanto testamos — trocar pra https://evapp.vercel.app antes
+     de subir esse site de verdade. */
   var chatFab = document.getElementById("chatFab");
   if (chatFab) {
-    var WEBHOOK_URL = "https://integrations-hook.beeno.ai/webhook/evaai";
+    var EVA_STUDIO_ORIGIN = "https://evapp.vercel.app";
+    var EVA_AGENT_ID = "d7a79443-3a8b-40c9-b493-743127938986";
+    var WEBHOOK_URL = EVA_STUDIO_ORIGIN + "/api/widget/" + EVA_AGENT_ID + "/message";
     var CHAT_KEY = "eva_chat_messages";
     var SESSION_KEY = "eva_chat_session";
     var DRAFT_KEY = "eva_chat_draft";
@@ -366,6 +375,56 @@
       if (draft) chatInput.value = draft;
     })();
 
+    // Botões de opção (bloco de Captura com menu, se o fluxo do Eva Studio
+    // tiver algum) — mesmo visual dos chips de sugestão, mas mandam optionId
+    // em vez de repetir o texto digitado.
+    function renderOptionChips(options) {
+      var wrap = document.createElement("div");
+      wrap.className = "chat-suggestions";
+      options.forEach(function (opt) {
+        var chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "chip";
+        chip.textContent = opt.label;
+        chip.addEventListener("click", function () {
+          wrap.remove();
+          appendMsg(opt.label, "user");
+          sendToEva({ optionId: opt.id });
+        });
+        wrap.appendChild(chip);
+      });
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    async function sendToEva(payload) {
+      var typing = appendTyping();
+      try {
+        var res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.assign(
+            { contactId: sessionId, lang: (window.EvaI18n && window.EvaI18n.getLang()) || "pt" },
+            payload
+          ))
+        });
+        var data = await res.json();
+        typing.remove();
+        var messages = data.messages || [];
+        if (messages.length === 0) {
+          appendMsg("Desculpe, não consegui responder agora.", "bot");
+          return;
+        }
+        messages.forEach(function (m) {
+          appendMsg(m.text, "bot");
+          if (m.options && m.options.length) renderOptionChips(m.options);
+        });
+      } catch (err) {
+        typing.remove();
+        appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
+      }
+    }
+
     async function sendChat() {
       var msg = chatInput.value.trim();
       if (!msg) return;
@@ -373,20 +432,7 @@
       appendMsg(msg, "user");
       chatInput.value = "";
       sessionStorage.removeItem(DRAFT_KEY);
-      var typing = appendTyping();
-      try {
-        var res = await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg, conversation_id: sessionId, lang: (window.EvaI18n && window.EvaI18n.getLang()) || "pt" })
-        });
-        var data = await res.json();
-        typing.remove();
-        appendMsg(data.reply || "Desculpe, não consegui responder agora.", "bot");
-      } catch (err) {
-        typing.remove();
-        appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
-      }
+      await sendToEva({ text: msg });
     }
     document.getElementById("chatSend").addEventListener("click", sendChat);
     chatInput.addEventListener("keypress", function (e) { if (e.key === "Enter") sendChat(); });

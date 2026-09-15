@@ -599,3 +599,147 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   .contact-grid, .feature-list { grid-template-columns: 1fr; }
   .chat-panel { width: 100vw; }
 }
+
+/* ===== Live demo (hero — formulário dentro de um mockup de iPhone) ===== */
+.live-demo { position: relative; }
+.live-demo-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+}
+.live-demo-intro { padding-top: 12px; }
+.live-demo-title {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.15; margin: 14px 0 16px; color: var(--ink-100);
+}
+.live-demo-lead { color: var(--ink-300); font-size: 16px; line-height: 1.6; max-width: 42ch; }
+.on-light .live-demo-lead { color: var(--ink-d500); }
+
+/* trilho com os nomes das etapas (Início, Nome, Nicho...), ao lado do
+   celular — mesma linguagem visual dos blocos do Eva Studio */
+.ld-trail { display: flex; flex-direction: column; width: 176px; flex-shrink: 0; }
+.ld-trail-node {
+  display: flex; align-items: center; gap: 12px; padding: 7px 0;
+  opacity: .45; transition: opacity .4s ease;
+}
+.ld-trail-badge {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: hsla(220, 20%, 50%, 0.08); color: var(--ink-d500); transition: all .4s ease;
+}
+.ld-trail-badge svg { width: 16px; height: 16px; }
+.ld-trail-label { font-size: 13.5px; font-weight: 700; color: var(--ink-d500); transition: color .4s ease; }
+.ld-trail-node--active { opacity: 1; }
+.ld-trail-node--active .ld-trail-badge {
+  background: var(--accent-soft); color: var(--accent);
+  box-shadow: 0 0 0 4px hsla(210, 80%, 55%, 0.16); animation: ld-pulse-light 1.6s ease-in-out infinite;
+}
+.ld-trail-node--active .ld-trail-label { color: var(--ink-d900); }
+.ld-trail-node--done { opacity: 1; }
+.ld-trail-node--done .ld-trail-badge { background: var(--accent-soft); color: var(--accent); }
+.ld-trail-node--done .ld-trail-label { color: var(--ink-d900); }
+.ld-trail-line { width: 2px; height: 18px; margin-left: 17px; background: var(--line-light); transition: background .4s ease; }
+.ld-trail-line--done { background: var(--accent); }
+@keyframes ld-pulse-light {
+  0%, 100% { box-shadow: 0 0 0 4px hsla(210, 80%, 55%, 0.16); }
+  50% { box-shadow: 0 0 0 8px hsla(210, 80%, 55%, 0.07); }
+}
+
+.live-demo-panel { display: flex; justify-content: center; align-items: center; gap: 28px; }
+
+/* moldura de iPhone */
+.ld-phone {
+  position: relative; width: 336px; max-width: 100%; aspect-ratio: 9 / 19.5;
+  background: #0b0d12; border-radius: 54px; padding: 14px;
+  box-shadow: 0 10px 30px hsla(220, 60%, 8%, 0.22), 0 50px 100px -18px hsla(220, 60%, 8%, 0.6);
+}
+.ld-phone-btn { position: absolute; background: #0b0d12; border-radius: 3px 0 0 3px; }
+.ld-phone-btn--mute { left: -3px; top: 108px; width: 3px; height: 28px; }
+.ld-phone-btn--vol-up { left: -3px; top: 150px; width: 3px; height: 46px; }
+.ld-phone-btn--vol-down { left: -3px; top: 204px; width: 3px; height: 46px; }
+.ld-phone-btn--power { left: auto; right: -3px; top: 160px; width: 3px; height: 70px; border-radius: 0 3px 3px 0; }
+
+.ld-phone-screen {
+  position: relative; width: 100%; height: 100%; background: var(--navy-900);
+  border-radius: 40px; overflow: hidden; display: flex; flex-direction: column;
+}
+
+.ld-notch {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 26px; background: #0b0d12; border-radius: 16px; z-index: 5;
+}
+
+.ld-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px 4px; flex-shrink: 0; }
+.ld-time { font-size: 14px; font-weight: 700; color: var(--ink-100); }
+.ld-status-icons { display: flex; align-items: center; gap: 5px; color: var(--ink-100); }
+.ld-status-icons svg { width: 16px; height: 16px; }
+
+/* barra de progresso segmentada (tipo stories), substitui o trilho de nós */
+.ld-progress { display: flex; gap: 4px; padding: 12px 18px 8px; flex-shrink: 0; }
+.ld-seg { flex: 1; height: 3px; border-radius: 999px; background: hsla(220, 20%, 70%, 0.18); transition: background .4s ease; }
+.ld-seg--done { background: var(--accent); }
+.ld-seg--active { background: var(--accent-2); }
+
+.live-demo-chat { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.live-demo-messages { flex: 1; padding: 10px 18px 6px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.live-demo-messages .chat-msg { max-width: 88%; }
+.live-demo-input-row { display: flex; gap: 8px; padding: 12px 16px; }
+.live-demo-input-row input {
+  flex: 1; min-width: 0; background: var(--navy-700); border: 1px solid hsla(220, 20%, 70%, 0.3); border-radius: 12px;
+  padding: 11px 14px; color: #fff; font-size: 14px; outline: none;
+}
+.live-demo-input-row input::placeholder { color: var(--ink-500); }
+.live-demo-input-row input:focus { border-color: var(--accent-2); }
+.live-demo-input-row button {
+  width: 40px; height: 40px; border-radius: 12px; border: none; background: var(--accent);
+  color: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0;
+}
+.live-demo-input-row button:hover { background: var(--accent-2); color: var(--navy-950); }
+.live-demo-cta {
+  margin: 4px 16px 12px; padding: 14px; border-radius: 16px; background: var(--accent-soft);
+  border: 1px solid hsla(210, 80%, 55%, 0.3); text-align: center;
+}
+.live-demo-cta-wa {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 18px; border-radius: 999px; background: var(--accent); color: #fff;
+  font-weight: 700; font-size: 13.5px; text-decoration: none; transition: transform .15s ease, filter .15s ease;
+}
+.live-demo-cta-wa:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.live-demo-cta-wa svg { width: 16px; height: 16px; flex-shrink: 0; }
+.live-demo-cta-alt {
+  display: block; margin-top: 10px; font-size: 11.5px; color: var(--ink-500); text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.live-demo-cta-alt:hover { color: var(--accent-2); }
+
+.ld-start { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 6px 4px; }
+.ld-start-text { font-size: 13.5px; color: var(--ink-300); line-height: 1.55; max-width: 32ch; }
+.ld-start-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
+  border: none; background: var(--accent); color: #fff; font-weight: 700; font-size: 13.5px; cursor: pointer;
+  transition: transform .15s ease, filter .15s ease;
+}
+.ld-start-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.ld-input-error { margin: -4px 16px 8px; font-size: 11.5px; color: #ff7a7a; }
+.ld-input-error[hidden] { display: none; }
+@keyframes ld-shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+.ld-shake { animation: ld-shake .4s; }
+
+.ld-home-indicator {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 4px; border-radius: 999px; background: hsla(0, 0%, 100%, 0.35);
+}
+
+@media (max-width: 900px) {
+  .live-demo-inner { grid-template-columns: 1fr; }
+  .live-demo-panel { flex-direction: column; }
+}
+
+@media (max-width: 420px) {
+  .ld-phone { width: 100%; }
+}
