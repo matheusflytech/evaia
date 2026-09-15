@@ -324,9 +324,23 @@
     inputRow.style.display = "";
     messagesEl.innerHTML = "";
     appendTyping(); // feedback imediato — a resposta do servidor pode levar um instante
+    // No celular, centraliza a seção na tela ao começar, pra já abrir numa
+    // posição confortável antes mesmo do teclado aparecer.
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      document.getElementById("live-demo").scrollIntoView({ block: "center", behavior: "smooth" });
+    }
     advanceStage(); // Início -> Nome
     send({});
   }
+
+  // O navegador tenta rolar a página inteira até o campo quando o teclado
+  // do celular abre, o que fica desajeitado dentro do mockup — assumimos
+  // esse scroll pra deixar só o campo visível acima do teclado, suave.
+  inputEl.addEventListener("focus", function () {
+    setTimeout(function () {
+      inputEl.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 300);
+  });
 
   function submit() {
     if (ended) return;
