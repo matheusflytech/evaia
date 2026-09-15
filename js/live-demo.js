@@ -335,8 +335,10 @@
 
   // O navegador tenta rolar a página inteira até o campo quando o teclado
   // do celular abre, o que fica desajeitado dentro do mockup — assumimos
-  // esse scroll pra deixar só o campo visível acima do teclado, suave.
+  // esse scroll pra deixar só o campo visível acima do teclado, suave. No
+  // PC não existe teclado cobrindo nada, então esse ajuste é só mobile.
   inputEl.addEventListener("focus", function () {
+    if (!window.matchMedia("(max-width: 900px)").matches) return;
     setTimeout(function () {
       inputEl.scrollIntoView({ block: "center", behavior: "smooth" });
     }, 300);
