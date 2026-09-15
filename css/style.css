@@ -672,6 +672,26 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .ld-time { font-size: 14px; font-weight: 700; color: var(--ink-100); }
 .ld-status-icons { display: flex; align-items: center; gap: 5px; color: var(--ink-100); }
 .ld-status-icons svg { width: 16px; height: 16px; }
+.ld-fullscreen-close {
+  border: none; background: none; color: var(--ink-100); font-size: 18px; line-height: 1; padding: 2px 4px;
+  cursor: pointer; border-radius: 8px;
+}
+.ld-fullscreen-close:hover { background: hsla(220, 20%, 70%, 0.12); }
+.ld-fullscreen-close[hidden] { display: none; }
+
+/* Modo tela cheia no celular/tablet: o telefone assume a aba toda, fixo,
+   pra não competir com o scroll da página quando o teclado abre — lê como
+   um app de verdade (WhatsApp etc.), não um card dentro da página. */
+@media (max-width: 900px) {
+  .ld-phone.is-fullscreen {
+    position: fixed; inset: 0; z-index: 1000; width: 100vw; height: 100dvh;
+    max-width: none; aspect-ratio: auto; border-radius: 0; padding: 0; box-shadow: none;
+  }
+  .ld-phone.is-fullscreen .ld-phone-btn { display: none; }
+  .ld-phone.is-fullscreen .ld-phone-screen { border-radius: 0; }
+  .ld-phone.is-fullscreen .ld-notch { display: none; }
+  body.ld-scroll-locked { overflow: hidden; }
+}
 
 /* barra de progresso segmentada (tipo stories), substitui o trilho de nós */
 .ld-progress { display: flex; gap: 4px; padding: 12px 18px 8px; flex-shrink: 0; }

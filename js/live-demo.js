@@ -21,7 +21,47 @@
   var errorEl = document.getElementById("ldInputError");
   var ctaWrap = document.getElementById("ldCtaWrap");
   var clockEl = document.getElementById("ldClock");
+  var phoneEl = document.querySelector(".ld-phone");
+  var fullscreenCloseBtn = document.getElementById("ldFullscreenClose");
   if (!canvasEl || !messagesEl || !inputEl || !sendBtn) return;
+
+  // No celular/tablet, o telefone assume a aba toda enquanto a demo roda —
+  // fixo, sem o scroll da página por trás pra brigar com o teclado. Lê
+  // como abrir o WhatsApp de verdade, não um card dentro da página. No PC
+  // não faz sentido (não tem teclado cobrindo nada), então fica só mobile.
+  function isMobile() {
+    return window.matchMedia("(max-width: 900px)").matches;
+  }
+  var phoneHomeParent = phoneEl ? phoneEl.parentNode : null;
+  var phoneHomeNextSibling = phoneEl ? phoneEl.nextSibling : null;
+
+  function enterFullscreen() {
+    if (!isMobile() || !phoneEl) return;
+    // O header do site e o balão de chat flutuante vivem em contextos de
+    // empilhamento próprios (fora do <main>) — só subir o z-index não basta
+    // pra ficar por cima deles. Move o telefone pro fim do <body> enquanto
+    // dura a tela cheia, e devolve pro lugar de origem ao fechar.
+    document.body.appendChild(phoneEl);
+    phoneEl.classList.add("is-fullscreen");
+    document.body.classList.add("ld-scroll-locked");
+    if (clockEl) clockEl.hidden = true;
+    if (fullscreenCloseBtn) fullscreenCloseBtn.hidden = false;
+  }
+  function exitFullscreen() {
+    if (!phoneEl) return;
+    phoneEl.classList.remove("is-fullscreen");
+    document.body.classList.remove("ld-scroll-locked");
+    if (clockEl) clockEl.hidden = false;
+    if (fullscreenCloseBtn) fullscreenCloseBtn.hidden = true;
+    if (phoneHomeParent) {
+      if (phoneHomeNextSibling) phoneHomeParent.insertBefore(phoneEl, phoneHomeNextSibling);
+      else phoneHomeParent.appendChild(phoneEl);
+    }
+  }
+  if (fullscreenCloseBtn) fullscreenCloseBtn.addEventListener("click", exitFullscreen);
+  window.addEventListener("resize", function () {
+    if (!isMobile() && phoneEl && phoneEl.classList.contains("is-fullscreen")) exitFullscreen();
+  });
 
   function updateClock() {
     if (!clockEl) return;
@@ -324,25 +364,10 @@
     inputRow.style.display = "";
     messagesEl.innerHTML = "";
     appendTyping(); // feedback imediato — a resposta do servidor pode levar um instante
-    // No celular, centraliza a seção na tela ao começar, pra já abrir numa
-    // posição confortável antes mesmo do teclado aparecer.
-    if (window.matchMedia("(max-width: 900px)").matches) {
-      document.getElementById("live-demo").scrollIntoView({ block: "center", behavior: "smooth" });
-    }
+    enterFullscreen();
     advanceStage(); // Início -> Nome
     send({});
   }
-
-  // O navegador tenta rolar a página inteira até o campo quando o teclado
-  // do celular abre, o que fica desajeitado dentro do mockup — assumimos
-  // esse scroll pra deixar só o campo visível acima do teclado, suave. No
-  // PC não existe teclado cobrindo nada, então esse ajuste é só mobile.
-  inputEl.addEventListener("focus", function () {
-    if (!window.matchMedia("(max-width: 900px)").matches) return;
-    setTimeout(function () {
-      inputEl.scrollIntoView({ block: "center", behavior: "smooth" });
-    }, 300);
-  });
 
   function submit() {
     if (ended) return;
