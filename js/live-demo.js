@@ -190,7 +190,19 @@
     div.innerHTML = "<span></span><span></span><span></span>";
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
+    typingStartedAt = Date.now();
     return div;
+  }
+
+  // Garante que o "digitando..." fique visível um tempo mínimo, mesmo
+  // quando a resposta do servidor chega rápido — sem isso, com a rede
+  // rápida, ele pisca e some quase instantaneamente, o que parece menos
+  // natural do que o balão de chat do site.
+  var TYPING_MIN_MS = 700;
+  var typingStartedAt = 0;
+  function afterTypingDelay(fn) {
+    var elapsed = Date.now() - typingStartedAt;
+    setTimeout(fn, Math.max(0, TYPING_MIN_MS - elapsed));
   }
 
   function clearError() {
@@ -293,8 +305,10 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (data.status === "ended") showCta();
-        else showQuestion();
+        afterTypingDelay(function () {
+          if (data.status === "ended") showCta();
+          else showQuestion();
+        });
         return data;
       })
       .catch(function () {

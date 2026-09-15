@@ -737,9 +737,13 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 
 @media (max-width: 900px) {
   .live-demo-inner { grid-template-columns: 1fr; }
-  .live-demo-panel { flex-direction: column; }
-}
-
-@media (max-width: 420px) {
-  .ld-phone { width: 100%; }
+  /* Trilho continua ao lado do celular (não empilhado em cima) — só fica
+     mais estreito, sem os rótulos, pra caber ao lado do celular menor. */
+  .live-demo-panel { gap: 14px; }
+  .ld-trail { width: 40px; }
+  .ld-trail-label { display: none; }
+  .ld-trail-node { justify-content: center; padding: 5px 0; }
+  .ld-trail-badge { width: 28px; height: 28px; }
+  .ld-trail-badge svg { width: 13px; height: 13px; }
+  .ld-trail-line { margin-left: 13px; height: 12px; }
 }
