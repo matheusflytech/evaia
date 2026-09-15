@@ -246,11 +246,7 @@
     messagesEl.innerHTML = "";
     clearError();
     setupInputForStage();
-    var typing = appendTyping();
-    setTimeout(function () {
-      typing.remove();
-      appendMessage(t(key), "bot");
-    }, 450);
+    appendMessage(t(key), "bot");
   }
 
   function showIntro() {
@@ -310,6 +306,7 @@
     started = true;
     inputRow.style.display = "";
     messagesEl.innerHTML = "";
+    appendTyping(); // feedback imediato — a resposta do servidor pode levar um instante
     advanceStage(); // Início -> Nome
     send({});
   }
@@ -331,6 +328,7 @@
     answers[field] = value;
     inputEl.value = "";
     appendMessage(value, "user");
+    appendTyping(); // feedback imediato, antes da resposta do servidor chegar
     advanceStage();
     send({ text: value });
   }
