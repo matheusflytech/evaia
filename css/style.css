@@ -562,6 +562,9 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .chat-input-row input { flex: 1; background: transparent; border: none; color: var(--ink-100); font-size: 13.5px; outline: none; font-family: var(--font-body); }
 .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
 .icon-btn.mic { background: var(--navy-700); color: var(--ink-300); }
+.icon-btn.attach { background: transparent; color: var(--ink-300); }
+.icon-btn.attach:hover { background: var(--navy-700); color: var(--ink-100); }
+.icon-btn.attach.is-busy { opacity: .45; pointer-events: none; }
 .icon-btn.mic.recording { background: #ff5b5b; color: #fff; animation: pulse-rec 1s infinite; }
 @keyframes pulse-rec { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
 

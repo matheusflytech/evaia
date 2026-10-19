@@ -438,6 +438,53 @@
     chatInput.addEventListener("keypress", function (e) { if (e.key === "Enter") sendChat(); });
     chatInput.addEventListener("input", function (e) { sessionStorage.setItem(DRAFT_KEY, e.target.value); });
 
+    /* ===== Anexos: imagem, PDF, Word e texto (até 3 MB) ===== */
+    var MAX_ANEXO = 3 * 1024 * 1024;
+    var attachBtn = document.getElementById("attachBtn");
+    var chatFile = document.getElementById("chatFile");
+
+    // texto do chat que não passa pelo dicionário do site: escolhe pelo idioma atual
+    function tr(pt, en, es) {
+      var l = (window.EvaI18n && window.EvaI18n.getLang()) || "pt";
+      return l === "en" ? en : l === "es" ? es : pt;
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      if (file.size > MAX_ANEXO) {
+        appendMsg(tr(
+          "Esse arquivo passa de 3 MB. Pode mandar um menor?",
+          "That file is over 3 MB. Could you send a smaller one?",
+          "Ese archivo supera los 3 MB. ¿Puedes enviar uno más pequeño?"), "bot");
+        return;
+      }
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        var base64 = String(reader.result || "").split(",")[1];
+        if (!base64) return;
+        // se a pessoa já digitou algo, vai junto como legenda do arquivo
+        var legenda = chatInput.value.trim();
+        chatInput.value = "";
+        sessionStorage.removeItem(DRAFT_KEY);
+        removeSuggestions();
+        appendMsg("📎 " + file.name + (legenda ? " • " + legenda : ""), "user");
+        attachBtn.classList.add("is-busy");
+        sendToEva({
+          text: legenda || undefined,
+          attachment: { base64: base64, mime: file.type || "application/octet-stream", name: file.name }
+        }).then(function () { attachBtn.classList.remove("is-busy"); });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (attachBtn && chatFile) {
+      attachBtn.addEventListener("click", function () { chatFile.click(); });
+      chatFile.addEventListener("change", function () {
+        handleFile(chatFile.files && chatFile.files[0]);
+        chatFile.value = "";
+      });
+    }
+
     var mediaRecorder, audioChunks = [], recording = false;
     var recordStartTime = 0, recordingInterval = null, lastRecordingDuration = 0;
     var recordingTimerEl = null;

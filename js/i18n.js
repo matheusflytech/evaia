@@ -86,6 +86,29 @@
       "cta.lead": "Tell us a bit about your company's challenge. We reply personally.",
       "cta.btn": "Talk to us",
 
+      "eai.label": "Eva AI",
+      "eai.title": "An agent that listens, understands, acts, and knows when to bring in a person.",
+      "eai.lead": "Follow what Eva does behind every message: she transcribes the audio, understands the intent, searches your documents, updates the CRM, creates tasks for the team, and respects your business rules.",
+      "eai.panel": "Eva AI &middot; Real-time reasoning",
+      "eai.m.resp": "Response time",
+      "eai.m.sources": "Sources consulted",
+      "eai.m.rules": "Rules checked",
+      "eai.m.human": "Handed to a human",
+      "eai.note": "Illustrative simulation. The conversation and documents are fictional; your Eva is trained on your own materials and rules.",
+      "crm.label": "Behind the scenes",
+      "crm.title": "From the first &ldquo;hi&rdquo; to a closed deal, with nobody typing.",
+      "crm.lead": "Watch a real service conversation turn into a card in the CRM: the agent replies, qualifies, logs the meeting, hands off to the team when needed, and the pipeline updates itself.",
+      "crm.bar": "Eva CRM &middot; Sales pipeline",
+      "crm.kpi.resp": "First response",
+      "crm.kpi.leads": "Leads this month",
+      "crm.kpi.open": "Open pipeline",
+      "crm.kpi.won": "Closed this month",
+      "crm.note": "Illustrative simulation. Names and amounts are fictional; the pipeline is the same one we build for your business.",
+      "demo.status": "WhatsApp &middot; online",
+      "demo.restart": "&#8635; Restart",
+      "cta.chat": "Talk to Eva now",
+      "cta.wa": "Message us on WhatsApp",
+
       "footer.blurb": "Technology holding: sites, AI agents, infrastructure and automation for companies that want to scale.",
       "footer.h5.solucoes": "Solutions",
       "footer.h5.institucional": "About",
@@ -172,6 +195,29 @@
       "cta.lead": "Cuéntenos un poco sobre el desafío de su empresa. Respondemos personalmente.",
       "cta.btn": "Hable con nosotros",
 
+      "eai.label": "Eva AI",
+      "eai.title": "Un agente que escucha, entiende, actúa y sabe cuándo llamar a una persona.",
+      "eai.lead": "Sigue lo que hace Eva detrás de cada mensaje: transcribe el audio, entiende la intención, consulta tus documentos, actualiza el CRM, crea tareas para el equipo y respeta las reglas de tu negocio.",
+      "eai.panel": "Eva AI &middot; Razonamiento en tiempo real",
+      "eai.m.resp": "Tiempo de respuesta",
+      "eai.m.sources": "Fuentes consultadas",
+      "eai.m.rules": "Reglas verificadas",
+      "eai.m.human": "Pasó a una persona",
+      "eai.note": "Simulación ilustrativa. La conversación y los documentos son ficticios; la Eva de tu negocio se entrena con tus materiales y tus reglas.",
+      "crm.label": "Entre bastidores",
+      "crm.title": "Del primer &ldquo;hola&rdquo; al negocio cerrado, sin que nadie escriba.",
+      "crm.lead": "Mira cómo una conversación de atención real se convierte en una tarjeta en el CRM: el agente responde, califica, registra la reunión, pasa al equipo cuando hace falta y el embudo se actualiza solo.",
+      "crm.bar": "Eva CRM &middot; Embudo de ventas",
+      "crm.kpi.resp": "Primera respuesta",
+      "crm.kpi.leads": "Leads del mes",
+      "crm.kpi.open": "En curso",
+      "crm.kpi.won": "Cerrado en el mes",
+      "crm.note": "Simulación ilustrativa. Los nombres y los valores son ficticios; el embudo es el mismo que armamos para tu negocio.",
+      "demo.status": "WhatsApp &middot; en línea",
+      "demo.restart": "&#8635; Reiniciar",
+      "cta.chat": "Habla con Eva ahora",
+      "cta.wa": "Escríbenos por WhatsApp",
+
       "footer.blurb": "Holding de tecnología: sitios, agentes de IA, infraestructura y automatización para empresas que quieren escalar.",
       "footer.h5.solucoes": "Soluciones",
       "footer.h5.institucional": "Institucional",
@@ -231,6 +277,8 @@
     document.querySelectorAll(".lang-switch-menu button").forEach(function (btn) {
       btn.classList.toggle("is-active", btn.getAttribute("data-lang") === lang);
     });
+
+    document.dispatchEvent(new CustomEvent("evalangchange", { detail: lang }));
   }
 
   function initSwitcher() {
