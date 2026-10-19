@@ -622,6 +622,38 @@
       }
     };
 
+    // Textos do formulário em inglês e espanhol. A mensagem que chega ao WhatsApp da
+    // equipe continua em português; só o que o visitante lê é traduzido.
+    var LTXT = {
+      "Fazer um orçamento": ["Get a quote", "Pedir un presupuesto"],
+      "Entrar em contato": ["Get in touch", "Ponerse en contacto"],
+      "Qual seu nome?": ["What's your name?", "¿Cuál es su nombre?"],
+      "Qual o nome da sua empresa?": ["What's your company's name?", "¿Cuál es el nombre de su empresa?"],
+      "Qual seu nicho de atuação?": ["What industry are you in?", "¿En qué sector actúa?"],
+      "Qual seu maior desafio hoje?": ["What's your biggest challenge today?", "¿Cuál es su mayor desafío hoy?"],
+      "Qual seu faturamento mensal aproximado?": ["What's your approximate monthly revenue?", "¿Cuál es su facturación mensual aproximada?"],
+      "Qual o seu e-mail?": ["What's your email?", "¿Cuál es su correo electrónico?"],
+      "Qual o seu número de WhatsApp?": ["What's your WhatsApp number?", "¿Cuál es su número de WhatsApp?"],
+      "O que você gostaria de saber ou precisa?": ["What would you like to know, or what do you need?", "¿Qué le gustaría saber o qué necesita?"],
+      "Qual o seu e-mail ou WhatsApp pra te responder?": ["What's your email or WhatsApp so we can reply?", "¿Cuál es su correo o WhatsApp para responderle?"],
+      "Voltar": ["Back", "Volver"],
+      "Próximo": ["Next", "Siguiente"],
+      "Enviar pelo WhatsApp": ["Send via WhatsApp", "Enviar por WhatsApp"],
+      "Tudo certo!": ["All set!", "¡Todo listo!"],
+      "Abrimos o WhatsApp com sua mensagem pronta, é só enviar por lá.": ["We opened WhatsApp with your message ready, just hit send there.", "Abrimos WhatsApp con su mensaje listo, solo envíelo desde allí."],
+      "Fechar": ["Close", "Cerrar"]
+    };
+    function idioma() { return (window.EvaI18n && window.EvaI18n.getLang()) || "pt"; }
+    function lt(pt) {
+      var l = idioma();
+      var v = LTXT[pt];
+      return l === "pt" || !v ? pt : (l === "en" ? v[0] : v[1]);
+    }
+    function perguntaDe(n, total) {
+      var l = idioma();
+      return l === "en" ? "Question " + n + " of " + total : l === "es" ? "Pregunta " + n + " de " + total : "Pergunta " + n + " de " + total;
+    }
+
     var currentFlow = null;
     var stepIndex = 0;
     var answers = {};
@@ -649,12 +681,12 @@
       progressFill.style.width = ((stepIndex / total) * 100) + "%";
 
       modalBody.innerHTML =
-        '<p class="lead-step-label">' + currentFlow.title + " · Pergunta " + (stepIndex + 1) + " de " + total + '</p>' +
-        '<h3 class="lead-question">' + q.q + '</h3>' +
+        '<p class="lead-step-label">' + lt(currentFlow.title) + " · " + perguntaDe(stepIndex + 1, total) + '</p>' +
+        '<h3 class="lead-question">' + lt(q.q) + '</h3>' +
         '<input type="text" class="lead-input" id="leadAnswerInput" value="' + (answers[q.key] || "").replace(/"/g, "&quot;") + '" autocomplete="off">' +
         '<div class="lead-actions">' +
-        (stepIndex > 0 ? '<button type="button" class="btn btn--ghost" id="leadBack">Voltar</button>' : "<span></span>") +
-        '<button type="button" class="btn btn--solid" id="leadNext">' + (isLast ? "Enviar pelo WhatsApp" : "Próximo") + "</button>" +
+        (stepIndex > 0 ? '<button type="button" class="btn btn--ghost" id="leadBack">' + lt("Voltar") + '</button>' : "<span></span>") +
+        '<button type="button" class="btn btn--solid" id="leadNext">' + lt(isLast ? "Enviar pelo WhatsApp" : "Próximo") + "</button>" +
         "</div>";
 
       var input = document.getElementById("leadAnswerInput");
@@ -693,14 +725,16 @@
 
     function submitLead() {
       var message = currentFlow.buildMessage(answers);
+      // a equipe lê em português, mas precisa saber em que idioma responder
+      if (idioma() !== "pt") message += "\n\n(Visitante usou o site em " + (idioma() === "en" ? "inglês" : "espanhol") + ".)";
       var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
       window.open(url, "_blank");
 
       progressFill.style.width = "100%";
       modalBody.innerHTML =
-        '<p class="lead-step-label">Tudo certo!</p>' +
-        '<h3 class="lead-question">Abrimos o WhatsApp com sua mensagem pronta, é só enviar por lá.</h3>' +
-        '<div class="lead-actions"><span></span><button type="button" class="btn btn--solid" id="leadDone">Fechar</button></div>';
+        '<p class="lead-step-label">' + lt("Tudo certo!") + '</p>' +
+        '<h3 class="lead-question">' + lt("Abrimos o WhatsApp com sua mensagem pronta, é só enviar por lá.") + '</h3>' +
+        '<div class="lead-actions"><span></span><button type="button" class="btn btn--solid" id="leadDone">' + lt("Fechar") + '</button></div>';
       document.getElementById("leadDone").addEventListener("click", closeLeadModal);
     }
 
