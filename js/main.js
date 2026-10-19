@@ -592,8 +592,8 @@
           { key: "nicho", q: "Qual seu nicho de atuação?" },
           { key: "desafio", q: "Qual seu maior desafio hoje?" },
           { key: "faturamento", q: "Qual seu faturamento mensal aproximado?" },
-          { key: "email", q: "Qual o seu e-mail?" },
-          { key: "whatsapp", q: "Qual o seu número de WhatsApp?" }
+          { key: "email", q: "Qual o seu e-mail?", tipo: "email" },
+          { key: "whatsapp", q: "Qual o seu número de WhatsApp?", tipo: "telefone" }
         ],
         buildMessage: function (a) {
           return "Olá! Vim pelo site da Eva Holding e quero um orçamento.\n\n" +
@@ -611,7 +611,7 @@
         questions: [
           { key: "nome", q: "Qual seu nome?" },
           { key: "mensagem", q: "O que você gostaria de saber ou precisa?" },
-          { key: "contatoInfo", q: "Qual o seu e-mail ou WhatsApp pra te responder?" }
+          { key: "contatoInfo", q: "Qual o seu e-mail ou WhatsApp pra te responder?", tipo: "contato" }
         ],
         buildMessage: function (a) {
           return "Olá! Vim pelo site da Eva Holding.\n\n" +
@@ -654,6 +654,66 @@
       return l === "en" ? "Question " + n + " of " + total : l === "es" ? "Pregunta " + n + " de " + total : "Pergunta " + n + " de " + total;
     }
 
+    // ── Validação do e-mail e do celular ───────────────────────────────────
+    // E-mail: algo@dominio.ext, com extensão de verdade (.com, .ai, .com.br...).
+    // Celular brasileiro: DDD de 2 dígitos + 9 + 8 números, ex.: (21) 98888-7766.
+    var DDD_VALIDOS = "11 12 13 14 15 16 17 18 19 21 22 24 27 28 31 32 33 34 35 37 38 41 42 43 44 45 46 47 48 49 51 53 54 55 61 62 63 64 65 66 67 68 69 71 73 74 75 77 79 81 82 83 84 85 86 87 88 89 91 92 93 94 95 96 97 98 99".split(" ");
+
+    function emailValido(txt) {
+      var e = String(txt).trim().toLowerCase();
+      if (e.length > 120 || /\s/.test(e)) return null;
+      // parte local sem pontos soltos; domínio com rótulos válidos e extensão só de letras
+      var ok = /^[a-z0-9]+([._%+-][a-z0-9]+)*@([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,24}$/.test(e);
+      return ok ? e : null;
+    }
+
+    function celularValido(txt) {
+      var d = String(txt).replace(/\D/g, "");
+      if (d.length === 13 && d.indexOf("55") === 0) d = d.slice(2);   // +55
+      if (d.length === 12 && d.charAt(0) === "0") d = d.slice(1);     // 0 na frente do DDD
+      if (d.length !== 11) return null;
+      if (DDD_VALIDOS.indexOf(d.slice(0, 2)) === -1) return null;
+      if (d.charAt(2) !== "9") return null;                           // celular começa com 9
+      if (!/[6-9]/.test(d.charAt(3))) return null;
+      if (/^(\d)\1+$/.test(d.slice(2))) return null;                  // 999999999 e afins
+      return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+    }
+
+    // formata enquanto a pessoa digita: (21) 98888-7766
+    function mascaraCelular(txt) {
+      var d = String(txt).replace(/\D/g, "").slice(0, 11);
+      if (!d) return "";
+      if (d.length <= 2) return "(" + d;
+      if (d.length <= 6) return "(" + d.slice(0, 2) + ") " + d.slice(2);
+      if (d.length <= 10) return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
+      return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+    }
+
+    var ERROS = {
+      email: ["Digite um e-mail válido, como nome@empresa.com", "Enter a valid email, like name@company.com", "Ingrese un correo válido, como nombre@empresa.com"],
+      telefone: ["Digite o celular com DDD, como (21) 98888-7766", "Enter a Brazilian mobile number with area code, like (21) 98888-7766", "Ingrese un celular brasileño con código de área, como (21) 98888-7766"],
+      contato: ["Digite um e-mail válido (nome@empresa.com) ou um celular com DDD ((21) 98888-7766)", "Enter a valid email (name@company.com) or a mobile number with area code ((21) 98888-7766)", "Ingrese un correo válido (nombre@empresa.com) o un celular con código de área ((21) 98888-7766)"],
+      vazio: ["Preencha para continuar", "Please fill this in to continue", "Complete este campo para continuar"]
+    };
+    function erroDe(tipo) {
+      var l = idioma();
+      var v = ERROS[tipo] || ERROS.vazio;
+      return l === "en" ? v[1] : l === "es" ? v[2] : v[0];
+    }
+
+    // devolve { valor } já normalizado, ou { erro } com a mensagem
+    function validar(tipo, txt) {
+      if (!txt) return { erro: erroDe("vazio") };
+      if (tipo === "email") { var e = emailValido(txt); return e ? { valor: e } : { erro: erroDe("email") }; }
+      if (tipo === "telefone") { var c = celularValido(txt); return c ? { valor: c } : { erro: erroDe("telefone") }; }
+      if (tipo === "contato") {
+        if (txt.indexOf("@") !== -1) { var e2 = emailValido(txt); return e2 ? { valor: e2 } : { erro: erroDe("contato") }; }
+        var c2 = celularValido(txt);
+        return c2 ? { valor: c2 } : { erro: erroDe("contato") };
+      }
+      return { valor: txt };
+    }
+
     var currentFlow = null;
     var stepIndex = 0;
     var answers = {};
@@ -683,7 +743,12 @@
       modalBody.innerHTML =
         '<p class="lead-step-label">' + lt(currentFlow.title) + " · " + perguntaDe(stepIndex + 1, total) + '</p>' +
         '<h3 class="lead-question">' + lt(q.q) + '</h3>' +
-        '<input type="text" class="lead-input" id="leadAnswerInput" value="' + (answers[q.key] || "").replace(/"/g, "&quot;") + '" autocomplete="off">' +
+        '<input type="' + (q.tipo === "email" ? "email" : q.tipo === "telefone" ? "tel" : "text") + '" class="lead-input" id="leadAnswerInput"' +
+          (q.tipo === "email" ? ' inputmode="email" autocapitalize="off" placeholder="nome@empresa.com"' : "") +
+          (q.tipo === "telefone" ? ' inputmode="tel" placeholder="(21) 98888-7766"' : "") +
+          (q.tipo === "contato" ? ' placeholder="nome@empresa.com / (21) 98888-7766"' : "") +
+          ' value="' + (answers[q.key] || "").replace(/"/g, "&quot;") + '" autocomplete="off">' +
+        '<p class="lead-error" id="leadError" role="alert" hidden></p>' +
         '<div class="lead-actions">' +
         (stepIndex > 0 ? '<button type="button" class="btn btn--ghost" id="leadBack">' + lt("Voltar") + '</button>' : "<span></span>") +
         '<button type="button" class="btn btn--solid" id="leadNext">' + lt(isLast ? "Enviar pelo WhatsApp" : "Próximo") + "</button>" +
@@ -692,6 +757,14 @@
       var input = document.getElementById("leadAnswerInput");
       input.focus();
       input.addEventListener("keypress", function (e) { if (e.key === "Enter") handleNext(); });
+      // máscara do celular enquanto digita; tirar o erro assim que a pessoa corrige
+      input.addEventListener("input", function () {
+        var ehNumero = q.tipo === "telefone" || (q.tipo === "contato" && input.value.indexOf("@") === -1 && /^[\d\s()+-]*$/.test(input.value));
+        if (ehNumero) input.value = mascaraCelular(input.value);
+        input.style.borderColor = "";
+        var er = document.getElementById("leadError");
+        if (er) er.hidden = true;
+      });
 
       var backBtn = document.getElementById("leadBack");
       if (backBtn) {
@@ -707,13 +780,15 @@
     function handleNext() {
       var q = currentFlow.questions[stepIndex];
       var input = document.getElementById("leadAnswerInput");
-      var val = input.value.trim();
-      if (!val) {
+      var res = validar(q.tipo, input.value.trim());
+      if (res.erro) {
+        var er = document.getElementById("leadError");
+        if (er) { er.textContent = res.erro; er.hidden = false; }
         input.focus();
         input.style.borderColor = "#ff5b5b";
         return;
       }
-      answers[q.key] = val;
+      answers[q.key] = res.valor;
 
       if (stepIndex === currentFlow.questions.length - 1) {
         submitLead();

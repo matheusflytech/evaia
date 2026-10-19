@@ -777,3 +777,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   .ld-trail-badge svg { width: 13px; height: 13px; }
   .ld-trail-line { margin-left: 13px; height: 12px; }
 }
+
+/* mensagem de campo inválido no formulário de orçamento e contato */
+.lead-error { margin-top: 10px; font-size: 13px; line-height: 1.4; color: #ff7a7a; }
+.lead-error[hidden] { display: none; }
