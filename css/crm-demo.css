@@ -1,0 +1,182 @@
+/* ===== CRM demo: simulação do atendimento virando negócio no kanban =====
+   Visual do Eva Studio: preto fosco, bordas brancas translúcidas, branco-gelo
+   para o que está ativo e o azul só onde o app também usa (destaques pontuais).
+   Cenário ensaiado, sem chamadas de rede. */
+
+.crm-demo, .eai-demo {
+  /* mesma escala do app (globals.css do Eva Studio) */
+  --a-bg: #0a0a0a;
+  --a-s1: #121212;
+  --a-s2: #1a1a1a;
+  --a-s3: #232323;
+  --a-b1: rgba(255, 255, 255, 0.06);
+  --a-b2: rgba(255, 255, 255, 0.1);
+  --a-b3: rgba(255, 255, 255, 0.16);
+  --a-t1: rgba(255, 255, 255, 0.92);
+  --a-t2: rgba(255, 255, 255, 0.6);
+  --a-t3: rgba(255, 255, 255, 0.38);
+  --a-ice: #f5f7fa;
+  --a-ice-soft: rgba(245, 247, 250, 0.1);
+  --a-ice-border: rgba(245, 247, 250, 0.3);
+  --a-accent: #5b8def;
+  --a-ok: #34d399;
+  --a-warn: #fbbf24;
+  --a-violet: #a78bfa;
+  --a-slate: #94a3b8;
+}
+
+.crm-demo { position: relative; padding: 110px 24px 120px; background: var(--navy-900); overflow: hidden; }
+.crm-demo::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 80% 0%, hsla(210, 80%, 55%, 0.12), transparent 70%);
+}
+.crm-demo .eyebrow, .eai-demo .eyebrow { color: var(--a-t2); }
+.crm-demo-inner { max-width: 1240px; margin: 0 auto; position: relative; }
+.crm-demo-head { max-width: 640px; margin-bottom: 44px; }
+.crm-demo-title {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.12; letter-spacing: -.02em; margin: 14px 0 16px; color: var(--a-t1);
+}
+.crm-demo-lead { color: var(--a-t2); font-size: 16.5px; line-height: 1.65; }
+
+.crm-stage { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 22px; align-items: stretch; }
+
+/* ---- conversa (esquerda), igual à caixa de entrada do app ---- */
+.crm-chat {
+  display: flex; flex-direction: column; min-height: 520px; max-height: 560px;
+  background: var(--a-s1); border: 1px solid var(--a-b2); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+.crm-chat-top { display: flex; align-items: center; gap: 11px; padding: 14px 16px; background: var(--a-s2); border-bottom: 1px solid var(--a-b1); }
+.crm-avatar {
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--a-ice); color: #0a0a0a; font-weight: 700; font-size: 13px; font-family: var(--font-display);
+}
+.crm-chat-top b { display: block; font-size: 14px; color: var(--a-t1); font-weight: 600; }
+.crm-chat-top span { font-size: 11.5px; color: var(--a-t3); }
+.crm-chat-body {
+  flex: 1; overflow-y: auto; padding: 16px 14px; display: flex; flex-direction: column; gap: 8px; scroll-behavior: smooth;
+  scrollbar-width: thin; scrollbar-color: var(--a-b3) transparent;
+}
+.crm-msg {
+  max-width: 86%; padding: 9px 13px; border-radius: 14px; font-size: 13.5px; line-height: 1.45;
+  opacity: 0; transform: translateY(8px); animation: crm-in .35s ease forwards;
+}
+/* cliente em branco-gelo (como o balão do contato no app); agente em cinza; equipe em verde */
+.crm-msg--client { align-self: flex-end; background: var(--a-ice); color: #111; border-bottom-right-radius: 4px; }
+.crm-msg--bot { align-self: flex-start; background: var(--a-s3); color: var(--a-t1); border-bottom-left-radius: 4px; border: 1px solid var(--a-b1); }
+.crm-msg--human { align-self: flex-start; background: rgba(52, 211, 153, 0.12); color: #d1fae5; border: 1px solid rgba(52, 211, 153, 0.28); border-bottom-left-radius: 4px; }
+.crm-msg small { display: block; font-size: 10.5px; opacity: .65; margin-bottom: 2px; font-family: var(--font-mono); letter-spacing: .02em; }
+.crm-typing { align-self: flex-start; display: flex; gap: 4px; padding: 12px 14px; background: var(--a-s3); border: 1px solid var(--a-b1); border-radius: 14px; border-bottom-left-radius: 4px; }
+.crm-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--a-t2); animation: crm-dot 1s ease-in-out infinite; }
+.crm-typing i:nth-child(2) { animation-delay: .15s; }
+.crm-typing i:nth-child(3) { animation-delay: .3s; }
+.crm-skip {
+  align-self: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--a-t3); padding: 4px 12px; border: 1px dashed var(--a-b3); border-radius: 999px; opacity: 0; animation: crm-in .35s ease forwards;
+}
+@keyframes crm-in { to { opacity: 1; transform: translateY(0); } }
+@keyframes crm-dot { 0%, 100% { opacity: .3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+
+/* ---- janela do CRM (direita) ---- */
+.crm-window { position: relative; display: flex; flex-direction: column; min-width: 0; background: var(--a-s1); border: 1px solid var(--a-b2); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+.crm-bar { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--a-s2); border-bottom: 1px solid var(--a-b1); }
+.crm-dots { display: flex; gap: 6px; }
+.crm-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--a-b3); }
+.crm-bar-title { font-size: 12.5px; color: var(--a-t2); font-weight: 600; }
+.crm-bar-spacer { flex: 1; }
+.crm-kpis { display: flex; gap: 22px; padding: 14px 18px; border-bottom: 1px solid var(--a-b1); flex-wrap: wrap; }
+.crm-kpi span { display: block; font-size: 11px; color: var(--a-t3); text-transform: uppercase; letter-spacing: .08em; font-family: var(--font-mono); }
+.crm-kpi b { display: block; font-size: 20px; color: var(--a-t1); font-family: var(--font-display); font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; transition: color .3s ease; }
+.crm-kpi b.is-up { color: var(--a-ok); }
+
+.crm-board { display: grid; grid-template-columns: repeat(5, minmax(158px, 1fr)); gap: 10px; padding: 14px; overflow-x: auto; flex: 1; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--a-b3) transparent; }
+.crm-col { background: rgba(255, 255, 255, 0.025); border: 1px solid var(--a-b1); border-radius: 14px; padding: 10px; min-height: 300px; display: flex; flex-direction: column; gap: 8px; transition: border-color .35s ease, background .35s ease; }
+.crm-col.is-target { border-color: var(--a-ice-border); background: var(--a-ice-soft); }
+.crm-col-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 2px 4px 6px; }
+.crm-col-head b { font-size: 12px; color: var(--a-t1); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.crm-col-head b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--dot, var(--a-slate)); flex-shrink: 0; }
+.crm-col-head em { font-family: var(--font-mono); font-size: 11px; color: var(--a-t3); font-weight: 500; }
+.crm-col[data-col="novo"] { --dot: var(--a-slate); }
+.crm-col[data-col="qual"] { --dot: var(--a-accent); }
+.crm-col[data-col="reuniao"] { --dot: var(--a-violet); }
+.crm-col[data-col="proposta"] { --dot: var(--a-warn); }
+.crm-col[data-col="ganho"] { --dot: var(--a-ok); }
+.crm-col--won .crm-col-head b { color: var(--a-ok); }
+.crm-list { display: flex; flex-direction: column; gap: 8px; }
+
+.crm-card {
+  background: var(--a-s2); border: 1px solid var(--a-b2); border-radius: 11px; padding: 10px 11px;
+  font-size: 12px; color: var(--a-t2); position: relative;
+}
+.crm-card--ghost { opacity: .5; background: var(--a-s1); border-color: var(--a-b1); }
+.crm-card b { display: block; font-size: 12.5px; color: var(--a-t1); font-weight: 600; margin-bottom: 2px; }
+.crm-card-sub { font-size: 11px; color: var(--a-t3); }
+.crm-card--live { border-color: var(--a-ice-border); box-shadow: 0 8px 24px rgba(0, 0, 0, .5); background: var(--a-s3); z-index: 2; }
+.crm-card--live.is-won { border-color: rgba(52, 211, 153, .6); box-shadow: 0 8px 24px rgba(0, 0, 0, .5), 0 0 0 1px rgba(52, 211, 153, .25); }
+.crm-fields { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.crm-field { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; opacity: 0; transform: translateX(-4px); animation: crm-field .4s ease forwards; }
+.crm-field span { color: var(--a-t3); }
+.crm-field strong { color: var(--a-t1); font-weight: 600; text-align: right; }
+@keyframes crm-field { to { opacity: 1; transform: translateX(0); } }
+.crm-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.crm-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: var(--a-ice-soft); color: var(--a-t1); opacity: 0; animation: crm-in .35s ease forwards; }
+.crm-tag--warm { background: rgba(251, 191, 36, .14); color: var(--a-warn); }
+.crm-tag--ok { background: rgba(52, 211, 153, .14); color: var(--a-ok); }
+.crm-owner { margin-top: 8px; display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: var(--a-ok); opacity: 0; animation: crm-in .35s ease forwards; }
+.crm-owner i { width: 16px; height: 16px; border-radius: 50%; background: rgba(52, 211, 153, .35); display: inline-block; }
+
+.crm-toasts { position: absolute; right: 18px; bottom: 16px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; pointer-events: none; z-index: 5; }
+.crm-toast {
+  background: var(--a-s3); border: 1px solid var(--a-b3); color: var(--a-t1);
+  font-size: 12px; padding: 9px 13px; border-radius: 11px; max-width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,.5);
+  opacity: 0; transform: translateY(10px); animation: crm-in .35s ease forwards, crm-out .35s ease 3.4s forwards;
+}
+.crm-toast b { color: var(--a-ice); font-weight: 600; margin-right: 4px; }
+@keyframes crm-out { to { opacity: 0; transform: translateY(-6px); } }
+
+/* ---- trilha de etapas + controles ---- */
+.crm-steps { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
+.crm-steps ol { display: flex; gap: 8px; flex-wrap: wrap; list-style: none; }
+.crm-steps li {
+  font-size: 12.5px; font-weight: 600; color: var(--a-t3); padding: 7px 14px; border-radius: 999px;
+  border: 1px solid var(--a-b2); transition: all .35s ease; display: flex; align-items: center; gap: 7px;
+}
+.crm-steps li i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .5; }
+.crm-steps li.is-active { color: #0a0a0a; border-color: var(--a-ice); background: var(--a-ice); }
+.crm-steps li.is-active i { opacity: 1; background: #0a0a0a; }
+.crm-steps li.is-done { color: var(--a-t2); border-color: rgba(52, 211, 153, .35); }
+.crm-steps li.is-done i { background: var(--a-ok); opacity: 1; }
+.crm-controls { display: flex; gap: 10px; }
+.crm-btn {
+  font-family: inherit; font-size: 13px; font-weight: 700; color: var(--a-t1); background: transparent; cursor: pointer;
+  border: 1px solid var(--a-b3); border-radius: 10px; padding: 9px 16px; transition: all .25s ease;
+}
+.crm-btn:hover { border-color: var(--a-ice-border); background: var(--a-ice-soft); }
+.crm-note { margin-top: 18px; font-size: 12.5px; color: var(--a-t3); }
+
+@media (max-width: 980px) {
+  .crm-stage { grid-template-columns: minmax(0, 1fr); }
+  .crm-chat { min-height: 400px; max-height: 440px; }
+}
+@media (max-width: 600px) {
+  .crm-demo { padding: 80px 16px 90px; }
+  .crm-board { grid-template-columns: repeat(5, 172px); }
+  .crm-toasts { right: 10px; left: 10px; align-items: stretch; }
+  .crm-toast { max-width: none; }
+  .crm-steps li { padding: 6px 11px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crm-msg, .crm-field, .crm-tag, .crm-owner, .crm-skip, .crm-toast { animation: none; opacity: 1; transform: none; }
+  .crm-typing i { animation: none; }
+}
+
+/* ---- fechamento da página: chat da Eva ou WhatsApp ---- */
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-actions .cta-btn { cursor: pointer; font-family: inherit; }
+.cta-wa { border: 1px solid var(--line); color: var(--ink-100); }
+.cta-wa:hover { border-color: rgba(37, 211, 102, .7); background: rgba(37, 211, 102, .1); }
+.cta-alt { margin-top: 22px; font-size: 14px; color: var(--ink-500); }
+.cta-alt a { color: var(--ink-300); text-decoration: underline; text-underline-offset: 3px; }
+.cta-alt a:hover { color: var(--ink-100); }
+@media (max-width: 600px) { .cta-actions { flex-direction: column; } .cta-actions .cta-btn { width: 100%; } }

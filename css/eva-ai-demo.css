@@ -1,0 +1,83 @@
+/* ===== Eva AI por dentro: o agente raciocinando, passo a passo =====
+   Mesma linguagem do Eva Studio (preto fosco, bordas translúcidas, branco-gelo
+   no que está ativo). As variáveis --a-* vêm do crm-demo.css. Reaproveita a
+   conversa (.crm-chat, .crm-msg...). Cenário ensaiado, sem rede. */
+
+.eai-demo { position: relative; padding: 110px 24px 120px; background: var(--navy-950); overflow: hidden; }
+.eai-demo::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 45% at 12% 0%, hsla(210, 80%, 55%, 0.14), transparent 70%);
+}
+.eai-demo-inner { max-width: 1240px; margin: 0 auto; position: relative; }
+.eai-head { max-width: 660px; margin-bottom: 44px; }
+.eai-title {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.12; letter-spacing: -.02em; margin: 14px 0 16px; color: var(--a-t1);
+}
+.eai-lead { color: var(--a-t2); font-size: 16.5px; line-height: 1.65; }
+
+.eai-stage { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 22px; align-items: stretch; }
+.eai-stage .crm-chat { min-height: 540px; max-height: 580px; background: var(--a-bg); }
+
+/* mensagem de áudio (balão do cliente é claro, então a forma de onda é escura) */
+.eai-audio { display: flex; align-items: center; gap: 10px; min-width: 190px; }
+.eai-audio-play { width: 28px; height: 28px; border-radius: 50%; background: #0a0a0a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.eai-audio-play svg { width: 11px; height: 11px; fill: #fff; margin-left: 2px; }
+.eai-wave { display: flex; align-items: center; gap: 2px; height: 22px; flex: 1; }
+.eai-wave i { width: 3px; border-radius: 2px; background: rgba(10, 10, 10, .65); height: 30%; }
+.eai-audio small { margin: 0; font-size: 11px; opacity: .7; color: #111; }
+.eai-audio.is-playing .eai-wave i { animation: eai-bar 0.9s ease-in-out infinite; }
+.eai-wave i:nth-child(3n) { animation-delay: .15s; }
+.eai-wave i:nth-child(3n+1) { animation-delay: .3s; }
+@keyframes eai-bar { 0%, 100% { height: 25%; } 50% { height: 95%; } }
+
+/* painel de raciocínio */
+.eai-panel { position: relative; display: flex; flex-direction: column; min-width: 0; background: var(--a-bg); border: 1px solid var(--a-b2); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+.eai-metrics { display: flex; gap: 22px; padding: 14px 18px; border-bottom: 1px solid var(--a-b1); flex-wrap: wrap; }
+.eai-metric span { display: block; font-size: 11px; color: var(--a-t3); text-transform: uppercase; letter-spacing: .08em; font-family: var(--font-mono); }
+.eai-metric b { display: block; font-size: 20px; color: var(--a-t1); font-family: var(--font-display); font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; transition: color .3s ease; }
+.eai-metric b.is-up { color: var(--a-ok); }
+.eai-metric b.is-warn { color: var(--a-warn); }
+
+.eai-log { flex: 1; overflow-y: auto; padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 9px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--a-b3) transparent; max-height: 470px; }
+.eai-turn { align-self: stretch; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--a-t3); padding: 6px 2px 0; display: flex; align-items: center; gap: 10px; opacity: 0; animation: crm-in .35s ease forwards; }
+.eai-turn::after { content: ""; flex: 1; height: 1px; background: var(--a-b1); }
+
+.eai-step {
+  display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 11px; padding: 11px 13px;
+  background: var(--a-s2); border: 1px solid var(--a-b1); border-radius: 12px;
+  opacity: 0; transform: translateY(8px); animation: crm-in .35s ease forwards;
+}
+.eai-step-ic { width: 30px; height: 30px; border-radius: 9px; background: var(--a-ice-soft); color: var(--a-t1); display: flex; align-items: center; justify-content: center; position: relative; }
+.eai-step-ic svg { width: 15px; height: 15px; }
+.eai-step.is-running .eai-step-ic::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 12px; border: 2px solid transparent; border-top-color: var(--a-ice);
+  animation: eai-spin .8s linear infinite;
+}
+@keyframes eai-spin { to { transform: rotate(360deg); } }
+.eai-step.is-done .eai-step-ic { background: rgba(52, 211, 153, .14); color: var(--a-ok); }
+.eai-step.is-warn .eai-step-ic { background: rgba(251, 191, 36, .14); color: var(--a-warn); }
+.eai-step h4 { font-size: 13px; color: var(--a-t1); font-weight: 600; font-family: var(--font-body); line-height: 1.3; }
+.eai-step p { font-size: 12px; color: var(--a-t2); line-height: 1.5; margin-top: 3px; }
+.eai-step p q { quotes: none; color: var(--a-t1); font-style: italic; }
+.eai-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.eai-chip { font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--a-ice-soft); color: var(--a-t1); opacity: 0; animation: crm-in .3s ease forwards; }
+.eai-chip--doc { background: var(--a-s3); color: var(--a-t2); font-family: var(--font-mono); font-weight: 500; border: 1px solid var(--a-b1); }
+.eai-chip--ok { background: rgba(52, 211, 153, .14); color: var(--a-ok); }
+.eai-chip--warn { background: rgba(251, 191, 36, .14); color: var(--a-warn); }
+
+.eai-handoff { border-color: rgba(251, 191, 36, .35); background: rgba(251, 191, 36, .06); }
+.eai-handoff h4 { color: var(--a-warn); }
+
+@media (max-width: 980px) {
+  .eai-stage { grid-template-columns: minmax(0, 1fr); }
+  .eai-stage .crm-chat { min-height: 400px; max-height: 440px; }
+  .eai-log { max-height: 420px; }
+}
+@media (max-width: 600px) {
+  .eai-demo { padding: 80px 16px 90px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eai-step, .eai-turn, .eai-chip { animation: none; opacity: 1; transform: none; }
+  .eai-step.is-running .eai-step-ic::after, .eai-audio.is-playing .eai-wave i { animation: none; }
+}

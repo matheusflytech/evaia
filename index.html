@@ -12,6 +12,8 @@
 
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/crm-demo.css?v=4">
+  <link rel="stylesheet" href="css/eva-ai-demo.css?v=3">
 </head>
 <body class="is-loading">
   <script>if (sessionStorage.getItem("eva_loaded")) { document.documentElement.classList.add("no-loader"); }</script>
@@ -283,50 +285,97 @@
       </div>
     </section>
 
-    <!-- LIVE DEMO: do clique ao WhatsApp em segundos -->
-    <section class="live-demo on-light" id="live-demo">
-      <div class="live-demo-inner">
-        <div class="live-demo-intro">
-          <p class="eyebrow">Fale com a gente</p>
-          <h2 class="live-demo-title">Do clique ao WhatsApp em segundos</h2>
-          <p class="live-demo-lead">
-            Preencha um formulário rápido e objetivo e fale diretamente
-            com o nosso time pelo WhatsApp.
+    <!-- EVA AI POR DENTRO: o agente raciocinando (simulação) -->
+    <section class="eai-demo on-dark" id="eaiDemo" aria-labelledby="eaiTitle">
+      <div class="eai-demo-inner">
+        <div class="eai-head">
+          <p class="eyebrow">Eva AI</p>
+          <h2 class="eai-title" id="eaiTitle">Um agente que ouve, entende, age e sabe a hora de chamar uma pessoa.</h2>
+          <p class="eai-lead">
+            Acompanhe o que a Eva faz por trás de cada mensagem: transcreve o áudio, entende a intenção,
+            consulta os seus documentos, atualiza o CRM, cria tarefas para a equipe e respeita as regras do seu negócio.
           </p>
         </div>
 
-        <div class="live-demo-panel">
-          <div class="ld-trail" id="ldTrail"></div>
-          <div class="ld-phone">
-            <span class="ld-phone-btn ld-phone-btn--mute"></span>
-            <span class="ld-phone-btn ld-phone-btn--vol-up"></span>
-            <span class="ld-phone-btn ld-phone-btn--vol-down"></span>
-            <span class="ld-phone-btn ld-phone-btn--power"></span>
-            <div class="ld-phone-screen">
-              <div class="ld-notch"></div>
-              <div class="ld-status-bar">
-                <button type="button" class="ld-fullscreen-close" id="ldFullscreenClose" aria-label="Fechar" hidden>&#8592;</button>
-                <span class="ld-time" id="ldClock">9:41</span>
-                <span class="ld-status-icons">
-                  <svg viewBox="0 0 20 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="0.5"/><rect x="5" y="6" width="3" height="6" rx="0.5"/><rect x="10" y="4" width="3" height="8" rx="0.5"/><rect x="15" y="2" width="3" height="10" rx="0.5"/></svg>
-                  <svg viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 5.5a12 12 0 0 1 16 0"/><path d="M5 8.5a8 8 0 0 1 10 0"/><path d="M8 11.5a4 4 0 0 1 4 0"/></svg>
-                  <svg viewBox="0 0 26 13" fill="none" stroke="currentColor"><rect x="0.5" y="0.5" width="21" height="12" rx="3"/><rect x="2" y="2" width="18" height="9" rx="1.5" fill="currentColor"/><rect x="22.5" y="4" width="2" height="5" rx="1" fill="currentColor"/></svg>
-                </span>
-              </div>
-              <div class="ld-progress" id="ldCanvas"></div>
-              <div class="live-demo-chat">
-                <div class="live-demo-messages" id="ldMessages"></div>
-                <div id="ldCtaWrap"></div>
-                <div class="live-demo-input-row" id="ldInputRow">
-                  <input type="text" id="ldInput" placeholder="Digite sua resposta..." />
-                  <button type="button" id="ldSend" aria-label="Enviar">→</button>
-                </div>
-                <p class="ld-input-error" id="ldInputError" hidden></p>
-              </div>
-              <div class="ld-home-indicator"></div>
+        <div class="eai-stage">
+          <div class="crm-chat" aria-label="Conversa no WhatsApp (simulação)">
+            <div class="crm-chat-top">
+              <span class="crm-avatar">C</span>
+              <div><b>Camila Duarte</b><span>WhatsApp &middot; online</span></div>
             </div>
+            <div class="crm-chat-body" id="eaiChatBody" aria-live="off"></div>
+          </div>
+
+          <div class="eai-panel" aria-label="O que a Eva está fazendo (simulação)">
+            <div class="crm-bar">
+              <span class="crm-dots"><i></i><i></i><i></i></span>
+              <span class="crm-bar-title">Eva AI &middot; Raciocínio em tempo real</span>
+              <span class="crm-bar-spacer"></span>
+            </div>
+            <div class="eai-metrics">
+              <div class="eai-metric"><span>Tempo de resposta</span><b id="eaiMResp">&mdash;</b></div>
+              <div class="eai-metric"><span>Fontes consultadas</span><b id="eaiMSources">0</b></div>
+              <div class="eai-metric"><span>Regras conferidas</span><b id="eaiMRules">0</b></div>
+              <div class="eai-metric"><span>Passou para humano</span><b id="eaiMHuman">N&atilde;o</b></div>
+            </div>
+            <div class="eai-log" id="eaiLog"></div>
           </div>
         </div>
+
+        <div class="crm-steps">
+          <ol id="eaiSteps" aria-label="Etapas da simulação"></ol>
+          <div class="crm-controls">
+            <button type="button" class="crm-btn" id="eaiRestart">&#8635; Reiniciar</button>
+          </div>
+        </div>
+        <p class="crm-note">Simulação ilustrativa. Conversa e documentos são fictícios; a Eva do seu negócio é treinada com os seus materiais e as suas regras.</p>
+      </div>
+    </section>
+
+    <!-- CRM DEMO: o atendimento virando negócio no kanban (simulação) -->
+    <section class="crm-demo on-dark" id="crmDemo" aria-labelledby="crmDemoTitle">
+      <div class="crm-demo-inner">
+        <div class="crm-demo-head">
+          <p class="eyebrow">Nos bastidores</p>
+          <h2 class="crm-demo-title" id="crmDemoTitle">Do primeiro &ldquo;oi&rdquo; ao negócio fechado, sem ninguém digitar.</h2>
+          <p class="crm-demo-lead">
+            Veja uma conversa real de atendimento virando um cartão no CRM: o agente responde, qualifica, registra a reunião, passa para a equipe quando precisa e o funil se atualiza sozinho.
+          </p>
+        </div>
+
+        <div class="crm-stage">
+          <div class="crm-chat" aria-label="Conversa no WhatsApp (simulação)">
+            <div class="crm-chat-top">
+              <span class="crm-avatar">C</span>
+              <div><b>Camila Duarte</b><span>WhatsApp · online</span></div>
+            </div>
+            <div class="crm-chat-body" id="crmChatBody" aria-live="off"></div>
+          </div>
+
+          <div class="crm-window" aria-label="Funil de vendas no CRM (simulação)">
+            <div class="crm-bar">
+              <span class="crm-dots"><i></i><i></i><i></i></span>
+              <span class="crm-bar-title">Eva CRM &middot; Funil de vendas</span>
+              <span class="crm-bar-spacer"></span>
+            </div>
+            <div class="crm-kpis">
+              <div class="crm-kpi"><span>Primeira resposta</span><b id="crmKpiResp">&mdash;</b></div>
+              <div class="crm-kpi"><span>Leads no mês</span><b id="crmKpiLeads">12</b></div>
+              <div class="crm-kpi"><span>Em aberto</span><b id="crmKpiOpen">R$ 33.500</b></div>
+              <div class="crm-kpi"><span>Fechado no mês</span><b id="crmKpiWon">R$ 6.200</b></div>
+            </div>
+            <div class="crm-board" id="crmBoard"></div>
+            <div class="crm-toasts" id="crmToasts" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="crm-steps">
+          <ol id="crmSteps" aria-label="Etapas da simulação"></ol>
+          <div class="crm-controls">
+            <button type="button" class="crm-btn" id="crmRestart">&#8635; Reiniciar</button>
+          </div>
+        </div>
+        <p class="crm-note">Simulação ilustrativa. Nomes e valores são fictícios; o funil é o mesmo que montamos para o seu negócio.</p>
       </div>
     </section>
 
@@ -336,7 +385,11 @@
         <p class="section-label reveal" data-i18n="cta.label">Vamos construir</p>
         <h2 class="cta-title reveal" data-i18n="cta.title">Pronto para colocar<br>a <em>Eva</em> pra trabalhar?</h2>
         <p class="cta-lead reveal" data-i18n="cta.lead">Conte um pouco sobre o desafio da sua empresa. Respondemos pessoalmente.</p>
-        <a href="contato.html" class="btn btn--solid cta-btn reveal" data-i18n="cta.btn">Fale com a gente</a>
+        <div class="cta-actions reveal">
+          <button type="button" class="btn btn--solid cta-btn" id="ctaChat">Falar com a Eva agora</button>
+          <a class="btn btn--ghost cta-btn cta-wa" href="https://wa.me/5521969156116?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Eva%20Holding." target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
+        </div>
+        <p class="cta-alt"><a href="contato.html" data-i18n="cta.btn">Fale com a gente</a></p>
       </div>
     </section>
   </main>
@@ -404,6 +457,21 @@
 
   <script src="js/main.js?v=4"></script>
   <script src="js/i18n.js?v=2"></script>
-  <script src="js/live-demo.js?v=17"></script>
+  <script src="js/eva-ai-demo.js?v=3"></script>
+  <script src="js/crm-demo.js?v=4"></script>
+  <script>
+    // "Falar com a Eva agora" abre o mesmo balão de chat do canto da tela
+    (function () {
+      var btn = document.getElementById("ctaChat");
+      var fab = document.getElementById("chatFab");
+      var panel = document.getElementById("chatPanel");
+      if (!btn || !fab || !panel) return;
+      btn.addEventListener("click", function () {
+        if (!panel.classList.contains("open")) fab.click();
+        var input = document.getElementById("chatInput");
+        if (input) setTimeout(function () { input.focus(); }, 250);
+      });
+    })();
+  </script>
 </body>
 </html>
