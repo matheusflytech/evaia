@@ -1,6 +1,31 @@
 (function () {
   "use strict";
 
+  /* ===== WhatsApp: mensagem pronta quando a pessoa chega pelo site ===== */
+  // O link abre a conversa com o texto já escrito, e a pessoa só precisa enviar.
+  var WA_MSG = {
+    pt: "Olá! Vim pelo site da Eva Holding e quero saber mais sobre a Eva.",
+    en: "Hello! I found you through the Eva Holding website and I'd like to know more about Eva.",
+    es: "¡Hola! Llegué por el sitio de Eva Holding y quiero saber más sobre Eva."
+  };
+  function waMensagem() {
+    var l = (window.EvaI18n && window.EvaI18n.getLang && window.EvaI18n.getLang()) || (document.documentElement.lang || "pt").slice(0, 2);
+    return WA_MSG[l] || WA_MSG.pt;
+  }
+  window.EvaWA = { mensagem: waMensagem };
+
+  function preencheWhatsApp() {
+    var texto = encodeURIComponent(waMensagem());
+    var links = document.querySelectorAll('a[href^="https://wa.me/"]');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      if (a.id === "ctaWa") continue; // o botão da home tem o próprio script
+      a.setAttribute("href", a.getAttribute("href").split("?")[0] + "?text=" + texto);
+    }
+  }
+  document.addEventListener("DOMContentLoaded", preencheWhatsApp);
+  document.addEventListener("evalangchange", preencheWhatsApp);
+
   /* ===== Loader (counts up 0-100%, only once per browser session) ===== */
   (function () {
     var SESSION_KEY = "eva_loaded";
@@ -239,7 +264,7 @@
         var antes = tudo.slice(Math.max(0, pos - 90), pos + m.length + 90).toLowerCase();
         var fixo = d.length === 10; // fixo não tem WhatsApp: sempre chamada
         var ligar = fixo || /\b(lig(ue|ar|ação|acao)|chamada|telefon[ae]r)\b/.test(antes) && antes.indexOf("whatsapp") === -1;
-        var href = ligar ? "tel:+55" + d : "https://wa.me/55" + d;
+        var href = ligar ? "tel:+55" + d : "https://wa.me/55" + d + "?text=" + encodeURIComponent(window.EvaWA.mensagem());
         var alvoNovo = ligar ? "" : ' target="_blank" rel="noopener"';
         return '<a href="' + href + '"' + alvoNovo + ">" + m + "</a>";
       });
