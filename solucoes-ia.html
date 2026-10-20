@@ -11,7 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=23">
+  <link rel="stylesheet" href="css/style.css?v=25">
+  <link rel="stylesheet" href="css/crm-demo.css?v=5">
+  <link rel="stylesheet" href="css/eva-ai-demo.css?v=3">
 </head>
 <body class="is-loading">
   <script>if (sessionStorage.getItem("eva_loaded")) { document.documentElement.classList.add("no-loader"); }</script>
@@ -70,6 +72,7 @@
           </div>
         </div>
         <a href="quem-somos.html" data-i18n="nav.quemsomos">Quem Somos</a>
+        <a href="equipe.html" data-i18n="nav.equipe">Equipe</a>
         <a href="faq.html" data-i18n="nav.faq">FAQ</a>
         <a href="contato.html" data-i18n="nav.contato">Contato</a>
       </nav>
@@ -89,6 +92,7 @@
       <a href="solucoes-infraestrutura.html" data-i18n="nav.infra">Infraestrutura</a>
       <a href="solucoes-automacao.html" data-i18n="nav.automacao">Automações</a>
       <a href="quem-somos.html" data-i18n="nav.quemsomos">Quem Somos</a>
+      <a href="equipe.html" data-i18n="nav.equipe">Equipe</a>
       <a href="faq.html" data-i18n="nav.faq">FAQ</a>
       <a href="contato.html" data-i18n="nav.contato">Contato</a>
     </nav>
@@ -126,6 +130,52 @@
             <p data-i18n="pg.16">Ajustamos o comportamento do agente com base em conversas reais, não só no treino inicial.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="eai-demo on-dark" id="eaiDemo" aria-labelledby="eaiTitle">
+      <div class="eai-demo-inner">
+        <div class="eai-head">
+          <p class="eyebrow" data-i18n="eai.label">Eva AI</p>
+          <h2 class="eai-title" id="eaiTitle" data-i18n="eai.title">Um agente que ouve, entende, age e sabe a hora de chamar uma pessoa.</h2>
+          <p class="eai-lead" data-i18n="eai.lead">
+            Acompanhe o que a Eva faz por trás de cada mensagem: transcreve o áudio, entende a intenção,
+            consulta os seus documentos, atualiza o CRM, cria tarefas para a equipe e respeita as regras do seu negócio.
+          </p>
+        </div>
+
+        <div class="eai-stage">
+          <div class="crm-chat" aria-label="Conversa no WhatsApp (simulação)">
+            <div class="crm-chat-top">
+              <span class="crm-avatar">C</span>
+              <div><b>Camila Duarte</b><span data-i18n="demo.status">WhatsApp &middot; online</span></div>
+            </div>
+            <div class="crm-chat-body" id="eaiChatBody" aria-live="off"></div>
+          </div>
+
+          <div class="eai-panel" aria-label="O que a Eva está fazendo (simulação)">
+            <div class="crm-bar">
+              <span class="crm-dots"><i></i><i></i><i></i></span>
+              <span class="crm-bar-title" data-i18n="eai.panel">Eva AI &middot; Raciocínio em tempo real</span>
+              <span class="crm-bar-spacer"></span>
+            </div>
+            <div class="eai-metrics">
+              <div class="eai-metric"><span data-i18n="eai.m.resp">Tempo de resposta</span><b id="eaiMResp">&mdash;</b></div>
+              <div class="eai-metric"><span data-i18n="eai.m.sources">Fontes consultadas</span><b id="eaiMSources">0</b></div>
+              <div class="eai-metric"><span data-i18n="eai.m.rules">Regras conferidas</span><b id="eaiMRules">0</b></div>
+              <div class="eai-metric"><span data-i18n="eai.m.human">Passou para humano</span><b id="eaiMHuman">N&atilde;o</b></div>
+            </div>
+            <div class="eai-log" id="eaiLog"></div>
+          </div>
+        </div>
+
+        <div class="crm-steps">
+          <ol id="eaiSteps" aria-label="Etapas da simulação"></ol>
+          <div class="crm-controls">
+            <button type="button" class="crm-btn" id="eaiRestart"><span data-i18n="demo.restart">&#8635; Reiniciar</span></button>
+          </div>
+        </div>
+        <p class="crm-note" data-i18n="eai.note">Simulação ilustrativa. Conversa e documentos são fictícios; a Eva do seu negócio é treinada com os seus materiais e as suas regras.</p>
       </div>
     </section>
 
@@ -184,6 +234,7 @@
         <div class="footer-col">
           <h5 data-i18n="footer.h5.institucional">Institucional</h5>
           <a href="quem-somos.html" data-i18n="nav.quemsomos">Quem Somos</a>
+          <a href="equipe.html" data-i18n="nav.equipe">Equipe</a>
           <a href="faq.html" data-i18n="nav.faq">FAQ</a>
           <a href="contato.html" data-i18n="nav.contato">Contato</a>
         </div>
@@ -228,6 +279,7 @@
   </div>
 
   <script src="js/main.js?v=8"></script>
-  <script src="js/i18n.js?v=4"></script>
+  <script src="js/i18n.js?v=7"></script>
+  <script src="js/eva-ai-demo.js?v=4"></script>
 </body>
 </html>

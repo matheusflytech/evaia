@@ -794,3 +794,61 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 /* mensagem de campo inválido no formulário de orçamento e contato */
 .lead-error { margin-top: 10px; font-size: 13px; line-height: 1.4; color: #ff7a7a; }
 .lead-error[hidden] { display: none; }
+
+/* cartão do fundador (Quem somos) */
+.founder-section { padding-top: 90px; padding-bottom: 90px; }
+.founder { display: grid; grid-template-columns: 260px 1fr; gap: 64px; align-items: center; max-width: 960px; margin: 0 auto; }
+.founder-mark {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: var(--navy-900);
+  border-radius: 20px;
+  box-shadow: 0 18px 50px hsla(220, 50%, 9%, 0.22);
+}
+.founder-mark { position: relative; overflow: hidden; aspect-ratio: 4 / 5; }
+.founder-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+.founder-mark span {
+  font-family: inherit;
+  font-size: 84px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+}
+.founder-name { font-size: clamp(32px, 4vw, 48px); line-height: 1.05; margin: 6px 0 8px; letter-spacing: -0.02em; }
+.founder-role { font-size: 17px; font-weight: 600; color: var(--accent); margin: 0 0 22px; }
+.founder-text { font-size: 17px; line-height: 1.7; color: var(--ink-d500); margin: 0 0 14px; max-width: 58ch; }
+.founder-tags { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.founder-tags li {
+  padding: 8px 16px;
+  border: 1px solid var(--line-light);
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-d900);
+}
+
+@media (max-width: 860px) {
+  .founder { grid-template-columns: 1fr; gap: 30px; }
+  .founder-mark { width: 140px; border-radius: 16px; }
+  .founder-mark span { font-size: 52px; }
+  .founder-text { font-size: 16px; }
+}
+
+/* abas entre "Sobre a Eva" e "Equipe" */
+.subtabs { background: var(--bg-light); border-bottom: 1px solid var(--line-light); }
+.subtabs-nav { display: flex; justify-content: center; gap: 8px; padding: 16px 0; }
+.subtabs-nav a {
+  padding: 11px 26px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-d500);
+  border: 1px solid transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.subtabs-nav a:hover { color: var(--ink-d900); border-color: var(--line-light); }
+.subtabs-nav a.is-active { background: var(--navy-900); color: #fff; }
+
+.team-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 860px) { .team-grid { grid-template-columns: 1fr; gap: 18px; } }
