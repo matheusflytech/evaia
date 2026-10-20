@@ -220,7 +220,33 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
+    // Telefones e e-mails na resposta da IA viram links clicáveis.
+    // Telefone: abre a conversa no WhatsApp (celular e computador). Se a frase
+    // fala em ligar e não em WhatsApp, vira link de chamada (tel:).
+    var DDDS = "11 12 13 14 15 16 17 18 19 21 22 24 27 28 31 32 33 34 35 37 38 41 42 43 44 45 46 47 48 49 51 53 54 55 61 62 63 64 65 66 67 68 69 71 73 74 75 77 79 81 82 83 84 85 86 87 88 89 91 92 93 94 95 96 97 98 99".split(" ");
+
+    function linkify(s) {
+      // e-mail primeiro, pra não ser confundido com número
+      s = s.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g, function (m) {
+        return '<a href="mailto:' + m + '">' + m + "</a>";
+      });
+      return s.replace(/(?:\+?55[\s.-]?)?(?:\(\d{2}\)|\b\d{2})[\s.-]?9?\d{4}[\s.-]?\d{4}\b/g, function (m, pos, tudo) {
+        var d = m.replace(/\D/g, "");
+        if (d.length >= 12 && d.indexOf("55") === 0) d = d.slice(2);
+        if (d.length !== 10 && d.length !== 11) return m;
+        if (DDDS.indexOf(d.slice(0, 2)) === -1) return m;
+        if (d.length === 11 && d.charAt(2) !== "9") return m;
+        var antes = tudo.slice(Math.max(0, pos - 90), pos + m.length + 90).toLowerCase();
+        var fixo = d.length === 10; // fixo não tem WhatsApp: sempre chamada
+        var ligar = fixo || /\b(lig(ue|ar|ação|acao)|chamada|telefon[ae]r)\b/.test(antes) && antes.indexOf("whatsapp") === -1;
+        var href = ligar ? "tel:+55" + d : "https://wa.me/55" + d;
+        var alvoNovo = ligar ? "" : ' target="_blank" rel="noopener"';
+        return '<a href="' + href + '"' + alvoNovo + ">" + m + "</a>";
+      });
+    }
+
     function inlineMarkdown(s) {
+      s = linkify(s);
       s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
       s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, "$1<em>$2</em>");
       return s;

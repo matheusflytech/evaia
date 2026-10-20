@@ -534,6 +534,19 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .chat-msg.bot li:last-child { margin-bottom: 0; }
 .chat-msg.bot strong { font-weight: 700; color: #fff; }
 .chat-msg.bot em { font-style: italic; }
+.chat-msg.bot a {
+  color: #7cc4ff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  /* área de toque confortável no celular */
+  padding: 2px 0;
+}
+.chat-msg.bot a:hover { color: #fff; }
+/* telefone nunca quebra no meio do número */
+.chat-msg.bot a[href^="tel:"], .chat-msg.bot a[href^="https://wa.me"] { white-space: nowrap; }
+.chat-msg.bot a strong { color: inherit; }
 .chat-msg.bot .chat-table-wrap { overflow-x: auto; margin: 4px 0 8px; }
 .chat-msg.bot table.chat-table { border-collapse: collapse; width: 100%; font-size: 12px; }
 .chat-msg.bot table.chat-table th, .chat-msg.bot table.chat-table td {
