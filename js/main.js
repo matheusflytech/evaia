@@ -230,7 +230,7 @@
       s = s.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g, function (m) {
         return '<a href="mailto:' + m + '">' + m + "</a>";
       });
-      return s.replace(/(?:\+?55[\s.-]?)?(?:\(\d{2}\)|\b\d{2})[\s.-]?9?\d{4}[\s.-]?\d{4}\b/g, function (m, pos, tudo) {
+      return s.replace(/(?:\+?55[\s.\u2010-\u2015\u2212-]?)?(?:\(\d{2}\)|\b\d{2})[\s.\u2010-\u2015\u2212-]?9?\d{4}[\s.\u2010-\u2015\u2212-]?\d{4}\b/g, function (m, pos, tudo) {
         var d = m.replace(/\D/g, "");
         if (d.length >= 12 && d.indexOf("55") === 0) d = d.slice(2);
         if (d.length !== 10 && d.length !== 11) return m;
