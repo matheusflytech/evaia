@@ -359,7 +359,17 @@
       if (who === "bot") {
         d.innerHTML = renderMarkdown(text);
       } else {
-        d.textContent = text;
+        // mensagem de voz: a 1ª linha é o rótulo e o resto é a transcrição
+        var nl = text.indexOf("\n");
+        if (nl > -1) {
+          d.textContent = text.slice(0, nl);
+          var tr = document.createElement("span");
+          tr.className = "chat-transcript";
+          tr.textContent = text.slice(nl + 1);
+          d.appendChild(tr);
+        } else {
+          d.textContent = text;
+        }
       }
       chatBody.appendChild(d);
       chatBody.scrollTop = chatBody.scrollHeight;
@@ -367,9 +377,21 @@
     }
 
     function appendMsg(text, who) {
-      renderMsg(text, who);
+      var d = renderMsg(text, who);
       var msgs = loadMessages();
       msgs.push({ text: text, who: who });
+      saveMessages(msgs);
+      return d;
+    }
+
+    // troca o texto de uma bolha já exibida (e do histórico salvo) pelo texto com a transcrição
+    function atualizaMsg(el, antigo, novo, who) {
+      var nova = renderMsg(novo, who);
+      el.replaceWith(nova);
+      var msgs = loadMessages();
+      for (var i = msgs.length - 1; i >= 0; i--) {
+        if (msgs[i].who === who && msgs[i].text === antigo) { msgs[i].text = novo; break; }
+      }
       saveMessages(msgs);
     }
 
@@ -613,7 +635,8 @@
       reader.onloadend = async function () {
         var base64 = reader.result.split(",")[1];
         removeSuggestions();
-        appendMsg("🎙️ Mensagem de voz (" + formatDuration(lastRecordingDuration) + ")", "user");
+        var rotuloVoz = "🎙️ Mensagem de voz (" + formatDuration(lastRecordingDuration) + ")";
+        var bolhaVoz = appendMsg(rotuloVoz, "user");
         var typing = appendTyping();
         try {
           var res = await fetch(WEBHOOK_URL, {
@@ -624,6 +647,11 @@
           var data = await res.json();
           typing.remove();
           var msgs = data.messages || [];
+          var falado = (data.transcricao || "").trim();
+          if (falado) {
+            var voceDisse = { en: "You said", es: "Dijiste" }[(window.EvaI18n && window.EvaI18n.getLang()) || "pt"] || "Você disse";
+            atualizaMsg(bolhaVoz, rotuloVoz, rotuloVoz + "\n" + voceDisse + ": “" + falado.replace(/\s*\n+\s*/g, " ") + "”", "user");
+          }
           if (msgs.length === 0) {
             appendMsg("Desculpe, não consegui entender o áudio.", "bot");
           } else {
