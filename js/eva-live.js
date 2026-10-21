@@ -76,7 +76,7 @@
   var UI = {
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
-      placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
+      nudge: "Sua vez: escreva aqui", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
       recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
       greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
@@ -92,7 +92,7 @@
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
-      placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
+      nudge: "Your turn: type here", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
       recording: "Recording", voice: "Voice message", youSaid: "You said",
       greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
@@ -108,7 +108,7 @@
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
-      placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
+      nudge: "Tu turno: escribe aquí", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
       recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
       greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
@@ -211,6 +211,7 @@
     document.getElementById("liveLblSys").textContent = u.mSys;
     document.getElementById("liveRecLbl").textContent = u.recording;
     input.placeholder = u.placeholder;
+    if (hint) hint.querySelector("span").textContent = u.nudge;
     sendBtn.setAttribute("aria-label", u.send);
     if (micBtn) micBtn.setAttribute("aria-label", u.mic);
     if (attachBtn) attachBtn.setAttribute("aria-label", u.attach);
@@ -666,6 +667,15 @@
   }
 
   // ---- eventos ----
+  // convite visual: deixa claro que o visitante pode digitar; some na primeira interação
+  var hint = document.createElement("div");
+  hint.className = "live-hint";
+  hint.innerHTML = "<span></span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M6 13l6 6 6-6\"/></svg>";
+  hint.querySelector("span").textContent = UI[lang()].nudge;
+  form.parentNode.insertBefore(hint, form);
+  form.classList.add("is-nudge");
+  function apagaConvite() { if (!hint) return; form.classList.remove("is-nudge"); hint.remove(); hint = null; }
+  ["focusin", "input", "click"].forEach(function (ev) { chipsBox.addEventListener(ev, apagaConvite); form.addEventListener(ev, apagaConvite); });
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (mr) { paraGravacao(true); return; }

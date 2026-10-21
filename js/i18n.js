@@ -40,6 +40,7 @@
       "hero.title2": "the digital",
       "hero.title3": "engine of the <em>future</em>",
       "hero.lead": "Eva Holding brings together products, teams and technology under one purpose: transforming entire operations through software, artificial intelligence and infrastructure built to fit.",
+      "hero.try": "Chat with Eva live, right now",
       "hero.explore": "Explore",
 
       "marquee.1": "AI Agents", "marquee.2": "Process Automation", "marquee.3": "Smart Chatbots",
@@ -352,6 +353,7 @@
       "hero.title2": "el motor",
       "hero.title3": "digital del <em>futuro</em>",
       "hero.lead": "Eva Holding reúne productos, equipos y tecnología bajo un mismo propósito: transformar operaciones enteras a través de software, inteligencia artificial e infraestructura a medida.",
+      "hero.try": "Conversa con Eva en vivo, ahora",
       "hero.explore": "Explorar",
 
       "marquee.1": "Agentes de IA", "marquee.2": "Automatización de Procesos", "marquee.3": "Chatbots Inteligentes",

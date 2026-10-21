@@ -189,3 +189,11 @@
 .live-cap { display: block; margin-top: 6px; }
 .live-pend { min-width: 0; max-width: 100%; box-sizing: border-box; overflow: hidden; }
 .live-pend-tx { overflow: hidden; }
+
+/* convite para o visitante digitar */
+.live-hint { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 0 16px 6px; font-size: 12px; font-weight: 600; color: #8fb4ff; animation: live-hint-bob 1.6s ease-in-out infinite; }
+.live-hint svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.live-form.is-nudge .live-input { animation: live-nudge 1.8s ease-in-out infinite; border-color: #5b8dff; }
+@keyframes live-hint-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@keyframes live-nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(91, 141, 255, 0.55); } 50% { box-shadow: 0 0 0 6px rgba(91, 141, 255, 0); } }
+@media (prefers-reduced-motion: reduce) { .live-hint, .live-form.is-nudge .live-input { animation: none; } }

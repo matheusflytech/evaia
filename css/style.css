@@ -904,3 +904,12 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .faq-azul .section-label { color: hsl(205, 90%, 72%); }
+
+/* chamada para conversar com a Eva na primeira tela */
+.hero-try { display: inline-flex; align-items: center; gap: 10px; margin: 22px 0 6px; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(143, 180, 255, 0.45); background: rgba(91, 141, 255, 0.12); color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; backdrop-filter: blur(6px); transition: background .2s, border-color .2s; }
+.hero-try:hover { background: rgba(91, 141, 255, 0.24); border-color: #8fb4ff; }
+.hero-try svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; animation: live-hint-bob 1.6s ease-in-out infinite; }
+.hero-try-dot { width: 9px; height: 9px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6); animation: hero-try-pulse 1.8s ease-out infinite; }
+@keyframes hero-try-pulse { 70% { box-shadow: 0 0 0 9px rgba(52, 211, 153, 0); } 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); } }
+@keyframes live-hint-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .hero-try-dot, .hero-try svg { animation: none; } }
