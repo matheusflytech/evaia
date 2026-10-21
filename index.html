@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/style.css?v=25">
   <link rel="stylesheet" href="css/crm-demo.css?v=5">
   <link rel="stylesheet" href="css/eva-ai-demo.css?v=3">
+  <link rel="stylesheet" href="css/auto-hero.css?v=11">
 </head>
 <body class="is-loading">
   <script>if (sessionStorage.getItem("eva_loaded")) { document.documentElement.classList.add("no-loader"); }</script>
@@ -381,6 +382,42 @@
       </div>
     </section>
 
+    <!-- AUTOMAÇÕES: uma venda disparando várias tarefas (simulação) -->
+    <section class="crm-demo auto-demo on-dark" id="autoDemo" aria-labelledby="autoDemoTitle">
+      <div class="crm-demo-inner">
+        <div class="crm-demo-head">
+          <p class="eyebrow" data-i18n="auto.label">Automações</p>
+          <h2 class="crm-demo-title" id="autoDemoTitle" data-i18n="auto.title">Processos que rodam sozinhos, do pedido ao aviso para a equipe.</h2>
+          <p class="crm-demo-lead" data-i18n="auto.lead">
+            Veja uma venda disparando várias tarefas ao mesmo tempo: criar o contato, avisar o cliente, registrar o pedido
+            e alertar o time, sem ninguém copiar e colar entre sistemas.
+          </p>
+        </div>
+
+        <aside class="auto-panel" id="autoHero" aria-label="Simulação de automações">
+          <div class="ap-head">
+            <span class="ap-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <b class="ap-title">Eva Automação</b>
+            <span class="ap-live"><i></i><em>fluxo ao vivo</em></span>
+          </div>
+          <div class="ap-metrics">
+            <div class="ap-metric"><span class="ap-metric-count">Automações hoje</span><b id="apMCount">128</b></div>
+            <div class="ap-metric"><span class="ap-metric-time">Tempo médio</span><b id="apMTime">3 s</b></div>
+            <div class="ap-metric"><span class="ap-metric-err">Erros</span><b>0</b></div>
+          </div>
+          <div class="ap-scene">
+            <span class="ap-scene-name"></span>
+            <span class="ap-bars" aria-hidden="true"><i><u></u></i><i><u></u></i><i><u></u></i></span>
+          </div>
+          <div class="ap-graph" id="apGraph" aria-hidden="true"><svg id="apSvg"></svg></div>
+          <div class="ap-result" id="apResult" role="status"></div>
+          <ul class="ap-log" id="apLog" aria-hidden="true"></ul>
+          <p class="ap-note">Simulação ilustrativa. Nomes e valores são fictícios.</p>
+        </aside>
+        <p class="crm-note" data-i18n="auto.note">Simulação ilustrativa. Nomes e valores são fictícios; as automações são montadas sob medida para a sua operação.</p>
+      </div>
+    </section>
+
     <!-- CTA / CONTATO -->
     <section class="cta on-dark" id="contato">
       <div class="center">
@@ -464,6 +501,7 @@
   <script src="js/i18n.js?v=7"></script>
   <script src="js/eva-ai-demo.js?v=4"></script>
   <script src="js/crm-demo.js?v=5"></script>
+  <script src="js/auto-hero.js?v=11"></script>
   <script>
     // "Falar com a Eva agora" abre o mesmo balão de chat do canto da tela
     (function () {
