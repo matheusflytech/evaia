@@ -76,7 +76,7 @@
   var UI = {
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
-      nudge: "Sua vez: escreva aqui", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
+      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
       recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
       greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
@@ -92,7 +92,7 @@
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
-      nudge: "Your turn: type here", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
+      nudge: "Your turn: type here", askPh: "Ask Eva anything", askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
       recording: "Recording", voice: "Voice message", youSaid: "You said",
       greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
@@ -108,7 +108,7 @@
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
-      nudge: "Tu turno: escribe aquí", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
+      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
       recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
       greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
@@ -212,6 +212,9 @@
     document.getElementById("liveRecLbl").textContent = u.recording;
     input.placeholder = u.placeholder;
     if (hint) hint.querySelector("span").textContent = u.nudge;
+    var askIn = document.getElementById("heroAskInput"), askBtn = document.getElementById("heroAskBtn");
+    if (askIn) askIn.placeholder = u.askPh;
+    if (askBtn) askBtn.textContent = u.askBtn;
     sendBtn.setAttribute("aria-label", u.send);
     if (micBtn) micBtn.setAttribute("aria-label", u.mic);
     if (attachBtn) attachBtn.setAttribute("aria-label", u.attach);
@@ -676,6 +679,19 @@
   form.classList.add("is-nudge");
   function apagaConvite() { if (!hint) return; form.classList.remove("is-nudge"); hint.remove(); hint = null; }
   ["focusin", "input", "click"].forEach(function (ev) { chipsBox.addEventListener(ev, apagaConvite); form.addEventListener(ev, apagaConvite); });
+  // campo da primeira tela: leva a pergunta para a vitrine e envia
+  var heroAsk = document.getElementById("heroAsk");
+  if (heroAsk) {
+    heroAsk.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var campo = document.getElementById("heroAskInput");
+      var txt = campo.value.trim();
+      document.getElementById("ao-vivo").scrollIntoView({ behavior: "smooth", block: "start" });
+      if (!txt) { setTimeout(function () { input.focus({ preventScroll: true }); }, 600); return; }
+      input.value = txt; campo.value = "";
+      setTimeout(function () { if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event("submit", { cancelable: true })); }, 500);
+    });
+  }
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (mr) { paraGravacao(true); return; }
