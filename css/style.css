@@ -906,6 +906,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .faq-azul .section-label { color: hsl(205, 90%, 72%); }
 
 /* chamada para conversar com a Eva na primeira tela */
-.hero-try { display: inline-flex; align-items: center; gap: 12px; margin: 26px 0 6px; padding: 0 0 6px; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: .01em; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.45); transition: border-color .2s, color .2s, gap .2s; }
-.hero-try:hover { border-bottom-color: #fff; gap: 18px; }
-.hero-try svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; transform: rotate(-90deg); }
+.hero-try { display: inline-flex; align-items: center; gap: 14px; margin: 30px 0 8px; padding: 0 0 9px; color: #fff; font-size: 20px; font-weight: 700; letter-spacing: -.01em; text-decoration: none; border-bottom: 2px solid var(--accent); transition: gap .2s, border-color .2s; }
+.hero-try:hover { border-bottom-color: #fff; gap: 22px; }
+.hero-try svg { width: 20px; height: 20px; fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: square; transform: rotate(-90deg); transition: stroke .2s; }
+.hero-try:hover svg { stroke: #fff; }
