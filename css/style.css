@@ -894,3 +894,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 /* FAQ dentro da seção Como funciona */
 .faq-bloco { margin-top: 110px; }
 @media (max-width: 815px) { .faq-bloco { margin-top: 76px; } }
+
+/* FAQ em um tom de azul diferente do chamado final, para as duas seções azuis não se confundirem */
+.on-dark.faq-azul { background: hsl(212, 55%, 27%); }
+.faq-azul .section-label { color: hsl(205, 90%, 78%); }
