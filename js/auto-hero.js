@@ -240,7 +240,7 @@
     root.querySelector(".ap-metric-time").textContent = u.mTime;
     root.querySelector(".ap-metric-err").textContent = u.mErr;
     document.getElementById("apMTime").textContent = u.sec;
-    root.querySelector(".ap-note").textContent = u.note;
+    var nota = root.querySelector(".ap-note"); if (nota) nota.textContent = u.note;
   }
 
   /* ---------- execução ---------- */
