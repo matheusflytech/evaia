@@ -159,3 +159,33 @@
 /* armadilha anti-robô: fora da tela e invisível para pessoas */
 .live-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .live-rec-dot { animation: none; } }
+
+/* anexos: clipe, ficha do arquivo escolhido e bolha do cliente com miniatura */
+.live-form { flex-wrap: wrap; }
+.live-attach {
+  flex-shrink: 0; width: 44px; border: 1px solid var(--a-b2); border-radius: 12px; cursor: pointer; display: grid; place-items: center;
+  background: var(--a-s2); color: var(--a-t1); transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.live-attach:hover { border-color: var(--a-accent); background: rgba(91, 141, 239, 0.14); transform: translateY(-1px); }
+.live-attach:disabled { opacity: 0.4; cursor: default; transform: none; }
+.live-attach svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.live-attach[hidden], .live-pend[hidden] { display: none; }
+.live-pend {
+  flex: 0 0 100%; display: flex; align-items: center; gap: 11px; padding: 8px 10px; border-radius: 12px;
+  background: var(--a-s2); border: 1px solid var(--a-b2);
+}
+.live-pend img { width: 42px; height: 42px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.live-pend-ic { width: 42px; height: 42px; border-radius: 8px; flex-shrink: 0; display: grid; place-items: center; background: var(--a-s3); color: var(--a-accent); }
+.live-pend-ic svg, .live-pend-x svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.live-pend-tx { flex: 1; min-width: 0; }
+.live-pend-tx b { display: block; font-size: 13px; font-weight: 600; color: var(--a-t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.live-pend-tx small { font-size: 11.5px; color: var(--a-t3); }
+.live-pend-x { flex-shrink: 0; width: 30px; height: 30px; border: none; border-radius: 8px; background: transparent; color: var(--a-t2); cursor: pointer; display: grid; place-items: center; }
+.live-pend-x:hover { background: var(--a-s3); color: var(--a-t1); }
+.live-thumb { display: block; max-width: 100%; width: 210px; max-height: 190px; object-fit: cover; border-radius: 10px; margin-bottom: 6px; }
+.live-doc { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
+.live-doc svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; color: #1d4ed8; }
+.live-fname { display: block; font-size: 12px; opacity: 0.7; word-break: break-all; }
+.live-cap { display: block; margin-top: 6px; }
+.live-pend { min-width: 0; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+.live-pend-tx { overflow: hidden; }

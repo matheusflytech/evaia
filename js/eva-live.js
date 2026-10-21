@@ -17,6 +17,9 @@
   var recTime = document.getElementById("liveRecTime");
   var recCancel = document.getElementById("liveRecCancel");
   var hp = document.getElementById("liveHp");
+  var attachBtn = document.getElementById("liveAttach");
+  var fileInput = document.getElementById("liveFile");
+  var pendBox = document.getElementById("livePend");
   var chipsBox = document.getElementById("liveChips");
   var stepsEl = document.getElementById("liveSteps");
   var nodesEl = document.getElementById("liveNodes");
@@ -40,7 +43,9 @@
   var acesos = {};
   var MAX_REC_MS = 60000;
   // tetos por visita: protegem o agente contra abuso (o servidor tem os seus próprios limites)
-  var MAX_MSGS = 25, MAX_AUDIOS = 5, enviadas = 0, audios = 0;
+  var MAX_MSGS = 25, MAX_AUDIOS = 5, MAX_ANEXOS = 4, enviadas = 0, audios = 0, anexos = 0;
+  var MAX_DOC_BYTES = 3 * 1024 * 1024, MAX_IMG_ORIGINAL = 15 * 1024 * 1024, ALVO_IMG_BYTES = 1.4 * 1024 * 1024;
+  var pendente = null; // arquivo escolhido, esperando o envio
 
   function lang() { var l = (window.EvaI18n && window.EvaI18n.getLang && window.EvaI18n.getLang()) || "pt"; return l === "en" || l === "es" ? l : "pt"; }
   function pick(o) { return o[lang()] || o.pt; }
@@ -52,7 +57,9 @@
     automacao: "M6 3v12M18 9a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM18 9a9 9 0 01-9 9",
     infra: "M3 5h18v6H3zM3 13h18v6H3zM7 8h.01M7 16h.01",
     crm: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0",
-    equipe: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM22 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"
+    equipe: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM22 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8",
+    arquivo: "M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5M9 13h6M9 17h6",
+    clipe: "M21 11.5l-8.6 8.6a5 5 0 01-7.1-7.1l8.6-8.6a3.4 3.4 0 014.8 4.8l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"
   };
   var NODE_NAMES = {
     canal: { pt: "Canal", en: "Channel", es: "Canal" },
@@ -61,9 +68,10 @@
     automacao: { pt: "Automação", en: "Automation", es: "Automatización" },
     infra: { pt: "Infraestrutura", en: "Infrastructure", es: "Infraestructura" },
     crm: { pt: "CRM", en: "CRM", es: "CRM" },
-    equipe: { pt: "Equipe", en: "Team", es: "Equipo" }
+    equipe: { pt: "Equipe", en: "Team", es: "Equipo" },
+    arquivo: { pt: "Leitura de arquivos", en: "File reading", es: "Lectura de archivos" }
   };
-  var NODE_ORDER = ["canal", "agente", "base", "automacao", "infra", "crm", "equipe"];
+  var NODE_ORDER = ["canal", "agente", "arquivo", "base", "automacao", "infra", "crm", "equipe"];
 
   var UI = {
     pt: {
@@ -77,7 +85,10 @@
       error: "Não consegui responder agora. Tente de novo ou fale com a gente pelo WhatsApp.",
       micError: "Não consegui acessar o microfone. Libere a permissão do navegador ou escreva sua mensagem.",
       errDetail: "Sem resposta do agente", intentWait: "aguardando",
-      limit: "Chegamos ao limite desta demonstração. Para continuar, fale direto com a nossa equipe no WhatsApp."
+      limit: "Chegamos ao limite desta demonstração. Para continuar, fale direto com a nossa equipe no WhatsApp.",
+      attach: "Anexar imagem ou documento", removeAttach: "Remover anexo", file: "Arquivo", caption: "Legenda (opcional)",
+      tooBig: "Esse arquivo passa de 3 MB. Pode mandar um menor?", badType: "Eu leio imagens, PDF, Word (.docx), texto e CSV. Esse formato não dá. Pode mandar em outro?", imgFail: "Não consegui preparar essa imagem. Tente outra ou outro formato (JPG ou PNG).",
+      attachHint: "Descreva ou pergunte algo sobre o arquivo (opcional)"
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
@@ -90,7 +101,10 @@
       error: "I couldn't answer right now. Try again or reach us on WhatsApp.",
       micError: "I couldn't access the microphone. Allow it in your browser or type your message.",
       errDetail: "No answer from the agent", intentWait: "waiting",
-      limit: "We've reached this demo's limit. To keep going, talk to our team directly on WhatsApp."
+      limit: "We've reached this demo's limit. To keep going, talk to our team directly on WhatsApp.",
+      attach: "Attach an image or document", removeAttach: "Remove attachment", file: "File", caption: "Caption (optional)",
+      tooBig: "That file is over 3 MB. Could you send a smaller one?", badType: "I can read images, PDF, Word (.docx), text and CSV. That format won't work. Could you send another?", imgFail: "I couldn't prepare that image. Try another one or a different format (JPG or PNG).",
+      attachHint: "Describe or ask something about the file (optional)"
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
@@ -103,7 +117,10 @@
       error: "No pude responder ahora. Inténtalo de nuevo o escríbenos por WhatsApp.",
       micError: "No pude acceder al micrófono. Permítelo en el navegador o escribe tu mensaje.",
       errDetail: "Sin respuesta del agente", intentWait: "esperando",
-      limit: "Llegamos al límite de esta demostración. Para continuar, habla directamente con nuestro equipo por WhatsApp."
+      limit: "Llegamos al límite de esta demostración. Para continuar, habla directamente con nuestro equipo por WhatsApp.",
+      attach: "Adjuntar imagen o documento", removeAttach: "Quitar adjunto", file: "Archivo", caption: "Leyenda (opcional)",
+      tooBig: "Ese archivo supera los 3 MB. ¿Puedes enviar uno más pequeño?", badType: "Leo imágenes, PDF, Word (.docx), texto y CSV. Ese formato no funciona. ¿Puedes enviar otro?", imgFail: "No pude preparar esa imagen. Prueba con otra o con otro formato (JPG o PNG).",
+      attachHint: "Describe o pregunta algo sobre el archivo (opcional)"
     }
   };
 
@@ -140,6 +157,12 @@
       step: { t: { pt: "Montando o escopo do produto", en: "Building the product scope", es: "Armando el alcance del producto" }, d: { pt: "Páginas, painel e integrações", en: "Pages, admin panel and integrations", es: "Páginas, panel e integraciones" } },
       nodes: { 5: ["infra"], 6: ["equipe"] } }
   ];
+  var ANEXO = {
+    id: "anexo",
+    label: { pt: "Análise de arquivo", en: "File analysis", es: "Análisis de archivo" },
+    step: { t: { pt: "Interpretando o conteúdo do arquivo", en: "Interpreting the file's content", es: "Interpretando el contenido del archivo" }, d: { pt: "Cruzando o que foi lido com o seu contexto", en: "Matching what was read with your context", es: "Cruzando lo leído con tu contexto" } },
+    nodes: { 5: [], 6: ["crm", "equipe"] }
+  };
   var GENERAL = {
     id: "geral",
     label: { pt: "Conversa geral", en: "General conversation", es: "Conversación general" },
@@ -190,6 +213,7 @@
     input.placeholder = u.placeholder;
     sendBtn.setAttribute("aria-label", u.send);
     if (micBtn) micBtn.setAttribute("aria-label", u.mic);
+    if (attachBtn) attachBtn.setAttribute("aria-label", u.attach);
     if (recCancel) recCancel.setAttribute("aria-label", u.cancel);
     buildNodes();
   }
@@ -211,6 +235,7 @@
   }
   function reset() {
     cancelaGravacao();
+    if (pendente) limpaPendente();
     runId++; busy = false;
     body.innerHTML = "";
     var m = document.createElement("div");
@@ -226,6 +251,7 @@
     busy = v;
     input.disabled = v; sendBtn.disabled = v;
     if (micBtn) micBtn.disabled = v;
+    if (attachBtn) attachBtn.disabled = v;
     [].slice.call(chipsBox.children).forEach(function (c) { c.disabled = v; });
   }
 
@@ -385,6 +411,8 @@
     recBar.hidden = !on;
     input.hidden = on;
     if (micBtn) micBtn.hidden = on;
+    if (attachBtn) attachBtn.hidden = on;
+    if (on && pendente) limpaPendente();
     if (recCancel) recCancel.hidden = !on;
   }
 
@@ -498,6 +526,132 @@
   }
   var ICONS_MIC = "M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM19 11a7 7 0 01-14 0M12 18v3";
 
+  // ---- anexos: imagem, PDF, Word, texto e CSV ----
+  var EXT_MIME = { pdf: "application/pdf", txt: "text/plain", csv: "text/csv", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif" };
+  var LEGIVEIS = { "application/pdf": 1, "text/plain": 1, "text/csv": 1, "application/vnd.openxmlformats-officedocument.wordprocessingml.document": 1 };
+  function mimeDe(file) {
+    if (file.type) return file.type;
+    var ext = (file.name.split(".").pop() || "").toLowerCase();
+    return EXT_MIME[ext] || "";
+  }
+  function fmtTam(b) { return b >= 1048576 ? (b / 1048576).toFixed(1).replace(".", lang() === "en" ? "." : ",") + " MB" : Math.max(1, Math.round(b / 1024)) + " KB"; }
+
+  // foto de celular pesa vários MB: reduz no navegador (1600 px, JPEG) antes de enviar. Mais rápido, mais barato e dentro do limite do servidor.
+  async function prepararImagem(file) {
+    var bmp = await createImageBitmap(file);
+    var lado = 1600;
+    for (var tentativa = 0; tentativa < 4; tentativa++) {
+      var esc = Math.min(1, lado / Math.max(bmp.width, bmp.height));
+      var c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(bmp.width * esc)); c.height = Math.max(1, Math.round(bmp.height * esc));
+      var g = c.getContext("2d");
+      g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+      g.drawImage(bmp, 0, 0, c.width, c.height);
+      var qualidade = [0.82, 0.74, 0.66, 0.58][tentativa];
+      var blob = await new Promise(function (r) { c.toBlob(r, "image/jpeg", qualidade); });
+      if (blob && blob.size <= ALVO_IMG_BYTES) { if (bmp.close) bmp.close(); return blob; }
+      lado = Math.round(lado * 0.8);
+    }
+    if (bmp.close) bmp.close();
+    return blob;
+  }
+
+  function limpaPendente() {
+    if (pendente && pendente.thumb) URL.revokeObjectURL(pendente.thumb);
+    pendente = null; fileInput.value = "";
+    pendBox.hidden = true; pendBox.innerHTML = "";
+    input.placeholder = UI[lang()].placeholder;
+  }
+  function mostraPendente() {
+    var u = UI[lang()];
+    pendBox.hidden = false;
+    var visual = pendente.thumb ? '<img src="' + pendente.thumb + '" alt="">' : '<span class="live-pend-ic">' + svg(ICONS.arquivo) + "</span>";
+    pendBox.innerHTML = visual + '<span class="live-pend-tx"><b></b><small></small></span><button type="button" class="live-pend-x" aria-label="' + u.removeAttach + '">' + svg("M6 6l12 12M18 6L6 18") + "</button>";
+    pendBox.querySelector("b").textContent = pendente.nome;
+    pendBox.querySelector("small").textContent = fmtTam(pendente.bytes);
+    pendBox.querySelector(".live-pend-x").addEventListener("click", limpaPendente);
+    input.placeholder = u.attachHint;
+    try { input.focus({ preventScroll: true }); } catch (e) {}
+  }
+
+  async function escolheuArquivo() {
+    var file = fileInput.files && fileInput.files[0];
+    if (!file || busy) return;
+    var u = UI[lang()];
+    var mime = mimeDe(file);
+    var ehImagem = mime.indexOf("image/") === 0;
+    if (!ehImagem && !LEGIVEIS[mime]) { addMsg("bot", u.badType, true); fileInput.value = ""; return; }
+    if (!ehImagem && file.size > MAX_DOC_BYTES) { addMsg("bot", u.tooBig, true); fileInput.value = ""; return; }
+    if (ehImagem && file.size > MAX_IMG_ORIGINAL) { addMsg("bot", u.tooBig, true); fileInput.value = ""; return; }
+    limpaPendente();
+    var blob = file, mimeFinal = mime, nome = file.name;
+    if (ehImagem) {
+      try {
+        blob = await prepararImagem(file); mimeFinal = "image/jpeg";
+        if (!blob) throw new Error("vazio");
+      } catch (e) {
+        // formato que o navegador não abre (ex.: HEIC fora do Safari): só segue se couber no limite
+        if (file.size > MAX_DOC_BYTES) { addMsg("bot", u.imgFail, true); fileInput.value = ""; return; }
+        blob = file; mimeFinal = mime;
+      }
+    }
+    pendente = { blob: blob, mime: mimeFinal, nome: nome, bytes: blob.size, imagem: ehImagem, thumb: ehImagem ? URL.createObjectURL(blob) : null };
+    mostraPendente();
+  }
+
+  async function enviarAnexo(legenda) {
+    if (busy || !pendente) return;
+    var u = UI[lang()];
+    if (enviadas >= MAX_MSGS || anexos >= MAX_ANEXOS) { addMsg("bot", u.limit, true); return; }
+    enviadas++; anexos++;
+    var arq = pendente; pendente = null;
+    pendBox.hidden = true; pendBox.innerHTML = ""; fileInput.value = ""; input.placeholder = u.placeholder;
+    var id = ++runId;
+    setBusy(true);
+    chipsBox.hidden = true;
+    legenda = (legenda || "").trim().slice(0, 500);
+    input.value = "";
+
+    // bolha do cliente: miniatura da imagem ou ficha do documento, mais a legenda
+    var bolha = addMsg("user", "", true);
+    var visual = arq.imagem ? '<img class="live-thumb" src="' + arq.thumb + '" alt="">' : '<span class="live-doc">' + svg(ICONS.arquivo) + "<span></span></span>";
+    bolha.innerHTML = visual + '<span class="live-fname"></span>' + (legenda ? '<span class="live-cap"></span>' : "");
+    bolha.querySelector(".live-fname").textContent = arq.nome + " · " + fmtTam(arq.bytes);
+    if (legenda) bolha.querySelector(".live-cap").textContent = legenda;
+    if (!arq.imagem) bolha.querySelector(".live-doc span").textContent = u.file;
+    body.scrollTop = body.scrollHeight;
+
+    var intent = legenda ? detect(legenda) : ANEXO;
+    if (legenda && intent === GENERAL) intent = ANEXO;
+    var leitura = arq.imagem
+      ? { t: { pt: "Lendo a imagem", en: "Reading the image", es: "Leyendo la imagen" }, d: { pt: "Visão computacional: descreve a cena e lê o texto que aparece", en: "Computer vision: describes the scene and reads visible text", es: "Visión por computadora: describe la escena y lee el texto visible" }, nodes: ["arquivo"] }
+      : { t: { pt: "Extraindo o texto do documento", en: "Extracting the document's text", es: "Extrayendo el texto del documento" }, d: { pt: "PDF, Word, texto ou CSV", en: "PDF, Word, text or CSV", es: "PDF, Word, texto o CSV" }, nodes: ["arquivo"] };
+    var recebido = { t: { pt: "Arquivo recebido", en: "File received", es: "Archivo recibido" }, d: { pt: "Canal: site, " + arq.nome + " (" + fmtTam(arq.bytes) + ")", en: "Channel: website, " + arq.nome + " (" + fmtTam(arq.bytes) + ")", es: "Canal: sitio web, " + arq.nome + " (" + fmtTam(arq.bytes) + ")" }, nodes: ["canal"] };
+    var resto = stepsFor(intent, legenda || arq.nome, true);
+    // o último passo do CRM de um anexo é guardar o arquivo para a equipe
+    resto.forEach(function (st) { if (st.t === CRM_STEP.t) { st.t = { pt: "Guardando o arquivo para a equipe", en: "Saving the file for the team", es: "Guardando el archivo para el equipo" }; st.d = { pt: "Disponível na caixa de entrada", en: "Available in the inbox", es: "Disponible en la bandeja de entrada" }; } });
+    var steps = [recebido, leitura].concat(resto);
+    renderSteps(steps); limpaNodes();
+    mResp.textContent = "…"; mResp.classList.remove("is-up");
+    mIntent.textContent = pick(intent.label); mSteps.textContent = "0/" + steps.length; mSys.textContent = "0";
+
+    var tTyping = typing();
+    var base64 = "";
+    try { base64 = await blobParaBase64(arq.blob); } catch (e) { tTyping.remove(); return falha(u, 0); }
+    var payload = { attachment: { base64: base64, mime: arq.mime, name: arq.nome } };
+    if (legenda) payload.text = legenda;
+    var promessa = pedir(payload).then(function (r) { return { ok: true, r: r }; }, function (e) { return { ok: false, e: e }; });
+
+    if (!(await andar(steps, 0, steps.length - 1, id, 560))) return;
+    var ultimo = steps.length - 1;
+    marca(ultimo, "is-run");
+    var resultado = await promessa;
+    if (id !== runId) return;
+    tTyping.remove();
+    if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) return falha(u, ultimo);
+    await entregar(resultado, id, steps, ultimo);
+  }
+
   async function enviarOpcao(op) {
     if (busy) return;
     setBusy(true);
@@ -515,6 +669,7 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (mr) { paraGravacao(true); return; }
+    if (pendente) { enviarAnexo(input.value); return; }
     enviar(input.value);
   });
   var podeGravar = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
@@ -523,6 +678,10 @@
     else micBtn.addEventListener("click", iniciaGravacao);
   }
   if (recCancel) recCancel.addEventListener("click", cancelaGravacao);
+  if (attachBtn && fileInput) {
+    attachBtn.addEventListener("click", function () { if (!busy) fileInput.click(); });
+    fileInput.addEventListener("change", escolheuArquivo);
+  }
   document.addEventListener("evalangchange", reset);
   reset();
 })();
