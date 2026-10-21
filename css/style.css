@@ -498,9 +498,9 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   background: var(--accent);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
   box-shadow: 0 14px 34px -8px hsla(210, 80%, 55%, 0.55);
-  transition: transform .25s ease;
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
 }
-.chat-fab:hover { transform: scale(1.06); }
+.chat-fab:hover { background: hsl(215, 80%, 32%); transform: scale(1.08); box-shadow: 0 0 0 6px hsla(210, 85%, 55%, 0.22), 0 0 34px 4px hsla(210, 90%, 60%, 0.6), 0 14px 34px -8px hsla(215, 80%, 25%, 0.8); }
 .chat-fab svg { stroke: #fff; }
 
 .chat-panel {
