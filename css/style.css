@@ -166,7 +166,7 @@ main, .site-header, .site-footer, .marquee { position: relative; z-index: 2; }
 
 /* ===== Hero (always dark, canvas) ===== */
 .hero {
-  min-height: 100svh; display: flex; align-items: center; position: relative;
+  min-height: 100vh; min-height: 100lvh; display: flex; align-items: center; position: relative;
   padding: 140px 40px 80px;
   overflow: hidden;
   background: var(--gradient-dark);
