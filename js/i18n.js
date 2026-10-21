@@ -65,7 +65,7 @@
 
       "sobre.label": "Who is Eva",
       "sobre.title": "We're not an agency.<br>We're the <em>tech team</em><br>your company doesn't have.",
-      "sobre.text": "Eva Holding was born to eliminate the distance between a good idea and a system running in production. We bring together software engineering, data science and design in a lean structure, capable of taking off the ground and keeping in the air what large tech companies take years to build.",
+      "sobre.text": "We exist to close the distance between a good idea and a system running in production, bringing together software engineering, data science and design in a lean structure.",
       "sobre.stat1": "integrated verticals",
       "sobre.stat2": "AI-assisted operation",
       "sobre.stat3": "team, from design to deploy",
@@ -378,7 +378,7 @@
 
       "sobre.label": "Quién es Eva",
       "sobre.title": "No somos una agencia.<br>Somos el <em>equipo de tecnología</em><br>que su empresa no tiene.",
-      "sobre.text": "Eva Holding nació para eliminar la distancia entre una buena idea y un sistema funcionando en producción. Reunimos ingeniería de software, ciencia de datos y diseño en una estructura ágil, capaz de despegar y mantener en el aire lo que las grandes empresas de tecnología tardan años en construir.",
+      "sobre.text": "Nacimos para eliminar la distancia entre una buena idea y un sistema funcionando en producción, uniendo ingeniería de software, ciencia de datos y diseño en una estructura ágil.",
       "sobre.stat1": "verticales integradas",
       "sobre.stat2": "operación asistida por IA",
       "sobre.stat3": "equipo, del diseño al despliegue",
