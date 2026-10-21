@@ -890,3 +890,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .demo-claro .crm-steps li.is-active { color: #fff; }
 .demo-claro .crm-steps li.is-active i { background: #fff; }
 .demo-claro .crm-chat, .demo-claro .crm-window, .demo-claro .eai-panel, .demo-claro .auto-panel { box-shadow: 0 18px 50px rgba(10, 16, 32, 0.18); }
+
+/* FAQ dentro da seção Como funciona */
+.faq-bloco { margin-top: 110px; }
+@media (max-width: 815px) { .faq-bloco { margin-top: 76px; } }
