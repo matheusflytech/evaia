@@ -944,3 +944,11 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 @keyframes hero-rec-blink { 50% { opacity: .3; } }
 @media (prefers-reduced-motion: reduce) { .hero-rec-dot { animation: none; } }
 @media (max-width: 520px) { .hero-ask-ico { width: 40px; } }
+
+/* título da primeira tela em 3 linhas no celular: "Construímos / o motor digital / do futuro" */
+.so-mob { display: none; }
+@media (max-width: 640px) {
+  .so-mob { display: inline; }
+  .so-desk { display: none; }
+  .hero-title { font-size: clamp(30px, 10.6vw, 56px); }
+}

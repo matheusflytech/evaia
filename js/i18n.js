@@ -37,8 +37,8 @@
 
       "hero.eyebrow": "Technology Holding",
       "hero.title1": "We build",
-      "hero.title2": "the digital",
-      "hero.title3": "engine of the <em>future</em>",
+      "hero.title2": "the digital<span class=\"so-mob\"> engine</span>",
+      "hero.title3": "<span class=\"so-desk\">engine </span>of the <em>future</em>",
       "sobre.lead": "Eva Holding brings together products, teams and technology under one purpose: transforming entire operations through software, artificial intelligence and infrastructure built to fit.",
       "hero.try": "Chat with Eva live, right now",
       "hero.explore": "Explore",
@@ -350,8 +350,8 @@
 
       "hero.eyebrow": "Holding de Tecnología",
       "hero.title1": "Construimos",
-      "hero.title2": "el motor",
-      "hero.title3": "digital del <em>futuro</em>",
+      "hero.title2": "el motor<span class=\"so-mob\"> digital</span>",
+      "hero.title3": "<span class=\"so-desk\">digital </span>del <em>futuro</em>",
       "sobre.lead": "Eva Holding reúne productos, equipos y tecnología bajo un mismo propósito: transformar operaciones enteras a través de software, inteligencia artificial e infraestructura a medida.",
       "hero.try": "Conversa con Eva en vivo, ahora",
       "hero.explore": "Explorar",
