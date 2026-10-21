@@ -896,5 +896,5 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 @media (max-width: 815px) { .faq-bloco { margin-top: 76px; } }
 
 /* FAQ em um tom de azul diferente do chamado final, para as duas seções azuis não se confundirem */
-.on-dark.faq-azul { background: hsl(212, 55%, 27%); }
-.faq-azul .section-label { color: hsl(205, 90%, 78%); }
+.on-dark.faq-azul { background: hsl(214, 50%, 16%); }
+.faq-azul .section-label { color: hsl(205, 90%, 72%); }
