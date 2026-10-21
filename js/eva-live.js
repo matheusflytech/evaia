@@ -691,6 +691,21 @@
   // campo da primeira tela: leva a pergunta para a vitrine e envia
   var heroAsk = document.getElementById("heroAsk");
   if (heroAsk) {
+    // texto de exemplo que se digita sozinho, alternando as perguntas; para quando a pessoa usa o campo
+    var campoAsk = document.getElementById("heroAskInput");
+    var semMov = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var digitando = !semMov, idxS = 0, pos = 0, apagando = false;
+    var parar = function () { digitando = false; campoAsk.placeholder = UI[lang()].askPh; };
+    campoAsk.addEventListener("focus", parar);
+    campoAsk.addEventListener("input", parar);
+    (function passo() {
+      if (!digitando) return;
+      var lista = UI[lang()].askS, t = lista[idxS % lista.length], espera = apagando ? 28 : 55;
+      if (!apagando) { pos++; if (pos >= t.length) { apagando = true; espera = 1800; } }
+      else { pos--; if (pos <= 0) { apagando = false; idxS++; espera = 400; } }
+      campoAsk.placeholder = t.slice(0, Math.max(pos, 0)) + (pos > 0 ? "|" : "");
+      setTimeout(passo, espera);
+    })();
     heroAsk.addEventListener("submit", function (e) {
       e.preventDefault();
       var campo = document.getElementById("heroAskInput");

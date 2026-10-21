@@ -915,14 +915,16 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .hero-ask { margin: 34px 0 6px; width: min(620px, 100%); }
 .hero-ask label { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; color: #9dbdff; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
 .hero-ask label::before { content: ""; width: 28px; height: 1px; background: currentColor; }
-.hero-ask-row { display: flex; box-shadow: 0 22px 46px -18px rgba(0, 0, 0, 0.65); }
-.hero-ask input { flex: 1; min-width: 0; height: 62px; padding: 0 22px; border: 0; border-radius: 4px 0 0 4px; background: #fff; color: #0b1530; font: inherit; font-size: 17px; outline: none; }
-.hero-ask input::placeholder { color: #6b7691; }
-.hero-ask-row:focus-within { box-shadow: 0 0 0 3px hsla(210, 80%, 55%, 0.45), 0 22px 46px -18px rgba(0, 0, 0, 0.65); }
-.hero-ask button[type="submit"] { display: inline-flex; align-items: center; gap: 10px; height: 62px; padding: 0 26px; border: 0; border-radius: 0 4px 4px 0; background: var(--accent); color: #fff; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, gap .2s; }
-.hero-ask button[type="submit"] svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: square; }
-.hero-ask button[type="submit"]:hover { background: hsl(215, 80%, 40%); gap: 14px; }
+.hero-ask-row { display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 14px; background: rgba(6, 12, 28, 0.82); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 16px; box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.7); transition: border-color .2s, box-shadow .2s; }
+.hero-ask-row:focus-within { border-color: #5b8dff; box-shadow: 0 0 0 3px rgba(91, 141, 255, 0.25), 0 24px 50px -20px rgba(0, 0, 0, 0.7); }
+.hero-ask-av { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #5b8def, #34d399); color: #06101f; font-weight: 800; font-size: 14px; font-family: var(--font-display); }
+.hero-ask input { flex: 1; min-width: 0; height: 46px; padding: 0; border: 0; background: transparent; color: #fff; font: inherit; font-size: 17px; outline: none; }
+.hero-ask input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.hero-ask button[type="submit"] { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 20px; border: 0; border-radius: 11px; background: var(--accent); color: #fff; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+.hero-ask button[type="submit"] svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
+.hero-ask button[type="submit"]:hover { background: hsl(215, 85%, 48%); }
+.hero-ask button[type="submit"]:hover svg { transform: translateX(3px); }
 .hero-ask-sug { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 16px; }
 .hero-ask-sug button { padding: 0 0 3px; border: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.35); background: none; color: rgba(255, 255, 255, 0.82); font: inherit; font-size: 14px; cursor: pointer; transition: color .2s, border-color .2s; }
 .hero-ask-sug button:hover { color: #fff; border-bottom-color: #fff; }
-@media (max-width: 520px) { .hero-ask label { font-size: 11px; letter-spacing: .1em; gap: 0; white-space: nowrap; } .hero-ask label::before { display: none; } .hero-ask input { height: 56px; padding: 0 16px; font-size: 16px; } .hero-ask button[type="submit"] { height: 56px; padding: 0 18px; } }
+@media (max-width: 520px) { .hero-ask label { font-size: 11px; letter-spacing: .1em; gap: 0; white-space: nowrap; } .hero-ask label::before { display: none; } .hero-ask-row { gap: 10px; padding: 7px 7px 7px 12px; } .hero-ask-av { width: 32px; height: 32px; } .hero-ask input { font-size: 16px; } .hero-ask button[type="submit"] { width: 46px; padding: 0; } .hero-ask button[type="submit"] span { display: none; } }
