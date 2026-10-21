@@ -852,3 +852,41 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 
 .team-grid { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 860px) { .team-grid { grid-template-columns: 1fr; gap: 18px; } }
+
+/* ===== alternância branco e azul entre as seções ===== */
+/* lista de processo e FAQ em fundo claro / escuro */
+.on-light .proc-item { border-bottom-color: var(--line-light); }
+.on-light .proc-item:first-child { border-top-color: var(--line-light); }
+.on-light .proc-num { color: var(--accent); }
+.on-light .proc-item h3 { color: var(--ink-d900); }
+.on-light .proc-item p { color: var(--ink-d500); }
+.on-dark .faq-list { border-top-color: var(--line); }
+.on-dark .faq-item { border-bottom-color: var(--line); }
+.on-dark .faq-q { color: var(--ink-100); }
+.on-dark .faq-icn { border-color: var(--line); color: var(--accent-2); }
+.on-dark .faq-a p { color: var(--ink-300); }
+.on-dark .faq-item.open .faq-icn { color: #fff; }
+/* chamado final em fundo claro */
+.cta.on-light .cta-title { color: var(--ink-d900); }
+.cta.on-light .cta-lead { color: var(--ink-d500); }
+.cta.on-light .cta-alt a { color: var(--ink-d500); }
+.cta.on-light .cta-alt a:hover { color: var(--accent); }
+
+/* simuladores em fundo branco: o texto em volta escurece, as janelas continuam escuras */
+.eai-demo.demo-claro, .crm-demo.demo-claro { background: var(--bg-light); }
+.crm-demo.demo-claro::before, .eai-demo.demo-claro::before { display: none; }
+.demo-claro .crm-demo-head, .demo-claro .eai-head, .demo-claro .crm-steps, .demo-claro .crm-note {
+  --a-t1: rgba(10, 16, 32, 0.92);
+  --a-t2: rgba(10, 16, 32, 0.66);
+  --a-t3: rgba(10, 16, 32, 0.5);
+  --a-b1: rgba(10, 16, 32, 0.08);
+  --a-b2: rgba(10, 16, 32, 0.16);
+  --a-b3: rgba(10, 16, 32, 0.24);
+  --a-ice: #0a1020;
+  --a-ice-soft: rgba(10, 16, 32, 0.06);
+  --a-ice-border: rgba(10, 16, 32, 0.32);
+}
+.crm-demo.demo-claro .eyebrow, .eai-demo.demo-claro .eyebrow { color: var(--accent); }
+.demo-claro .crm-steps li.is-active { color: #fff; }
+.demo-claro .crm-steps li.is-active i { background: #fff; }
+.demo-claro .crm-chat, .demo-claro .crm-window, .demo-claro .eai-panel, .demo-claro .auto-panel { box-shadow: 0 18px 50px rgba(10, 16, 32, 0.18); }
