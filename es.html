@@ -34,7 +34,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="icon" href="/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/css/style.css?v=46">
+  <link rel="stylesheet" href="/css/style.css?v=47">
   <link rel="stylesheet" href="/css/crm-demo.css?v=5">
   <link rel="stylesheet" href="/css/eva-ai-demo.css?v=3">
   <link rel="stylesheet" href="/css/eva-live.css?v=10">
@@ -141,6 +141,9 @@
           <div class="hero-ask-row">
             <span class="hero-ask-av" aria-hidden="true"><img src="/assets/logo-crisp.png" alt=""></span>
             <input id="heroAskInput" type="text" maxlength="500" placeholder="Pergunte algo sobre a Eva" aria-label="Pergunte à Eva">
+            <div class="hero-rec" id="heroRec" hidden><span class="hero-rec-dot"></span><span id="heroRecLbl">Gravando</span><span class="hero-rec-time" id="heroRecTime">0:00</span></div>
+            <button type="button" class="hero-ask-ico" id="heroAskMic" aria-label="Gravar áudio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM19 11a7 7 0 01-14 0M12 18v3"/></svg></button>
+            <button type="button" class="hero-ask-ico" id="heroAskCancel" aria-label="Cancelar gravação" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
             <button type="submit" id="heroAskBtn"><span>Enviar</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
           <div class="hero-ask-sug" id="heroAskSug"></div>
@@ -561,7 +564,7 @@
   <script src="/js/i18n.js?v=9"></script>
   <script src="/js/eva-ai-demo.js?v=4"></script>
   <script src="/js/crm-demo.js?v=5"></script>
-  <script src="/js/eva-live.js?v=13"></script>
+  <script src="/js/eva-live.js?v=14"></script>
   <script src="/js/auto-hero.js?v=12"></script>
   <script>
     // "Falar com a Eva agora" abre o mesmo balão de chat do canto da tela

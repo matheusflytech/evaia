@@ -76,7 +76,7 @@
   var UI = {
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
-      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", askS: ["Quanto custa um agente de IA?", "Preciso de um site novo", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
+      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", heroRec: "Gravando", askS: ["Quanto custa um agente de IA?", "Preciso de um site novo", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
       recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
       greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
@@ -92,7 +92,7 @@
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
-      nudge: "Your turn: type here", askPh: "Ask Eva anything", askS: ["How much does an AI agent cost?", "I need a new website", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
+      nudge: "Your turn: type here", askPh: "Ask Eva anything", heroRec: "Recording", askS: ["How much does an AI agent cost?", "I need a new website", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
       recording: "Recording", voice: "Voice message", youSaid: "You said",
       greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
@@ -108,7 +108,7 @@
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
-      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", askS: ["¿Cuánto cuesta un agente de IA?", "Necesito un sitio web nuevo", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
+      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", heroRec: "Grabando", askS: ["¿Cuánto cuesta un agente de IA?", "Necesito un sitio web nuevo", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
       recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
       greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
@@ -215,6 +215,10 @@
     var askIn = document.getElementById("heroAskInput"), askBtn = document.getElementById("heroAskBtn");
     if (askIn) askIn.placeholder = u.askPh;
     if (askBtn) askBtn.querySelector("span").textContent = u.askBtn;
+    var hMic = document.getElementById("heroAskMic"), hCan = document.getElementById("heroAskCancel"), hLbl = document.getElementById("heroRecLbl");
+    if (hMic) hMic.setAttribute("aria-label", u.mic);
+    if (hCan) hCan.setAttribute("aria-label", u.cancel);
+    if (hLbl) hLbl.textContent = u.heroRec;
     var askSug = document.getElementById("heroAskSug");
     if (askSug) {
       askSug.innerHTML = "";
@@ -706,8 +710,49 @@
       campoAsk.placeholder = t.slice(0, Math.max(pos, 0)) + (pos > 0 ? "|" : "");
       setTimeout(passo, espera);
     })();
+    // áudio na primeira tela: grava aqui e manda para a vitrine, que transcreve e responde
+    var hMic = document.getElementById("heroAskMic"), hCan = document.getElementById("heroAskCancel");
+    var hRecEl = document.getElementById("heroRec"), hRecTime = document.getElementById("heroRecTime");
+    var hMr = null, hChunks = [], hStart = 0, hTimer = null, hStream = null, hCancel = false;
+    function hMostra(on) {
+      heroAsk.classList.toggle("is-rec", on);
+      hRecEl.hidden = !on; campoAsk.hidden = on; hMic.hidden = on; hCan.hidden = !on;
+    }
+    function hParar(enviarAgora) {
+      if (!hMr) return;
+      clearInterval(hTimer); hTimer = null; hCancel = !enviarAgora;
+      hMostra(false);
+      try { hMr.stop(); } catch (e) {}
+    }
+    async function hIniciar() {
+      if (hMr) return;
+      parar();
+      try { hStream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e) { return; }
+      try { hMr = new MediaRecorder(hStream); } catch (e) { hStream.getTracks().forEach(function (t) { t.stop(); }); return; }
+      hChunks = []; hCancel = false;
+      hMr.ondataavailable = function (e) { if (e.data && e.data.size) hChunks.push(e.data); };
+      hMr.onstop = function () {
+        if (hStream) hStream.getTracks().forEach(function (t) { t.stop(); });
+        var dur = Date.now() - hStart, tipo = (hMr && hMr.mimeType) || "audio/webm", cancelado = hCancel;
+        hMr = null; hStream = null;
+        if (cancelado || !hChunks.length) return;
+        var blob = new Blob(hChunks, { type: tipo });
+        document.getElementById("ao-vivo").scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(function () { enviarAudio(blob, dur); }, 500);
+      };
+      hMr.start(); hStart = Date.now(); hMostra(true); hRecTime.textContent = "0:00";
+      hTimer = setInterval(function () {
+        var d = Date.now() - hStart;
+        hRecTime.textContent = fmtDur(d);
+        if (d >= MAX_REC_MS) hParar(true);
+      }, 200);
+    }
+    if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder)) hMic.hidden = true;
+    else hMic.addEventListener("click", hIniciar);
+    hCan.addEventListener("click", function () { hParar(false); });
     heroAsk.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (hMr) { hParar(true); return; }
       var campo = document.getElementById("heroAskInput");
       var txt = campo.value.trim();
       document.getElementById("ao-vivo").scrollIntoView({ behavior: "smooth", block: "start" });
