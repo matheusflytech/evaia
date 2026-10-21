@@ -224,6 +224,9 @@
     var DRAFT_KEY = "eva_chat_draft";
     var OPEN_KEY = "eva_chat_open";
 
+    // a vitrine "Eva ao vivo" reaproveita o formatador de respostas e o endereço do mesmo agente
+    window.EvaChatUtil = { renderMarkdown: renderMarkdown, webhook: WEBHOOK_URL };
+
     var sessionId = sessionStorage.getItem(SESSION_KEY);
     if (!sessionId) {
       sessionId = "site-" + Math.random().toString(36).slice(2);

@@ -1,0 +1,138 @@
+/* ===== Eva ao vivo: conversa de verdade + o que acontece por trás =====
+   Mesma linguagem dos simuladores (janelas escuras com bordas translúcidas, azul só nos
+   destaques). A conversa é real (mesmo agente do balão); o painel da direita mostra, para cada
+   mensagem, as etapas que o agente percorre. O tempo de resposta é medido de verdade. */
+
+.eva-live .live-stage { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 22px; align-items: stretch; }
+
+/* ---- conversa ---- */
+.live-chat {
+  display: flex; flex-direction: column; min-height: 590px; max-height: 620px;
+  background: var(--a-bg); border: 1px solid var(--a-b2); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 18px 50px rgba(10, 16, 32, 0.22);
+}
+.live-chat-top { display: flex; align-items: center; gap: 11px; padding: 14px 16px; background: var(--a-s2); border-bottom: 1px solid var(--a-b1); }
+.live-avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+  background: linear-gradient(135deg, #5b8def, #34d399); color: #06101f; font-weight: 800; font-size: 14px; font-family: var(--font-display);
+}
+.live-chat-top b { display: block; font-size: 14px; color: var(--a-t1); font-weight: 600; }
+.live-chat-top span.live-sub { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--a-t3); }
+.live-sub i { width: 7px; height: 7px; border-radius: 50%; background: var(--a-ok); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); animation: live-pulse 2s ease-out infinite; }
+@keyframes live-pulse { 0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); } 100% { box-shadow: 0 0 0 9px rgba(52, 211, 153, 0); } }
+
+.live-body {
+  flex: 1; overflow-y: auto; padding: 16px 14px; display: flex; flex-direction: column; gap: 9px; scroll-behavior: smooth;
+  scrollbar-width: thin; scrollbar-color: var(--a-b3) transparent;
+}
+.live-msg { max-width: 88%; padding: 10px 14px; border-radius: 15px; font-size: 14px; line-height: 1.5; opacity: 0; transform: translateY(8px); animation: live-in 0.35s ease forwards; word-wrap: break-word; }
+.live-msg--user { align-self: flex-end; background: var(--a-ice); color: #111; border-bottom-right-radius: 4px; }
+.live-msg--bot { align-self: flex-start; background: var(--a-s3); color: var(--a-t1); border: 1px solid var(--a-b1); border-bottom-left-radius: 4px; }
+.live-msg--bot strong { color: #fff; }
+.live-msg--bot a { color: #9db8f6; text-decoration: underline; text-underline-offset: 2px; }
+.live-msg--bot p { margin: 0 0 6px; } .live-msg--bot p:last-child { margin-bottom: 0; }
+.live-msg--bot ul { margin: 4px 0 6px 16px; padding: 0; list-style: disc; }
+.live-msg--bot .chat-table-wrap { overflow-x: auto; }
+.live-msg--bot table { border-collapse: collapse; font-size: 12.5px; }
+.live-msg--bot th, .live-msg--bot td { border: 1px solid var(--a-b2); padding: 4px 8px; text-align: left; }
+@keyframes live-in { to { opacity: 1; transform: none; } }
+.live-typing { align-self: flex-start; display: flex; gap: 4px; padding: 13px 15px; background: var(--a-s3); border: 1px solid var(--a-b1); border-radius: 15px; border-bottom-left-radius: 4px; }
+.live-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--a-t2); animation: live-dot 1s ease-in-out infinite; }
+.live-typing i:nth-child(2) { animation-delay: 0.15s; } .live-typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes live-dot { 0%, 100% { opacity: 0.3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+
+.live-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 14px 12px; }
+.live-chip {
+  font-family: inherit; font-size: 12.5px; color: var(--a-t1); background: var(--a-s2); border: 1px solid var(--a-b2);
+  border-radius: 999px; padding: 7px 12px; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.2s; text-align: left;
+}
+.live-chip:hover { border-color: var(--a-accent); background: rgba(91, 141, 239, 0.14); transform: translateY(-1px); }
+.live-chip:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+.live-form { display: flex; gap: 8px; padding: 12px 14px 14px; border-top: 1px solid var(--a-b1); background: var(--a-s1); }
+.live-input {
+  flex: 1; min-width: 0; font-family: inherit; font-size: 14px; color: var(--a-t1); background: var(--a-s2);
+  border: 1px solid var(--a-b2); border-radius: 12px; padding: 11px 14px; outline: none; transition: border-color 0.2s;
+}
+.live-input::placeholder { color: var(--a-t3); }
+.live-input:focus { border-color: var(--a-accent); }
+.live-send {
+  flex-shrink: 0; width: 44px; border: none; border-radius: 12px; cursor: pointer; display: grid; place-items: center;
+  background: var(--a-accent); color: #fff; transition: transform 0.2s, opacity 0.2s;
+}
+.live-send:hover { transform: translateY(-1px); }
+.live-send:disabled { opacity: 0.4; cursor: default; transform: none; }
+.live-send svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---- painel "por dentro" ---- */
+.live-trace {
+  display: flex; flex-direction: column; min-width: 0; min-height: 590px;
+  background: var(--a-s1); border: 1px solid var(--a-b2); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 18px 50px rgba(10, 16, 32, 0.22);
+}
+.live-bar { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--a-s2); border-bottom: 1px solid var(--a-b1); }
+.live-dots { display: flex; gap: 6px; } .live-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--a-b3); display: block; }
+.live-bar-title { font-size: 12.5px; color: var(--a-t2); font-weight: 600; }
+.live-bar-live { margin-left: auto; display: flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--a-t3); }
+.live-bar-live i { width: 7px; height: 7px; border-radius: 50%; background: var(--a-ok); display: block; animation: live-pulse 2s ease-out infinite; }
+
+.live-metrics { display: flex; gap: 26px; padding: 14px 18px; border-bottom: 1px solid var(--a-b1); flex-wrap: wrap; }
+.live-metric span { display: block; font-size: 11px; color: var(--a-t3); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); }
+.live-metric b { display: block; margin-top: 2px; font-size: 20px; color: var(--a-t1); font-family: var(--font-display); font-weight: 700; font-variant-numeric: tabular-nums; transition: color 0.3s; }
+.live-metric b.is-up { color: var(--a-ok); }
+.live-metric--wide b { font-size: 15px; line-height: 1.5; max-width: 230px; }
+
+.live-nodes { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 18px 6px; }
+.live-node {
+  display: flex; align-items: center; gap: 8px; padding: 7px 11px 7px 8px; border-radius: 11px; font-size: 12px; color: var(--a-t3);
+  background: var(--a-s2); border: 1px solid var(--a-b1); opacity: 0.45; transition: opacity 0.4s, border-color 0.3s, color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.live-node svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.live-node.is-on { opacity: 1; color: var(--a-t1); border-color: var(--a-accent); background: rgba(91, 141, 239, 0.14); box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.12); }
+.live-node.is-done { opacity: 1; color: var(--a-t1); border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.08); }
+.live-node.is-done svg { color: var(--a-ok); }
+
+.live-steps { list-style: none; margin: 0; padding: 12px 18px 18px; flex: 1; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+.live-step { position: relative; display: flex; gap: 13px; padding: 9px 0; opacity: 0.38; transition: opacity 0.35s; }
+.live-step::before { content: ""; position: absolute; left: 10px; top: 33px; bottom: -9px; width: 1px; background: var(--a-b2); }
+.live-step:last-child::before { display: none; }
+.live-step.is-run, .live-step.is-done, .live-step.is-error { opacity: 1; }
+.live-st { flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%; border: 1.5px solid var(--a-b3); display: grid; place-items: center; background: var(--a-s1); margin-top: 1px; }
+.live-step.is-run .live-st::after { content: ""; width: 9px; height: 9px; border-radius: 50%; border: 1.8px solid var(--a-accent); border-top-color: transparent; animation: live-spin 0.7s linear infinite; }
+.live-step.is-done .live-st { background: var(--a-ok); border-color: var(--a-ok); }
+.live-step.is-done .live-st::after { content: ""; width: 8px; height: 4.5px; border-left: 2px solid #04130c; border-bottom: 2px solid #04130c; transform: rotate(-45deg) translate(0.5px, -0.5px); }
+.live-step.is-error .live-st { border-color: var(--a-warn); }
+.live-step.is-error .live-st::after { content: "!"; font-size: 12px; font-weight: 800; color: var(--a-warn); }
+@keyframes live-spin { to { transform: rotate(360deg); } }
+.live-step b { display: block; font-size: 13.5px; font-weight: 600; color: var(--a-t1); }
+.live-step small { display: block; margin-top: 2px; font-size: 12px; color: var(--a-t3); }
+.live-step.is-done small { color: var(--a-t2); }
+.live-empty { margin: auto; padding: 24px; text-align: center; color: var(--a-t3); font-size: 13.5px; line-height: 1.6; max-width: 320px; }
+.live-empty svg { width: 34px; height: 34px; margin: 0 auto 12px; display: block; fill: none; stroke: var(--a-accent); stroke-width: 1.5; opacity: 0.8; stroke-linecap: round; stroke-linejoin: round; }
+
+@media (max-width: 980px) {
+  .eva-live .live-stage { grid-template-columns: 1fr; }
+  .live-chat { min-height: 520px; max-height: 560px; }
+  .live-trace { min-height: 0; }
+  .live-metrics { gap: 18px; }
+}
+@media (max-width: 600px) {
+  .live-chat { min-height: 480px; }
+  .live-metric b { font-size: 17px; }
+  .live-node { font-size: 11.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-msg, .live-sub i, .live-bar-live i, .live-typing i, .live-step.is-run .live-st::after { animation: none; }
+  .live-msg { opacity: 1; transform: none; }
+}
+.live-chips[hidden] { display: none; }
+
+/* fundo azul-marinho profundo, com o mesmo brilho sutil do FAQ, para diferenciar da faixa de marcas e das verticais */
+.crm-demo.eva-live.live-azul {
+  background:
+    radial-gradient(ellipse 60% 70% at 85% 0%, hsla(212, 85%, 48%, 0.18), transparent 72%),
+    radial-gradient(ellipse 50% 60% at 5% 100%, hsla(205, 80%, 40%, 0.12), transparent 70%),
+    linear-gradient(180deg, hsl(222, 48%, 10%) 0%, hsl(221, 52%, 8%) 100%);
+}
+.eva-live.live-azul::before { display: none; }
+.eva-live.live-azul .live-chat, .eva-live.live-azul .live-trace { box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45); }

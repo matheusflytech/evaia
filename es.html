@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="/css/style.css?v=31">
   <link rel="stylesheet" href="/css/crm-demo.css?v=5">
   <link rel="stylesheet" href="/css/eva-ai-demo.css?v=3">
+  <link rel="stylesheet" href="/css/eva-live.css?v=4">
   <link rel="stylesheet" href="/css/auto-hero.css?v=11">
 </head>
 <body class="is-loading">
@@ -137,7 +138,7 @@
 
         <div class="hero-foot">
           <p class="hero-lead reveal" data-i18n="hero.lead">Eva Holding reúne productos, equipos y tecnología bajo un mismo propósito: transformar operaciones enteras a través de software, inteligencia artificial e infraestructura a medida.</p>
-          <a href="#verticais" class="scroll-cue reveal">
+          <a href="#ao-vivo" class="scroll-cue reveal">
             <span data-i18n="hero.explore">Explorar</span>
             <i></i>
           </a>
@@ -170,6 +171,48 @@
         <span data-i18n="marquee.10">DevOps &amp; Escalabilidad</span><span>·</span>
       </div>
     </div>
+
+    <!-- EVA AO VIVO: conversa de verdade + o que acontece por trás -->
+    <section class="crm-demo eva-live on-dark live-azul" id="ao-vivo" aria-labelledby="liveTitle">
+      <div class="crm-demo-inner">
+        <div class="crm-demo-head">
+          <p class="eyebrow" data-i18n="live.label">Pruébalo ahora</p>
+          <h2 class="crm-demo-title" id="liveTitle" data-i18n="live.title">Envía un mensaje y mira a Eva trabajando por detrás.</h2>
+          <p class="crm-demo-lead" data-i18n="live.lead">Conversa de verdad con el agente de Eva. Al lado, sigue cada etapa: entender el pedido, consultar la base, revisar las reglas, activar los sistemas y responder, con el tiempo de respuesta medido en vivo.</p>
+        </div>
+
+        <div class="live-stage" id="evaLive">
+          <div class="live-chat" aria-label="Conversa com a Eva">
+            <div class="live-chat-top">
+              <span class="live-avatar">E</span>
+              <div><b id="liveName">Eva</b><span class="live-sub"><i></i><span id="liveSubTxt">agente de IA da Eva Holding · online agora</span></span></div>
+            </div>
+            <div class="live-body" id="liveBody" aria-live="polite"></div>
+            <div class="live-chips" id="liveChips"></div>
+            <form class="live-form" id="liveForm" autocomplete="off">
+              <input class="live-input" id="liveInput" type="text" maxlength="500" placeholder="Escreva sua mensagem" aria-label="Mensagem para a Eva">
+              <button class="live-send" id="liveSend" type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </form>
+          </div>
+
+          <div class="live-trace" aria-label="O que a Eva está fazendo por trás da conversa">
+            <div class="live-bar">
+              <span class="live-dots"><i></i><i></i><i></i></span>
+              <span class="live-bar-title" id="liveBarTitle">Eva por dentro</span>
+              <span class="live-bar-live"><i></i><span id="liveBarLive">ao vivo</span></span>
+            </div>
+            <div class="live-metrics">
+              <div class="live-metric"><span id="liveLblResp">Tempo de resposta</span><b id="liveMResp">—</b></div>
+              <div class="live-metric live-metric--wide"><span id="liveLblIntent">Intenção</span><b id="liveMIntent">aguardando</b></div>
+              <div class="live-metric"><span id="liveLblSteps">Etapas</span><b id="liveMSteps">0/0</b></div>
+              <div class="live-metric"><span id="liveLblSys">Sistemas acionados</span><b id="liveMSys">0</b></div>
+            </div>
+            <div class="live-nodes" id="liveNodes"></div>
+            <ol class="live-steps" id="liveSteps"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- VERTICAIS -->
     <section class="verticals on-dark" id="verticais">
@@ -501,6 +544,7 @@
   <script src="/js/i18n.js?v=7"></script>
   <script src="/js/eva-ai-demo.js?v=4"></script>
   <script src="/js/crm-demo.js?v=5"></script>
+  <script src="/js/eva-live.js?v=2"></script>
   <script src="/js/auto-hero.js?v=12"></script>
   <script>
     // "Falar com a Eva agora" abre o mesmo balão de chat do canto da tela
