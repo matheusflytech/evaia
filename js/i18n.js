@@ -252,6 +252,45 @@
       "eai.m.rules": "Rules checked",
       "eai.m.human": "Handed to a human",
       "eai.note": "Illustrative simulation. The conversation and documents are fictional; your Eva is trained on your own materials and rules.",
+      "sf.label": "FAQ",
+      "sf.ia.title": "Frequently asked questions about AI agents.",
+      "sf.ia.1.q": "What is an AI agent?",
+      "sf.ia.1.a": "An AI agent is an assistant that understands what a person asks, looks up your business information and takes action, such as answering questions, qualifying a contact and recording data in the CRM. It works inside your operation's flow instead of just returning canned answers.",
+      "sf.ia.2.q": "How is an AI agent different from a regular chatbot?",
+      "sf.ia.2.a": "A regular chatbot follows a fixed script and gets stuck when the conversation leaves it. Eva's agent is trained with your business's real context, understands text and audio, consults your documents, updates systems and follows the rules you set.",
+      "sf.ia.3.q": "Does the agent work on WhatsApp and other channels?",
+      "sf.ia.3.a": "Yes. The same agent can answer on WhatsApp, on your website and on Instagram, with context shared across channels.",
+      "sf.ia.4.q": "Does the agent hand the conversation to a person when needed?",
+      "sf.ia.4.a": "Yes. It knows when to bring in a person: when the conversation requires it, the agent escalates to your team, and whatever does not need a person stays solved by the agent.",
+      "sf.ia.5.q": "Does the agent connect to the CRM and other systems?",
+      "sf.ia.5.a": "Yes. In the integration step, we connect the agent to the CRM, calendar, catalog or whatever it needs so it can act, not just reply.",
+      "sf.auto.title": "Frequently asked questions about automation.",
+      "sf.auto.1.q": "What is process automation?",
+      "sf.auto.1.a": "It means making systems and tools work together with nobody typing. When something happens, such as an approved purchase, the tasks fire on their own: creating the contact, notifying the customer, recording the order and alerting the team.",
+      "sf.auto.2.q": "Which systems can be integrated?",
+      "sf.auto.2.a": "CRM, ERP, e-commerce, marketplaces, spreadsheets, WhatsApp and whatever else your operation uses.",
+      "sf.auto.3.q": "What can be automated?",
+      "sf.auto.3.a": "Integration between systems, approval flows and notifications, repetitive tasks running in the background, and dashboards that update themselves, with no manual spreadsheet at the end of the month.",
+      "sf.auto.4.q": "Does automation replace my team?",
+      "sf.auto.4.a": "No. It takes repetitive work off the team, such as copying and pasting between systems, so people can decide and handle what requires judgment.",
+      "sf.infra.title": "Frequently asked questions about infrastructure.",
+      "sf.infra.1.q": "What does Eva do in infrastructure?",
+      "sf.infra.1.a": "We design the architecture of servers, data and integrations to scale without breaking, with security, observability and cost control from day one.",
+      "sf.infra.2.q": "What is observability?",
+      "sf.infra.2.a": "It means watching the system in real time, with monitoring and alerts, so a problem is spotted before the customer notices.",
+      "sf.infra.3.q": "Do you handle security and backups?",
+      "sf.infra.3.a": "Yes. Security and backups are part of the foundation Eva delivers.",
+      "sf.infra.4.q": "Does the infrastructure grow along with my usage?",
+      "sf.infra.4.a": "Yes. Servers and services are sized to grow along with your product's usage volume.",
+      "sf.web.title": "Frequently asked questions about websites and digital products.",
+      "sf.web.1.q": "What kind of websites and digital products does Eva build?",
+      "sf.web.1.a": "Institutional websites, platforms and web products, with custom design on the front and solid engineering behind it.",
+      "sf.web.2.q": "Can I edit the website content myself?",
+      "sf.web.2.a": "Yes. The site comes with an admin panel (CMS), so you can update content without depending on code.",
+      "sf.web.3.q": "Do you take care of performance and SEO?",
+      "sf.web.3.a": "Yes. Fast loading, green Core Web Vitals and technical SEO from the first line of code.",
+      "sf.web.4.q": "Can the website integrate with the rest of my operation?",
+      "sf.web.4.a": "Yes. The site can connect to the rest of your operation, such as your CRM and other tools you already use.",
       "auto.label": "Automations",
       "auto.note": "Illustrative simulation. Names and values are fictional; the automations are built to fit your operation.",
       "auto.title": "Processes that run on their own, from the order to the team alert.",
@@ -522,6 +561,45 @@
       "eai.m.rules": "Reglas verificadas",
       "eai.m.human": "Pasó a una persona",
       "eai.note": "Simulación ilustrativa. La conversación y los documentos son ficticios; la Eva de tu negocio se entrena con tus materiales y tus reglas.",
+      "sf.label": "Preguntas frecuentes",
+      "sf.ia.title": "Preguntas frecuentes sobre agentes de IA.",
+      "sf.ia.1.q": "¿Qué es un agente de IA?",
+      "sf.ia.1.a": "Un agente de IA es un asistente que entiende lo que la persona pide, consulta la información de tu negocio y ejecuta acciones, como responder dudas, calificar un contacto y registrar datos en el CRM. Actúa dentro del flujo de tu operación, en lugar de devolver solo respuestas prefabricadas.",
+      "sf.ia.2.q": "¿Cuál es la diferencia entre un agente de IA y un chatbot común?",
+      "sf.ia.2.a": "Un chatbot común sigue un guion fijo y se bloquea cuando la conversación se sale de él. El agente de Eva se entrena con el contexto real de tu negocio, entiende texto y audio, consulta tus documentos, actualiza sistemas y respeta las reglas que tú defines.",
+      "sf.ia.3.q": "¿El agente atiende en WhatsApp y en otros canales?",
+      "sf.ia.3.a": "Sí. El mismo agente puede atender en WhatsApp, en el sitio web y en Instagram, con el contexto compartido entre los canales.",
+      "sf.ia.4.q": "¿El agente pasa la conversación a una persona cuando hace falta?",
+      "sf.ia.4.a": "Sí. Sabe cuándo llamar a una persona: cuando la conversación lo exige, el agente escala a tu equipo, y lo que no necesita a una persona lo sigue resolviendo él.",
+      "sf.ia.5.q": "¿El agente se conecta al CRM y a otros sistemas?",
+      "sf.ia.5.a": "Sí. En la etapa de integración, conectamos el agente al CRM, a la agenda, al catálogo o a lo que haga falta para que actúe, no solo responda.",
+      "sf.auto.title": "Preguntas frecuentes sobre automatizaciones.",
+      "sf.auto.1.q": "¿Qué es la automatización de procesos?",
+      "sf.auto.1.a": "Es hacer que los sistemas y las herramientas trabajen juntos, sin que nadie digite. Cuando ocurre algo, como una compra aprobada, las tareas se disparan solas: crear el contacto, avisar al cliente, registrar el pedido y alertar al equipo.",
+      "sf.auto.2.q": "¿Qué sistemas se pueden integrar?",
+      "sf.auto.2.a": "CRM, ERP, e-commerce, marketplaces, hojas de cálculo, WhatsApp y lo que más use tu operación.",
+      "sf.auto.3.q": "¿Qué se puede automatizar?",
+      "sf.auto.3.a": "La integración entre sistemas, los flujos de aprobación y las notificaciones, las tareas repetitivas en segundo plano y los dashboards que se actualizan solos, sin planilla manual a fin de mes.",
+      "sf.auto.4.q": "¿La automatización reemplaza a mi equipo?",
+      "sf.auto.4.a": "No. Quita al equipo el trabajo repetitivo, como copiar y pegar entre sistemas, para que las personas decidan y se ocupen de lo que exige criterio.",
+      "sf.infra.title": "Preguntas frecuentes sobre infraestructura.",
+      "sf.infra.1.q": "¿Qué hace Eva en infraestructura?",
+      "sf.infra.1.a": "Diseñamos la arquitectura de servidores, datos e integraciones para escalar sin romperse, con seguridad, observabilidad y control de costos desde el primer día.",
+      "sf.infra.2.q": "¿Qué es la observabilidad?",
+      "sf.infra.2.a": "Es seguir el sistema en tiempo real, con monitoreo y alertas, para identificar un problema antes de que el cliente lo note.",
+      "sf.infra.3.q": "¿Se encargan de la seguridad y los backups?",
+      "sf.infra.3.a": "Sí. La seguridad y los backups forman parte de la base que entrega Eva.",
+      "sf.infra.4.q": "¿La infraestructura crece junto con mi volumen de uso?",
+      "sf.infra.4.a": "Sí. Los servidores y servicios se dimensionan para crecer junto con el volumen de uso de tu producto.",
+      "sf.web.title": "Preguntas frecuentes sobre sitios y productos digitales.",
+      "sf.web.1.q": "¿Qué tipo de sitios y productos digitales construye Eva?",
+      "sf.web.1.a": "Sitios institucionales, plataformas y productos web, con diseño a medida por delante e ingeniería sólida por detrás.",
+      "sf.web.2.q": "¿Puedo editar el contenido del sitio por mi cuenta?",
+      "sf.web.2.a": "Sí. El sitio incluye un panel administrable (CMS), para que actualices el contenido sin depender de programación.",
+      "sf.web.3.q": "¿Se encargan del rendimiento y del SEO?",
+      "sf.web.3.a": "Sí. Carga rápida, Core Web Vitals en verde y SEO técnico desde la primera línea de código.",
+      "sf.web.4.q": "¿El sitio puede integrarse con el resto de mi operación?",
+      "sf.web.4.a": "Sí. El sitio puede conectarse con el resto de tu operación, como el CRM y otras herramientas que ya usas.",
       "auto.label": "Automatizaciones",
       "auto.note": "Simulación ilustrativa. Nombres y valores son ficticios; las automatizaciones se construyen a medida de tu operación.",
       "auto.title": "Procesos que corren solos, del pedido al aviso al equipo.",
@@ -553,16 +631,22 @@
     }
   };
 
+  // Cada idioma tem a sua própria página (/, /en, /es): o idioma é o do atributo lang do HTML.
   function getLang() {
-    try {
-      return localStorage.getItem(STORAGE_KEY) || "pt";
-    } catch (e) {
-      return "pt";
-    }
+    var l = (document.documentElement.lang || "pt").slice(0, 2).toLowerCase();
+    return l === "en" || l === "es" ? l : "pt";
   }
 
   function setLang(lang) {
     try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+
+  // endereço da mesma página no outro idioma (sem .html, como o site é publicado)
+  function urlDoIdioma(lang) {
+    var slug = document.documentElement.getAttribute("data-pagina") || "index";
+    var prefixo = lang === "pt" ? "" : "/" + lang;
+    if (slug === "index") return lang === "pt" ? "/" : prefixo;
+    return prefixo + "/" + slug;
   }
 
   // Título da aba do navegador (o que aparece no separador e nos resultados de busca)
@@ -581,7 +665,7 @@
 
   function applyLang(lang) {
     var dict = DICT[lang];
-    var pagina = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "") || "index";
+    var pagina = document.documentElement.getAttribute("data-pagina") || "index";
     var t = TITLES[pagina];
     document.title = lang === "pt" || !t ? TITULO_ORIGINAL : t[lang] || TITULO_ORIGINAL;
     document.documentElement.lang = lang === "en" ? "en" : lang === "es" ? "es" : "pt-BR";
@@ -636,9 +720,10 @@
     menu.querySelectorAll("button").forEach(function (item) {
       item.addEventListener("click", function () {
         var lang = item.getAttribute("data-lang");
-        setLang(lang);
-        applyLang(lang);
         wrap.classList.remove("is-open");
+        if (lang === getLang()) return;
+        setLang(lang);
+        window.location.href = urlDoIdioma(lang) + (window.location.hash || "");
       });
     });
   }
@@ -648,5 +733,5 @@
     applyLang(getLang());
   });
 
-  window.EvaI18n = { getLang: getLang };
+  window.EvaI18n = { getLang: getLang, DICT: DICT, TITLES: TITLES };
 })();
