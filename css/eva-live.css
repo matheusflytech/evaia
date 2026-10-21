@@ -136,3 +136,26 @@
 }
 .eva-live.live-azul::before { display: none; }
 .eva-live.live-azul .live-chat, .eva-live.live-azul .live-trace { box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45); }
+
+/* áudio: botões, barra de gravação e transcrição */
+.live-mic, .live-cancel {
+  flex-shrink: 0; width: 44px; border: 1px solid var(--a-b2); border-radius: 12px; cursor: pointer; display: grid; place-items: center;
+  background: var(--a-s2); color: var(--a-t1); transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.live-mic:hover, .live-cancel:hover { border-color: var(--a-accent); background: rgba(91, 141, 239, 0.14); transform: translateY(-1px); }
+.live-mic:disabled { opacity: 0.4; cursor: default; transform: none; }
+.live-mic svg, .live-cancel svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.live-mic[hidden], .live-cancel[hidden], .live-rec[hidden], .live-input[hidden] { display: none; }
+.live-rec {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0 14px; border-radius: 12px;
+  background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.35); color: #fecaca; font-size: 13.5px;
+}
+.live-rec-dot { width: 9px; height: 9px; border-radius: 50%; background: #f87171; animation: live-rec 1s ease-in-out infinite; }
+.live-rec-time { margin-left: auto; font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+@keyframes live-rec { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+.live-voice { display: inline-flex; align-items: center; gap: 8px; }
+.live-voice svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.live-transcript { display: block; margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, 0.12); font-size: 12.5px; font-style: italic; color: #444; }
+/* armadilha anti-robô: fora da tela e invisível para pessoas */
+.live-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .live-rec-dot { animation: none; } }

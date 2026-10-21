@@ -1,7 +1,7 @@
 /* ===== Eva ao vivo =====
-   Conversa de verdade com o agente da Eva (o mesmo do balão) e, ao lado, o que acontece por trás
-   de cada mensagem: etapas, sistemas acionados e tempo de resposta (medido de verdade).
-   As etapas são derivadas da intenção da mensagem; a resposta vem do agente real. */
+   Conversa de verdade com o agente da Eva (o mesmo do balão), por texto ou por áudio, e, ao lado,
+   o que acontece por trás de cada mensagem: etapas, sistemas acionados e tempo de resposta (medido
+   de verdade). As etapas são derivadas da intenção; a resposta e a transcrição vêm do agente real. */
 (function () {
   "use strict";
 
@@ -12,6 +12,11 @@
   var form = document.getElementById("liveForm");
   var input = document.getElementById("liveInput");
   var sendBtn = document.getElementById("liveSend");
+  var micBtn = document.getElementById("liveMic");
+  var recBar = document.getElementById("liveRec");
+  var recTime = document.getElementById("liveRecTime");
+  var recCancel = document.getElementById("liveRecCancel");
+  var hp = document.getElementById("liveHp");
   var chipsBox = document.getElementById("liveChips");
   var stepsEl = document.getElementById("liveSteps");
   var nodesEl = document.getElementById("liveNodes");
@@ -32,6 +37,10 @@
   var busy = false;
   var runId = 0;
   var last = 0;
+  var acesos = {};
+  var MAX_REC_MS = 60000;
+  // tetos por visita: protegem o agente contra abuso (o servidor tem os seus próprios limites)
+  var MAX_MSGS = 25, MAX_AUDIOS = 5, enviadas = 0, audios = 0;
 
   function lang() { var l = (window.EvaI18n && window.EvaI18n.getLang && window.EvaI18n.getLang()) || "pt"; return l === "en" || l === "es" ? l : "pt"; }
   function pick(o) { return o[lang()] || o.pt; }
@@ -59,36 +68,42 @@
   var UI = {
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
-      placeholder: "Escreva sua mensagem", send: "Enviar",
-      greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa e acompanhe, ao lado, o que acontece por trás de cada resposta.",
+      placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
+      recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
+      greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
       mResp: "Tempo de resposta", mIntent: "Intenção", mSteps: "Etapas", mSys: "Sistemas acionados",
-      empty: "Mande uma mensagem ou escolha uma sugestão. As etapas aparecem aqui, em tempo real.",
+      empty: "Mande uma mensagem, grave um áudio ou escolha uma sugestão. As etapas aparecem aqui, em tempo real.",
       error: "Não consegui responder agora. Tente de novo ou fale com a gente pelo WhatsApp.",
-      errDetail: "Sem resposta do agente",
-      intentWait: "aguardando"
+      micError: "Não consegui acessar o microfone. Libere a permissão do navegador ou escreva sua mensagem.",
+      errDetail: "Sem resposta do agente", intentWait: "aguardando",
+      limit: "Chegamos ao limite desta demonstração. Para continuar, fale direto com a nossa equipe no WhatsApp."
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
-      placeholder: "Type your message", send: "Send",
-      greeting: "Hi! I'm Eva. Tell me what your company needs and watch, next to the chat, what happens behind each answer.",
+      placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
+      recording: "Recording", voice: "Voice message", youSaid: "You said",
+      greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
       mResp: "Response time", mIntent: "Intent", mSteps: "Steps", mSys: "Systems used",
-      empty: "Send a message or pick a suggestion. The steps show up here, in real time.",
+      empty: "Send a message, record audio or pick a suggestion. The steps show up here, in real time.",
       error: "I couldn't answer right now. Try again or reach us on WhatsApp.",
-      errDetail: "No answer from the agent",
-      intentWait: "waiting"
+      micError: "I couldn't access the microphone. Allow it in your browser or type your message.",
+      errDetail: "No answer from the agent", intentWait: "waiting",
+      limit: "We've reached this demo's limit. To keep going, talk to our team directly on WhatsApp."
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
-      placeholder: "Escribe tu mensaje", send: "Enviar",
-      greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa y mira, al lado, lo que ocurre detrás de cada respuesta.",
+      placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
+      recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
+      greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
       mResp: "Tiempo de respuesta", mIntent: "Intención", mSteps: "Etapas", mSys: "Sistemas activados",
-      empty: "Envía un mensaje o elige una sugerencia. Las etapas aparecen aquí, en tiempo real.",
+      empty: "Envía un mensaje, graba un audio o elige una sugerencia. Las etapas aparecen aquí, en tiempo real.",
       error: "No pude responder ahora. Inténtalo de nuevo o escríbenos por WhatsApp.",
-      errDetail: "Sin respuesta del agente",
-      intentWait: "esperando"
+      micError: "No pude acceder al micrófono. Permítelo en el navegador o escribe tu mensaje.",
+      errDetail: "Sin respuesta del agente", intentWait: "esperando",
+      limit: "Llegamos al límite de esta demostración. Para continuar, habla directamente con nuestro equipo por WhatsApp."
     }
   };
 
@@ -103,7 +118,7 @@
     { id: "humano", re: /humano|pessoa|atendente|vendedor|falar com (alguem|algu[eé]m)|human|person|agent\b|representative|persona|alguien/i,
       label: { pt: "Falar com uma pessoa", en: "Talk to a person", es: "Hablar con una persona" },
       step: { t: { pt: "Chamando uma pessoa do time", en: "Calling someone from the team", es: "Llamando a alguien del equipo" }, d: { pt: "Aviso enviado à equipe", en: "Alert sent to the team", es: "Aviso enviado al equipo" } },
-      nodes: { 3: [], 5: ["equipe"], 6: ["crm"] }, skipBase: true },
+      nodes: { 5: ["equipe"], 6: ["crm"] }, skipBase: true },
     { id: "preco", re: /pre[cç]o|quanto|custa|valor|or[cç]amento|investimento|price|cost|quote|pricing|precio|cu[aá]nto/i,
       label: { pt: "Orçamento e valores", en: "Quote and pricing", es: "Presupuesto y valores" },
       step: { t: { pt: "Separando dados para a proposta", en: "Gathering data for the proposal", es: "Reuniendo datos para la propuesta" }, d: { pt: "Necessidade, porte e prazo", en: "Need, size and timeline", es: "Necesidad, tamaño y plazo" } },
@@ -137,28 +152,28 @@
     return GENERAL;
   }
 
-  function stepsFor(intent, txt) {
-    var l = lang(), n = txt.length;
-    var s = [
-      { t: { pt: "Mensagem recebida", en: "Message received", es: "Mensaje recibido" }, d: { pt: "Canal: site, " + n + " caracteres", en: "Channel: website, " + n + " characters", es: "Canal: sitio web, " + n + " caracteres" }, nodes: ["canal"] },
-      { t: { pt: "Entendendo a intenção", en: "Understanding the intent", es: "Entendiendo la intención" }, d: intent.label, nodes: ["agente"], intent: true }
-    ];
+  var CRM_STEP = { t: { pt: "Registrando a conversa no CRM", en: "Logging the conversation in the CRM", es: "Registrando la conversación en el CRM" }, d: { pt: "Contato e histórico salvos", en: "Contact and history saved", es: "Contacto e historial guardados" } };
+  var REPLY_STEP = { t: { pt: "Gerando a resposta", en: "Writing the answer", es: "Redactando la respuesta" }, d: { pt: "Aguardando o agente", en: "Waiting for the agent", es: "Esperando al agente" } };
+
+  // etapas depois que o texto é conhecido (digitado ou transcrito); `semEntrada` omite a etapa "Mensagem recebida"
+  function stepsFor(intent, txt, semEntrada) {
+    var n = txt.length, s = [];
+    if (!semEntrada) s.push({ t: { pt: "Mensagem recebida", en: "Message received", es: "Mensaje recibido" }, d: { pt: "Canal: site, " + n + " caracteres", en: "Channel: website, " + n + " characters", es: "Canal: sitio web, " + n + " caracteres" }, nodes: ["canal"] });
+    s.push({ t: { pt: "Entendendo a intenção", en: "Understanding the intent", es: "Entendiendo la intención" }, d: intent.label, nodes: ["agente"] });
     if (!intent.skipBase) s.push({ t: { pt: "Consultando a base de conhecimento", en: "Searching the knowledge base", es: "Consultando la base de conocimiento" }, d: { pt: "Soluções e perguntas frequentes", en: "Solutions and FAQ", es: "Soluciones y preguntas frecuentes" }, nodes: ["base"] });
     s.push({ t: { pt: "Conferindo as regras do negócio", en: "Checking the business rules", es: "Revisando las reglas del negocio" }, d: { pt: "Escopo, tom de voz e limites", en: "Scope, tone of voice and limits", es: "Alcance, tono de voz y límites" }, nodes: [] });
     s.push({ t: intent.step.t, d: intent.step.d, nodes: intent.nodes[5] || [] });
-    s.push(intent.id === "humano"
-      ? { t: { pt: "Registrando a conversa no CRM", en: "Logging the conversation in the CRM", es: "Registrando la conversación en el CRM" }, d: { pt: "Contato e histórico salvos", en: "Contact and history saved", es: "Contacto e historial guardados" }, nodes: intent.nodes[6] || [] }
-      : { t: { pt: "Registrando a conversa no CRM", en: "Logging the conversation in the CRM", es: "Registrando la conversación en el CRM" }, d: { pt: "Contato e histórico salvos", en: "Contact and history saved", es: "Contacto e historial guardados" }, nodes: intent.nodes[6] || [] });
-    s.push({ t: { pt: "Gerando a resposta", en: "Writing the answer", es: "Redactando la respuesta" }, d: { pt: "Aguardando o agente", en: "Waiting for the agent", es: "Esperando al agente" }, nodes: [], final: true });
+    s.push({ t: CRM_STEP.t, d: CRM_STEP.d, nodes: intent.nodes[6] || [] });
+    s.push({ t: REPLY_STEP.t, d: REPLY_STEP.d, nodes: [], final: true });
     return s;
   }
 
-  // ---- construção da interface ----
+  // ---- interface ----
   function svg(path) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + path + '"/></svg>'; }
 
   function buildNodes() {
     nodesEl.innerHTML = NODE_ORDER.map(function (k) {
-      return '<span class="live-node" data-node="' + k + '">' + svg(ICONS[k]) + '<span>' + pick(NODE_NAMES[k]) + "</span></span>";
+      return '<span class="live-node" data-node="' + k + '">' + svg(ICONS[k]) + "<span>" + pick(NODE_NAMES[k]) + "</span></span>";
     }).join("");
   }
   function paintStatic() {
@@ -171,8 +186,11 @@
     document.getElementById("liveLblIntent").textContent = u.mIntent;
     document.getElementById("liveLblSteps").textContent = u.mSteps;
     document.getElementById("liveLblSys").textContent = u.mSys;
+    document.getElementById("liveRecLbl").textContent = u.recording;
     input.placeholder = u.placeholder;
     sendBtn.setAttribute("aria-label", u.send);
+    if (micBtn) micBtn.setAttribute("aria-label", u.mic);
+    if (recCancel) recCancel.setAttribute("aria-label", u.cancel);
     buildNodes();
   }
   function paintChips() {
@@ -186,11 +204,13 @@
   }
   function emptyTrace() {
     var u = UI[lang()];
-    stepsEl.innerHTML = '<li class="live-empty">' + '<svg viewBox="0 0 24 24"><path d="' + ICONS.agente + '"/></svg>' + u.empty + "</li>";
+    stepsEl.innerHTML = '<li class="live-empty">' + svg(ICONS.agente) + u.empty + "</li>";
     mResp.textContent = "—"; mResp.classList.remove("is-up");
     mIntent.textContent = u.intentWait; mSteps.textContent = "0/0"; mSys.textContent = "0";
+    acesos = {};
   }
   function reset() {
+    cancelaGravacao();
     runId++; busy = false;
     body.innerHTML = "";
     var m = document.createElement("div");
@@ -205,8 +225,8 @@
   function setBusy(v) {
     busy = v;
     input.disabled = v; sendBtn.disabled = v;
+    if (micBtn) micBtn.disabled = v;
     [].slice.call(chipsBox.children).forEach(function (c) { c.disabled = v; });
-    if (!v) { try { input.focus({ preventScroll: true }); } catch (e) {} }
   }
 
   function addMsg(who, html, asText) {
@@ -226,101 +246,87 @@
   }
   function sleep(ms) { return new Promise(function (r) { setTimeout(r, reduced ? Math.min(ms, 60) : ms); }); }
 
+  function limpa(text) { return window.EvaChatUtil && window.EvaChatUtil.limpa ? window.EvaChatUtil.limpa(text) : text; }
   function renderBot(text) {
+    text = limpa(text);
     if (window.EvaChatUtil && window.EvaChatUtil.renderMarkdown) return window.EvaChatUtil.renderMarkdown(text);
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n/g, "<br>");
   }
-
   function endpoint() { return (window.EvaChatUtil && window.EvaChatUtil.webhook) || "https://evapp.vercel.app/api/widget/d7a79443-3a8b-40c9-b493-743127938986/message"; }
 
   async function pedir(payload) {
     var t0 = performance.now();
     var res = await fetch(endpoint(), {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.assign({ contactId: sessionId, lang: lang() }, payload))
+      body: JSON.stringify(Object.assign({ contactId: sessionId, lang: lang(), hp: hp ? hp.value : "" }, payload))
     });
     var data = await res.json();
     return { data: data, ms: performance.now() - t0 };
   }
 
-  // ---- uma rodada completa: mensagem, etapas por trás e resposta ----
-  async function enviar(texto) {
-    texto = (texto || "").trim().slice(0, 500);
-    if (!texto || busy) return;
-    if (Date.now() - last < 900) return;
-    last = Date.now();
-    var id = ++runId;
-    setBusy(true);
-    chipsBox.hidden = true;
-    addMsg("user", texto, true);
-    input.value = "";
-
-    var intent = detect(texto);
-    var steps = stepsFor(intent, texto);
-    var u = UI[lang()];
-
+  // ---- linha do tempo e sistemas ----
+  function renderSteps(steps) {
     stepsEl.innerHTML = steps.map(function (s, i) {
       return '<li class="live-step" data-i="' + i + '"><span class="live-st"></span><div><b>' + pick(s.t) + "</b><small>" + pick(s.d) + "</small></div></li>";
     }).join("");
-    [].slice.call(nodesEl.children).forEach(function (n) { n.classList.remove("is-on", "is-done"); });
-    var acesos = {};
-    mResp.textContent = "…"; mResp.classList.remove("is-up");
-    mIntent.textContent = pick(intent.label); mSteps.textContent = "0/" + steps.length; mSys.textContent = "0";
+  }
+  function addSteps(steps, from) {
+    steps.forEach(function (s, k) {
+      var li = document.createElement("li");
+      li.className = "live-step"; li.setAttribute("data-i", String(from + k));
+      li.innerHTML = '<span class="live-st"></span><div><b>' + pick(s.t) + "</b><small>" + pick(s.d) + "</small></div>";
+      stepsEl.appendChild(li);
+    });
+  }
+  function marca(i, estado) {
+    var li = stepsEl.children[i]; if (!li) return;
+    li.classList.remove("is-run", "is-done", "is-error"); li.classList.add(estado);
+  }
+  function acende(lista, estado) {
+    (lista || []).forEach(function (k) {
+      var el = nodesEl.querySelector('[data-node="' + k + '"]'); if (!el) return;
+      el.classList.remove("is-on", "is-done"); el.classList.add(estado);
+      if (estado === "is-done") acesos[k] = true;
+    });
+    mSys.textContent = String(Object.keys(acesos).filter(function (k) { return k !== "canal" && k !== "agente"; }).length);
+  }
+  function limpaNodes() { acesos = {}; [].slice.call(nodesEl.children).forEach(function (n) { n.classList.remove("is-on", "is-done"); }); }
 
-    var tTyping = typing();
-    var promessa = pedir({ text: texto }).then(function (r) { return { ok: true, r: r }; }, function (e) { return { ok: false, e: e }; });
-
-    function marca(i, estado) {
-      var li = stepsEl.children[i]; if (!li) return;
-      li.classList.remove("is-run", "is-done", "is-error"); li.classList.add(estado);
-    }
-    function acende(lista, estado) {
-      (lista || []).forEach(function (k) {
-        var el = nodesEl.querySelector('[data-node="' + k + '"]'); if (!el) return;
-        el.classList.remove("is-on", "is-done"); el.classList.add(estado);
-        if (estado === "is-done") acesos[k] = true;
-      });
-      var sistemas = Object.keys(acesos).filter(function (k) { return k !== "canal" && k !== "agente"; }).length;
-      mSys.textContent = String(sistemas);
-    }
-
-    // etapas "ensaiadas" andam enquanto a resposta real chega
-    for (var i = 0; i < steps.length - 1; i++) {
-      if (id !== runId) return;
+  // anda pelas etapas de `de` até antes da última (a última espera a resposta real)
+  async function andar(steps, de, ate, id, ritmo) {
+    for (var i = de; i < ate; i++) {
+      if (id !== runId) return false;
       marca(i, "is-run"); acende(steps[i].nodes, "is-on");
-      await sleep(i === 0 ? 380 : 520);
-      if (id !== runId) return;
+      await sleep(ritmo);
+      if (id !== runId) return false;
       marca(i, "is-done"); acende(steps[i].nodes, "is-done");
-      mSteps.textContent = (i + 1) + "/" + steps.length;
+      mSteps.textContent = (i + 1) + "/" + stepsEl.children.length;
     }
-    var ultimo = steps.length - 1;
-    marca(ultimo, "is-run");
+    return true;
+  }
 
-    var resultado = await promessa;
-    if (id !== runId) return;
-    tTyping.remove();
+  function fmtTempo(ms) { return (ms / 1000).toFixed(1).replace(".", lang() === "en" ? "." : ",") + " s"; }
 
-    if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) {
-      marca(ultimo, "is-error");
-      stepsEl.children[ultimo].querySelector("small").textContent = u.errDetail;
-      mResp.textContent = "—";
-      addMsg("bot", u.error, true);
-      setBusy(false);
-      return;
-    }
+  function falha(u, ultimo) {
+    if (stepsEl.children[ultimo]) { marca(ultimo, "is-error"); stepsEl.children[ultimo].querySelector("small").textContent = u.errDetail; }
+    mResp.textContent = "—";
+    addMsg("bot", u.error, true);
+    setBusy(false);
+  }
 
-    var seg = resultado.r.ms / 1000;
+  async function entregar(resultado, id, steps, ultimo) {
     marca(ultimo, "is-done");
     mSteps.textContent = steps.length + "/" + steps.length;
-    var tempo = seg.toFixed(1).replace(".", lang() === "en" ? "." : ",") + " s";
+    var tempo = fmtTempo(resultado.r.ms);
     stepsEl.children[ultimo].querySelector("small").textContent = tempo;
     mResp.textContent = tempo; mResp.classList.add("is-up");
-
     var msgs = resultado.r.data.messages;
     for (var k = 0; k < msgs.length; k++) {
       if (id !== runId) return;
+      var html = renderBot(msgs[k].text || "");
+      if (!html.replace(/<[^>]*>/g, "").trim()) continue;
       if (k > 0) { var t2 = typing(); await sleep(650); t2.remove(); }
-      var el = addMsg("bot", renderBot(msgs[k].text || ""));
+      var el = addMsg("bot", html);
       if (msgs[k].options && msgs[k].options.length) {
         var wrap = document.createElement("div"); wrap.className = "live-chips"; wrap.style.padding = "4px 0 0";
         msgs[k].options.forEach(function (op) {
@@ -335,6 +341,163 @@
     setBusy(false);
   }
 
+  // ---- mensagem de texto ----
+  async function enviar(texto) {
+    texto = (texto || "").trim().slice(0, 500);
+    if (!texto || busy) return;
+    if (Date.now() - last < 900) return;
+    last = Date.now();
+    if (enviadas >= MAX_MSGS) { addMsg("bot", UI[lang()].limit, true); return; }
+    enviadas++;
+    var id = ++runId;
+    setBusy(true);
+    chipsBox.hidden = true;
+    addMsg("user", texto, true);
+    input.value = "";
+
+    var intent = detect(texto);
+    var steps = stepsFor(intent, texto, false);
+    var u = UI[lang()];
+    renderSteps(steps); limpaNodes();
+    mResp.textContent = "…"; mResp.classList.remove("is-up");
+    mIntent.textContent = pick(intent.label); mSteps.textContent = "0/" + steps.length; mSys.textContent = "0";
+
+    var tTyping = typing();
+    var promessa = pedir({ text: texto }).then(function (r) { return { ok: true, r: r }; }, function (e) { return { ok: false, e: e }; });
+
+    if (!(await andar(steps, 0, steps.length - 1, id, 520))) return;
+    var ultimo = steps.length - 1;
+    marca(ultimo, "is-run");
+    var resultado = await promessa;
+    if (id !== runId) return;
+    tTyping.remove();
+    if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) return falha(u, ultimo);
+    await entregar(resultado, id, steps, ultimo);
+  }
+
+  // ---- mensagem de voz ----
+  var mr = null, chunks = [], recStart = 0, recTimer = null, recStream = null, recCancelFlag = false, recSending = false;
+
+  function fmtDur(ms) { var s = Math.floor(ms / 1000); return Math.floor(s / 60) + ":" + (s % 60 < 10 ? "0" : "") + (s % 60); }
+
+  function mostraGravacao(on) {
+    form.classList.toggle("is-recording", on);
+    recBar.hidden = !on;
+    input.hidden = on;
+    if (micBtn) micBtn.hidden = on;
+    if (recCancel) recCancel.hidden = !on;
+  }
+
+  async function iniciaGravacao() {
+    if (busy || mr) return;
+    var u = UI[lang()];
+    try {
+      recStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (e) { addMsg("bot", u.micError, true); return; }
+    try { mr = new MediaRecorder(recStream); } catch (e) { recStream.getTracks().forEach(function (t) { t.stop(); }); addMsg("bot", u.micError, true); return; }
+    chunks = []; recCancelFlag = false; recSending = false;
+    mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+    mr.onstop = function () {
+      if (recStream) recStream.getTracks().forEach(function (t) { t.stop(); });
+      var dur = Date.now() - recStart, tipo = (mr && mr.mimeType) || "audio/webm";
+      var cancelado = recCancelFlag;
+      mr = null; recStream = null;
+      if (cancelado || !chunks.length) return;
+      enviarAudio(new Blob(chunks, { type: tipo }), dur);
+    };
+    mr.start();
+    recStart = Date.now();
+    mostraGravacao(true);
+    recTime.textContent = "0:00";
+    recTimer = setInterval(function () {
+      var d = Date.now() - recStart;
+      recTime.textContent = fmtDur(d);
+      if (d >= MAX_REC_MS) paraGravacao(true);
+    }, 200);
+  }
+  function paraGravacao(enviarAgora) {
+    if (!mr) return;
+    clearInterval(recTimer); recTimer = null;
+    recCancelFlag = !enviarAgora;
+    mostraGravacao(false);
+    try { mr.stop(); } catch (e) {}
+  }
+  function cancelaGravacao() { if (mr) paraGravacao(false); }
+
+  function blobParaBase64(blob) {
+    return new Promise(function (resolve, reject) {
+      var r = new FileReader();
+      r.onloadend = function () { resolve(String(r.result).split(",")[1] || ""); };
+      r.onerror = reject;
+      r.readAsDataURL(blob);
+    });
+  }
+
+  async function enviarAudio(blob, dur) {
+    if (busy) return;
+    if (enviadas >= MAX_MSGS || audios >= MAX_AUDIOS) { addMsg("bot", UI[lang()].limit, true); return; }
+    enviadas++; audios++;
+    var id = ++runId;
+    setBusy(true);
+    chipsBox.hidden = true;
+    var u = UI[lang()];
+    var kb = Math.max(1, Math.round(blob.size / 1024));
+    var bolha = addMsg("user", "", true);
+    bolha.innerHTML = '<span class="live-voice">' + svg(ICONS_MIC) + "<span>" + u.voice + " · " + fmtDur(dur) + "</span></span>";
+
+    var inicio = [
+      { t: { pt: "Áudio recebido", en: "Audio received", es: "Audio recibido" }, d: { pt: "Canal: site, " + fmtDur(dur) + " (" + kb + " KB)", en: "Channel: website, " + fmtDur(dur) + " (" + kb + " KB)", es: "Canal: sitio web, " + fmtDur(dur) + " (" + kb + " KB)" }, nodes: ["canal"] },
+      { t: { pt: "Transcrevendo a fala", en: "Transcribing the speech", es: "Transcribiendo el habla" }, d: { pt: "Convertendo voz em texto", en: "Turning voice into text", es: "Convirtiendo voz en texto" }, nodes: [] }
+    ];
+    renderSteps(inicio); limpaNodes();
+    mResp.textContent = "…"; mResp.classList.remove("is-up");
+    mIntent.textContent = u.intentWait; mSteps.textContent = "0/2"; mSys.textContent = "0";
+
+    var tTyping = typing();
+    var base64 = "";
+    try { base64 = await blobParaBase64(blob); } catch (e) { tTyping.remove(); return falha(u, 0); }
+    var promessa = pedir({ audio_base64: base64, audio_mime: blob.type || "audio/webm" }).then(function (r) { return { ok: true, r: r }; }, function (e) { return { ok: false, e: e }; });
+
+    if (!(await andar(inicio, 0, 1, id, 450))) return;
+    marca(1, "is-run");
+    var resultado = await promessa;
+    if (id !== runId) return;
+    tTyping.remove();
+    if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) return falha(u, 1);
+
+    var transcricao = (resultado.r.data.transcricao || "").trim();
+    if (!transcricao) {
+      // o servidor não conseguiu transcrever e devolveu um aviso: mostra o aviso
+      marca(1, "is-error");
+      stepsEl.children[1].querySelector("small").textContent = u.errDetail;
+      mResp.textContent = fmtTempo(resultado.r.ms);
+      resultado.r.data.messages.forEach(function (m) { var h = renderBot(m.text || ""); if (h.replace(/<[^>]*>/g, "").trim()) addMsg("bot", h); });
+      setBusy(false);
+      return;
+    }
+
+    // a fala vira texto: mostra a transcrição e segue com as etapas do assunto
+    marca(1, "is-done");
+    var curta = transcricao.length > 70 ? transcricao.slice(0, 67) + "…" : transcricao;
+    stepsEl.children[1].querySelector("small").textContent = "“" + curta + "”";
+    var tr = document.createElement("span"); tr.className = "live-transcript";
+    tr.textContent = u.youSaid + ": “" + transcricao + "”";
+    bolha.appendChild(tr);
+    body.scrollTop = body.scrollHeight;
+
+    var intent = detect(transcricao);
+    var resto = stepsFor(intent, transcricao, true);
+    addSteps(resto, 2);
+    var todas = inicio.concat(resto);
+    mIntent.textContent = pick(intent.label);
+    mSteps.textContent = "2/" + todas.length;
+    if (!(await andar(todas, 2, todas.length - 1, id, 360))) return;
+    var ultimo = todas.length - 1;
+    marca(ultimo, "is-run");
+    await entregar(resultado, id, todas, ultimo);
+  }
+  var ICONS_MIC = "M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM19 11a7 7 0 01-14 0M12 18v3";
+
   async function enviarOpcao(op) {
     if (busy) return;
     setBusy(true);
@@ -343,12 +506,23 @@
     try {
       var r = await pedir({ optionId: op.id });
       t.remove();
-      (r.data.messages || []).forEach(function (m) { addMsg("bot", renderBot(m.text || "")); });
+      (r.data.messages || []).forEach(function (m) { var h = renderBot(m.text || ""); if (h.replace(/<[^>]*>/g, "").trim()) addMsg("bot", h); });
     } catch (e) { t.remove(); addMsg("bot", UI[lang()].error, true); }
     setBusy(false);
   }
 
-  form.addEventListener("submit", function (e) { e.preventDefault(); enviar(input.value); });
+  // ---- eventos ----
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (mr) { paraGravacao(true); return; }
+    enviar(input.value);
+  });
+  var podeGravar = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+  if (micBtn) {
+    if (!podeGravar) micBtn.hidden = true;
+    else micBtn.addEventListener("click", iniciaGravacao);
+  }
+  if (recCancel) recCancel.addEventListener("click", cancelaGravacao);
   document.addEventListener("evalangchange", reset);
   reset();
 })();

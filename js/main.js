@@ -225,7 +225,7 @@
     var OPEN_KEY = "eva_chat_open";
 
     // a vitrine "Eva ao vivo" reaproveita o formatador de respostas e o endereço do mesmo agente
-    window.EvaChatUtil = { renderMarkdown: renderMarkdown, webhook: WEBHOOK_URL };
+    window.EvaChatUtil = { renderMarkdown: renderMarkdown, webhook: WEBHOOK_URL, limpa: limpaInterno };
 
     var sessionId = sessionStorage.getItem(SESSION_KEY);
     if (!sessionId) {
@@ -246,6 +246,15 @@
 
     function escapeHtml(str) {
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Avisos internos (ex.: "Lead registrado com sucesso") são para a equipe, não para quem está sendo atendido.
+    function limpaInterno(texto) {
+      return String(texto || "")
+        .split("\n")
+        .filter(function (l) { return !/^\s*(\u2705|\u2714\uFE0F?|\u2611\uFE0F?)?\s*(lead|contato|cadastro)\s+(registrad|salv|cadastrad)/i.test(l); })
+        .join("\n")
+        .replace(/^\s+/, "");
     }
 
     // Telefones e e-mails na resposta da IA viram links clicáveis.
@@ -470,7 +479,7 @@
           return;
         }
         messages.forEach(function (m) {
-          appendMsg(m.text, "bot");
+          var tl = limpaInterno(m.text); if (tl) appendMsg(tl, "bot");
           if (m.options && m.options.length) renderOptionChips(m.options);
         });
       } catch (err) {
@@ -619,7 +628,7 @@
             appendMsg("Desculpe, não consegui entender o áudio.", "bot");
           } else {
             msgs.forEach(function (m) {
-              appendMsg(m.text, "bot");
+              var tl = limpaInterno(m.text); if (tl) appendMsg(tl, "bot");
               if (m.options && m.options.length) renderOptionChips(m.options);
             });
           }
