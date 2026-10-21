@@ -928,3 +928,12 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .hero-ask-sug button { padding: 0 0 3px; border: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.35); background: none; color: rgba(255, 255, 255, 0.82); font: inherit; font-size: 14px; cursor: pointer; transition: color .2s, border-color .2s; }
 .hero-ask-sug button:hover { color: #fff; border-bottom-color: #fff; }
 @media (max-width: 520px) { .hero-ask label { font-size: 11px; letter-spacing: .1em; gap: 0; white-space: nowrap; } .hero-ask label::before { display: none; } .hero-ask-row { gap: 10px; padding: 7px 7px 7px 12px; } .hero-ask-av { width: 32px; height: 32px; } .hero-ask input { font-size: 16px; } .hero-ask button[type="submit"] { width: 46px; padding: 0; } .hero-ask button[type="submit"] span { display: none; } }
+
+/* primeira tela com o mesmo azul escuro da vitrine "Eva ao vivo" */
+.hero {
+  background:
+    radial-gradient(ellipse 60% 70% at 85% 0%, hsla(212, 85%, 48%, 0.18), transparent 72%),
+    radial-gradient(ellipse 50% 60% at 5% 100%, hsla(205, 80%, 40%, 0.12), transparent 70%),
+    linear-gradient(180deg, hsl(222, 48%, 10%) 0%, hsl(221, 52%, 8%) 100%);
+}
+.hero #bg-canvas { opacity: .45; }
