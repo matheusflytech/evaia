@@ -88,7 +88,8 @@
       limit: "Chegamos ao limite desta demonstração. Para continuar, fale direto com a nossa equipe no WhatsApp.",
       attach: "Anexar imagem ou documento", removeAttach: "Remover anexo", file: "Arquivo", caption: "Legenda (opcional)",
       tooBig: "Esse arquivo passa de 3 MB. Pode mandar um menor?", badType: "Eu leio imagens, PDF, Word (.docx), texto e CSV. Esse formato não dá. Pode mandar em outro?", imgFail: "Não consegui preparar essa imagem. Tente outra ou outro formato (JPG ou PNG).",
-      attachHint: "Descreva ou pergunte algo sobre o arquivo (opcional)"
+      attachHint: "Descreva ou pergunte algo sobre o arquivo (opcional)",
+      human: "Uma pessoa da nossa equipe assumiu a conversa e vai te responder por aqui.", teamName: "Equipe Eva"
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
@@ -104,7 +105,8 @@
       limit: "We've reached this demo's limit. To keep going, talk to our team directly on WhatsApp.",
       attach: "Attach an image or document", removeAttach: "Remove attachment", file: "File", caption: "Caption (optional)",
       tooBig: "That file is over 3 MB. Could you send a smaller one?", badType: "I can read images, PDF, Word (.docx), text and CSV. That format won't work. Could you send another?", imgFail: "I couldn't prepare that image. Try another one or a different format (JPG or PNG).",
-      attachHint: "Describe or ask something about the file (optional)"
+      attachHint: "Describe or ask something about the file (optional)",
+      human: "Someone from our team took over the conversation and will reply right here.", teamName: "Eva team"
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
@@ -120,7 +122,8 @@
       limit: "Llegamos al límite de esta demostración. Para continuar, habla directamente con nuestro equipo por WhatsApp.",
       attach: "Adjuntar imagen o documento", removeAttach: "Quitar adjunto", file: "Archivo", caption: "Leyenda (opcional)",
       tooBig: "Ese archivo supera los 3 MB. ¿Puedes enviar uno más pequeño?", badType: "Leo imágenes, PDF, Word (.docx), texto y CSV. Ese formato no funciona. ¿Puedes enviar otro?", imgFail: "No pude preparar esa imagen. Prueba con otra o con otro formato (JPG o PNG).",
-      attachHint: "Describe o pregunta algo sobre el archivo (opcional)"
+      attachHint: "Describe o pregunta algo sobre el archivo (opcional)",
+      human: "Una persona de nuestro equipo tomó la conversación y te responderá por aquí.", teamName: "Equipo Eva"
     }
   };
 
@@ -297,7 +300,43 @@
   }
   function endpoint() { return (window.EvaChatUtil && window.EvaChatUtil.webhook) || "https://evapp.vercel.app/api/widget/d7a79443-3a8b-40c9-b493-743127938986/message"; }
 
+  // ---- atendimento humano ----
+  // Quando alguém da equipe assume pela Caixa de entrada do EvaApp, a Eva fica
+  // quieta e a resposta da pessoa não volta no POST: o chat busca as novas a
+  // cada 5 s (só depois da primeira mensagem e com a aba visível).
+  var depoisDe = null, vistas = {}, buscaTimer = null, avisouHumano = false;
+  function emAtendimento(data) { return !!data && (data.status === "human" || data.status === "waiting_human"); }
+  function urlNovas() { return endpoint().replace(/\/message$/, "/novas"); }
+  async function buscarNovas() {
+    if (document.hidden) return;
+    try {
+      var q = "?contactId=" + encodeURIComponent(sessionId) + (depoisDe ? "&depois=" + encodeURIComponent(depoisDe) : "");
+      var res = await fetch(urlNovas() + q, { cache: "no-store" });
+      if (!res.ok) return;
+      var d = await res.json();
+      (d.messages || []).forEach(function (m) {
+        depoisDe = m.createdAt;
+        if (vistas[m.id]) return;
+        vistas[m.id] = true;
+        var el = addMsg("bot", renderBot(m.text || ""));
+        var quem = document.createElement("small");
+        quem.className = "live-msg-autor";
+        quem.textContent = m.autor || UI[lang()].teamName;
+        el.insertBefore(quem, el.firstChild);
+      });
+    } catch (e) {}
+  }
+  function comecarBusca() { if (!buscaTimer) buscaTimer = setInterval(buscarNovas, 5000); }
+  function aguardarAtendente(i) {
+    marca(i, "is-done");
+    mResp.textContent = "—";
+    if (!avisouHumano) { addMsg("bot", UI[lang()].human, true); avisouHumano = true; }
+    setBusy(false);
+    buscarNovas();
+  }
+
   async function pedir(payload) {
+    comecarBusca();
     var t0 = performance.now();
     var res = await fetch(endpoint(), {
       method: "POST", headers: { "Content-Type": "application/json" },
@@ -414,6 +453,7 @@
     var resultado = await promessa;
     if (id !== runId) return;
     tTyping.remove();
+    if (resultado.ok && emAtendimento(resultado.r.data) && !(resultado.r.data.messages || []).length) return aguardarAtendente(ultimo);
     if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) return falha(u, ultimo);
     await entregar(resultado, id, steps, ultimo);
   }
@@ -508,6 +548,7 @@
     var resultado = await promessa;
     if (id !== runId) return;
     tTyping.remove();
+    if (resultado.ok && emAtendimento(resultado.r.data) && !(resultado.r.data.messages || []).length) return aguardarAtendente(1);
     if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) return falha(u, 1);
 
     var transcricao = (resultado.r.data.transcricao || "").trim();
@@ -665,6 +706,7 @@
     var resultado = await promessa;
     if (id !== runId) return;
     tTyping.remove();
+    if (resultado.ok && emAtendimento(resultado.r.data) && !(resultado.r.data.messages || []).length) return aguardarAtendente(ultimo);
     if (!resultado.ok || !resultado.r.data || !(resultado.r.data.messages || []).length) return falha(u, ultimo);
     await entregar(resultado, id, steps, ultimo);
   }
