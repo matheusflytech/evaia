@@ -32,6 +32,7 @@
   var SESSION_KEY = "eva_live_session";
   var sessionId = null;
   try { sessionId = sessionStorage.getItem(SESSION_KEY); } catch (e) {}
+  var conversaEmAndamento = !!sessionId;
   if (!sessionId) {
     sessionId = "site-live-" + Math.random().toString(36).slice(2);
     try { sessionStorage.setItem(SESSION_KEY, sessionId); } catch (e) {}
@@ -821,4 +822,6 @@
   }
   document.addEventListener("evalangchange", reset);
   reset();
+  // Aba recarregada no meio da conversa: já busca o que a equipe escreveu.
+  if (conversaEmAndamento) { buscarNovas(); comecarBusca(); }
 })();
