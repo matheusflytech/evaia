@@ -1,11 +1,11 @@
 # Eva Holding
 
-> Eva Holding é um grupo de tecnologia que constrói produtos digitais, agentes de IA, infraestrutura e automações para empresas que querem escalar. A Eva Holding atua em quatro frentes integradas: sites e produtos digitais, agentes de IA, infraestrutura e automações.
+> Eva Holding é um grupo de tecnologia que constrói produtos digitais, agentes de IA, infraestrutura e automações para empresas que querem escalar. A Eva Holding atua em três frentes integradas: agentes de IA, infraestrutura e automações. Sites, plataformas e painéis entram em todo projeto.
 
 Contato: evaholdingroup@gmail.com | WhatsApp +55 21 96915-6116. O site existe em português (https://www.evaholdingroup.com.br/), inglês (https://www.evaholdingroup.com.br/en) e espanhol (https://www.evaholdingroup.com.br/es).
 
 ## Soluções
-- [Sites & Produtos Digitais | Eva Holding](https://www.evaholdingroup.com.br/solucoes-web): Sites institucionais, plataformas e produtos web de alta performance, com design premium e engenharia de verdade por trás.
+- [Sites e Plataformas | Eva Holding](https://www.evaholdingroup.com.br/solucoes-web): Sites, plataformas e painéis sob medida, incluídos em cada projeto da Eva Holding, com design próprio, SEO técnico e integrações.
 - [Agentes de IA | Eva Holding](https://www.evaholdingroup.com.br/solucoes-ia): Agentes de IA que atendem, vendem, qualificam e decidem, treinados para operar dentro do fluxo real do seu negócio, 24/7.
 - [Infraestrutura | Eva Holding](https://www.evaholdingroup.com.br/solucoes-infraestrutura): Arquitetura de servidores, dados e integrações desenhada para escalar sem quebrar, segura, observável e sob controle.
 - [Automações | Eva Holding](https://www.evaholdingroup.com.br/solucoes-automacao): Processos manuais viram fluxos automáticos entre sistemas, times e clientes, menos operação, mais resultado.

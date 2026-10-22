@@ -40,9 +40,9 @@ const PAGINAS = [
             en: "Get your questions answered about how Eva Holding works with websites, AI agents, infrastructure and automation.",
             es: "Resuelve tus dudas sobre cómo trabaja Eva Holding con sitios web, agentes de IA, infraestructura y automatizaciones." } },
   { slug: "solucoes-web", prioridade: "0.9", servico: true, faq: true,
-    desc: { pt: "Sites institucionais, plataformas e produtos web de alta performance, com design premium e engenharia de verdade por trás.",
-            en: "Institutional websites, platforms and high-performance web products, with premium design and real engineering behind them.",
-            es: "Sitios institucionales, plataformas y productos web de alto rendimiento, con diseño premium e ingeniería real detrás." } },
+    desc: { pt: "Sites, plataformas e painéis sob medida, incluídos em cada projeto da Eva Holding, com design próprio, SEO técnico e integrações.",
+            en: "Custom websites, platforms and dashboards, included in every Eva Holding project, with original design, technical SEO and integrations.",
+            es: "Sitios, plataformas y paneles a medida, incluidos en cada proyecto de Eva Holding, con diseño propio, SEO técnico e integraciones." } },
   { slug: "solucoes-ia", prioridade: "0.9", servico: true, faq: true,
     desc: { pt: "Agentes de IA que atendem, vendem, qualificam e decidem, treinados para operar dentro do fluxo real do seu negócio, 24/7.",
             en: "AI agents that answer, sell, qualify and decide, trained to operate inside your business's real flow, 24/7.",
@@ -291,7 +291,7 @@ fs.writeFileSync(path.join(RAIZ, "sitemap.xml"), sm);
 const linha = (pg) => `- [${(TITULOS_PT[pg.slug] || MARCA).replace(/&amp;/g, "&")}](${urlPagina(pg.slug, "pt")}): ${pg.desc.pt}`;
 fs.writeFileSync(path.join(RAIZ, "llms.txt"), `# ${MARCA}
 
-> ${PAGINAS[0].desc.pt} A Eva Holding atua em quatro frentes integradas: sites e produtos digitais, agentes de IA, infraestrutura e automações.
+> ${PAGINAS[0].desc.pt} A Eva Holding atua em três frentes integradas: agentes de IA, infraestrutura e automações. Sites, plataformas e painéis entram em todo projeto.
 
 Contato: ${EMAIL} | WhatsApp ${FONE}. O site existe em português (${SITE}/), inglês (${SITE}/en) e espanhol (${SITE}/es).
 
