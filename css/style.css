@@ -953,10 +953,5 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
   .hero-title { font-size: clamp(30px, 10.6vw, 56px); }
 }
 
-/* faixa "Em todo projeto" abaixo das três frentes */
-.vertical-band { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px 32px; margin-top: 20px; padding: 24px 28px; border: 1px solid hsla(210, 80%, 55%, 0.28); border-radius: 18px; background: hsla(220, 51%, 14%, 0.5); }
-.vertical-band-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2); white-space: nowrap; }
-.vertical-band-text { color: var(--ink-300); font-size: 15px; line-height: 1.6; }
-.vertical-band-link { color: #fff; font-weight: 600; font-size: 15px; white-space: nowrap; border-bottom: 1px solid rgba(255, 255, 255, 0.4); padding-bottom: 3px; transition: border-color .2s; }
-.vertical-band-link:hover { border-bottom-color: #fff; }
-@media (max-width: 900px) { .vertical-list { grid-template-columns: 1fr; } .vertical-band { grid-template-columns: 1fr; } }
+
+@media (max-width: 900px) { .vertical-list { grid-template-columns: 1fr; } }

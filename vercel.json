@@ -1,4 +1,21 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/solucoes-web",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/solucoes-web",
+      "destination": "/en",
+      "permanent": true
+    },
+    {
+      "source": "/es/solucoes-web",
+      "destination": "/es",
+      "permanent": true
+    }
+  ]
 }

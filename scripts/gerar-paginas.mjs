@@ -20,9 +20,9 @@ const FONE = "+55 21 96915-6116";
 
 const PAGINAS = [
   { slug: "index", prioridade: "1.0",
-    desc: { pt: "Eva Holding é um grupo de tecnologia que constrói produtos digitais, agentes de IA, infraestrutura e automações para empresas que querem escalar.",
-            en: "Eva Holding is a technology group that builds digital products, AI agents, infrastructure and automation for companies that want to scale.",
-            es: "Eva Holding es un grupo de tecnología que construye productos digitales, agentes de IA, infraestructura y automatizaciones para empresas que quieren escalar." } },
+    desc: { pt: "Eva Holding é um grupo de tecnologia que constrói agentes de IA, infraestrutura e automações para empresas que querem escalar.",
+            en: "Eva Holding is a technology group that builds AI agents, infrastructure and automation for companies that want to scale.",
+            es: "Eva Holding es un grupo de tecnología que construye agentes de IA, infraestructura y automatizaciones para empresas que quieren escalar." } },
   { slug: "quem-somos", prioridade: "0.7",
     desc: { pt: "A Eva Holding é uma holding de tecnologia que reúne engenharia de software, IA e infraestrutura em um só time.",
             en: "Eva Holding is a technology holding that brings software engineering, AI and infrastructure together in a single team.",
@@ -32,17 +32,13 @@ const PAGINAS = [
             en: "Meet the people behind Eva Holding: the founder and the software engineering, automation and AI team.",
             es: "Conoce a quienes están detrás de Eva Holding: el fundador y el equipo de ingeniería de software, automatización e IA." } },
   { slug: "contato", prioridade: "0.7",
-    desc: { pt: "Fale com a Eva Holding sobre sites, agentes de IA, infraestrutura ou automações para o seu negócio.",
-            en: "Talk to Eva Holding about websites, AI agents, infrastructure or automation for your business.",
-            es: "Habla con Eva Holding sobre sitios web, agentes de IA, infraestructura o automatizaciones para tu negocio." } },
+    desc: { pt: "Fale com a Eva Holding sobre agentes de IA, infraestrutura ou automações para o seu negócio.",
+            en: "Talk to Eva Holding about AI agents, infrastructure or automation for your business.",
+            es: "Habla con Eva Holding sobre agentes de IA, infraestructura o automatizaciones para tu negocio." } },
   { slug: "faq", prioridade: "0.7", faq: true,
-    desc: { pt: "Tire suas dúvidas sobre como a Eva Holding trabalha com sites, agentes de IA, infraestrutura e automações.",
-            en: "Get your questions answered about how Eva Holding works with websites, AI agents, infrastructure and automation.",
-            es: "Resuelve tus dudas sobre cómo trabaja Eva Holding con sitios web, agentes de IA, infraestructura y automatizaciones." } },
-  { slug: "solucoes-web", prioridade: "0.9", servico: true, faq: true,
-    desc: { pt: "Sites, plataformas e painéis sob medida, incluídos em cada projeto da Eva Holding, com design próprio, SEO técnico e integrações.",
-            en: "Custom websites, platforms and dashboards, included in every Eva Holding project, with original design, technical SEO and integrations.",
-            es: "Sitios, plataformas y paneles a medida, incluidos en cada proyecto de Eva Holding, con diseño propio, SEO técnico e integraciones." } },
+    desc: { pt: "Tire suas dúvidas sobre como a Eva Holding trabalha com agentes de IA, infraestrutura e automações.",
+            en: "Get your questions answered about how Eva Holding works with AI agents, infrastructure and automation.",
+            es: "Resuelve tus dudas sobre cómo trabaja Eva Holding con agentes de IA, infraestructura y automatizaciones." } },
   { slug: "solucoes-ia", prioridade: "0.9", servico: true, faq: true,
     desc: { pt: "Agentes de IA que atendem, vendem, qualificam e decidem, treinados para operar dentro do fluxo real do seu negócio, 24/7.",
             en: "AI agents that answer, sell, qualify and decide, trained to operate inside your business's real flow, 24/7.",
@@ -52,9 +48,9 @@ const PAGINAS = [
             en: "Server, data and integration architecture designed to scale without breaking: secure, observable and under control.",
             es: "Arquitectura de servidores, datos e integraciones pensada para escalar sin romperse: segura, observable y bajo control." } },
   { slug: "solucoes-automacao", prioridade: "0.9", servico: true, faq: true,
-    desc: { pt: "Processos manuais viram fluxos automáticos entre sistemas, times e clientes, menos operação, mais resultado.",
-            en: "Manual processes become automatic flows between systems, teams and customers: less operation, more results.",
-            es: "Los procesos manuales se vuelven flujos automáticos entre sistemas, equipos y clientes: menos operación, más resultados." } }
+    desc: { pt: "Processos manuais viram fluxos automáticos entre sistemas, times e clientes.",
+            en: "Manual processes become automatic flows between systems, teams and customers.",
+            es: "Los procesos manuales se vuelven flujos automáticos entre sistemas, equipos y clientess." } }
 ];
 const SLUGS = new Set(PAGINAS.map((p) => p.slug));
 
@@ -291,7 +287,7 @@ fs.writeFileSync(path.join(RAIZ, "sitemap.xml"), sm);
 const linha = (pg) => `- [${(TITULOS_PT[pg.slug] || MARCA).replace(/&amp;/g, "&")}](${urlPagina(pg.slug, "pt")}): ${pg.desc.pt}`;
 fs.writeFileSync(path.join(RAIZ, "llms.txt"), `# ${MARCA}
 
-> ${PAGINAS[0].desc.pt} A Eva Holding atua em três frentes integradas: agentes de IA, infraestrutura e automações. Sites, plataformas e painéis entram em todo projeto.
+> ${PAGINAS[0].desc.pt} A Eva Holding atua em três frentes integradas: agentes de IA, infraestrutura e automações.
 
 Contato: ${EMAIL} | WhatsApp ${FONE}. O site existe em português (${SITE}/), inglês (${SITE}/en) e espanhol (${SITE}/es).
 
@@ -302,11 +298,11 @@ ${PAGINAS.filter((p) => p.servico).map(linha).join("\n")}
 ${PAGINAS.filter((p) => !p.servico).map(linha).join("\n")}
 
 ## Em inglês e espanhol
-- English: ${SITE}/en (AI agents, automation, infrastructure and websites)
-- Español: ${SITE}/es (agentes de IA, automatizaciones, infraestructura y sitios web)
+- English: ${SITE}/en (AI agents, automation and infrastructure)
+- Español: ${SITE}/es (agentes de IA, automatizaciones e infraestructura)
 `);
 
-fs.writeFileSync(path.join(RAIZ, "vercel.json"), JSON.stringify({ cleanUrls: true, trailingSlash: false }, null, 2) + "\n");
+fs.writeFileSync(path.join(RAIZ, "vercel.json"), JSON.stringify({ cleanUrls: true, trailingSlash: false, redirects: [{ source: "/solucoes-web", destination: "/", permanent: true }, { source: "/en/solucoes-web", destination: "/en", permanent: true }, { source: "/es/solucoes-web", destination: "/es", permanent: true }] }, null, 2) + "\n");
 
 const totalFaltas = Object.values(faltasPorPagina).reduce((a, b) => a + b.length, 0);
 console.log(`${saidas.length} páginas geradas | robots.txt, sitemap.xml (${LANGS.length * PAGINAS.length} URLs), llms.txt e vercel.json | base: ${SITE}`);

@@ -76,7 +76,7 @@
   var UI = {
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
-      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", heroRec: "Gravando", askS: ["Quanto custa um agente de IA?", "Preciso de um site novo", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
+      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", heroRec: "Gravando", askS: ["Quanto custa um agente de IA?", "Quero automatizar o atendimento da empresa", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
       recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
       greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
@@ -92,7 +92,7 @@
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
-      nudge: "Your turn: type here", askPh: "Ask Eva anything", heroRec: "Recording", askS: ["How much does an AI agent cost?", "I need a new website", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
+      nudge: "Your turn: type here", askPh: "Ask Eva anything", heroRec: "Recording", askS: ["How much does an AI agent cost?", "I want to automate our customer support", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
       recording: "Recording", voice: "Voice message", youSaid: "You said",
       greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
@@ -108,7 +108,7 @@
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
-      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", heroRec: "Grabando", askS: ["¿Cuánto cuesta un agente de IA?", "Necesito un sitio web nuevo", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
+      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", heroRec: "Grabando", askS: ["¿Cuánto cuesta un agente de IA?", "Quiero automatizar la atención de la empresa", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
       recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
       greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
@@ -125,9 +125,9 @@
   };
 
   var CHIPS = {
-    pt: ["Quero automatizar o atendimento da minha empresa", "Preciso de um site novo", "Como vocês cuidam da infraestrutura?", "Quanto custa um agente de IA?"],
-    en: ["I want to automate my company's support", "I need a new website", "How do you handle infrastructure?", "How much does an AI agent cost?"],
-    es: ["Quiero automatizar la atención de mi empresa", "Necesito un sitio web nuevo", "¿Cómo manejan la infraestructura?", "¿Cuánto cuesta un agente de IA?"]
+    pt: ["Quero automatizar o atendimento da minha empresa", "Como a Eva se integra ao meu CRM?", "Como vocês cuidam da infraestrutura?", "Quanto custa um agente de IA?"],
+    en: ["I want to automate my company's support", "How does Eva connect to my CRM?", "How do you handle infrastructure?", "How much does an AI agent cost?"],
+    es: ["Quiero automatizar la atención de mi empresa", "¿Cómo se integra Eva con mi CRM?", "¿Cómo manejan la infraestructura?", "¿Cuánto cuesta un agente de IA?"]
   };
 
   // intenções: palavras (pt, en, es), rótulo, etapa específica e quais sistemas acendem em cada etapa
@@ -152,10 +152,7 @@
       label: { pt: "Agente de IA", en: "AI agent", es: "Agente de IA" },
       step: { t: { pt: "Preparando a resposta do agente", en: "Preparing the agent's answer", es: "Preparando la respuesta del agente" }, d: { pt: "Atendimento, canais e integrações", en: "Support, channels and integrations", es: "Atención, canales e integraciones" } },
       nodes: { 5: [], 6: ["crm", "equipe"] } },
-    { id: "web", re: /\bsite\b|web|loja|landing|p[aá]gina|plataforma|\bapp\b|website|ecommerce|e-commerce|store|platform|sitio|tienda/i,
-      label: { pt: "Site e produto digital", en: "Website and digital product", es: "Sitio y producto digital" },
-      step: { t: { pt: "Montando o escopo do produto", en: "Building the product scope", es: "Armando el alcance del producto" }, d: { pt: "Páginas, painel e integrações", en: "Pages, admin panel and integrations", es: "Páginas, panel e integraciones" } },
-      nodes: { 5: ["infra"], 6: ["equipe"] } }
+
   ];
   var ANEXO = {
     id: "anexo",
