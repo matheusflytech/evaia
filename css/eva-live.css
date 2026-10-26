@@ -30,6 +30,8 @@
 .live-msg--bot { align-self: flex-start; background: var(--a-s3); color: var(--a-t1); border: 1px solid var(--a-b1); border-bottom-left-radius: 4px; }
 .live-msg--bot strong { color: #fff; }
 .live-msg--bot a { color: #9db8f6; text-decoration: underline; text-underline-offset: 2px; }
+.live-msg-midia { display: block; max-width: 100%; max-height: 240px; border-radius: 12px; margin-bottom: 4px; }
+a.live-msg-midia { color: inherit; text-decoration: underline; }
 .live-msg-autor { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 600; color: var(--a-t2, #9aa4b2); letter-spacing: .01em; }
 .live-msg--bot p { margin: 0 0 6px; } .live-msg--bot p:last-child { margin-bottom: 0; }
 .live-msg--bot ul { margin: 4px 0 6px 16px; padding: 0; list-style: disc; }

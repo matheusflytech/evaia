@@ -78,7 +78,7 @@
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
       nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", heroRec: "Gravando", askS: ["Quanto custa um agente de IA?", "Quero automatizar o atendimento da empresa", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
-      recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
+      recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse", transcript: "Transcrição", file: "Arquivo",
       greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
       mResp: "Tempo de resposta", mIntent: "Intenção", mSteps: "Etapas", mSys: "Sistemas acionados",
@@ -95,7 +95,7 @@
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
       nudge: "Your turn: type here", askPh: "Ask Eva anything", heroRec: "Recording", askS: ["How much does an AI agent cost?", "I want to automate our customer support", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
-      recording: "Recording", voice: "Voice message", youSaid: "You said",
+      recording: "Recording", voice: "Voice message", youSaid: "You said", transcript: "Transcript", file: "File",
       greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
       mResp: "Response time", mIntent: "Intent", mSteps: "Steps", mSys: "Systems used",
@@ -112,7 +112,7 @@
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
       nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", heroRec: "Grabando", askS: ["¿Cuánto cuesta un agente de IA?", "Quiero automatizar la atención de la empresa", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
-      recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
+      recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste", transcript: "Transcripción", file: "Archivo",
       greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
       mResp: "Tiempo de respuesta", mIntent: "Intención", mSteps: "Etapas", mSys: "Sistemas activados",
@@ -316,7 +316,23 @@
         depoisDe = m.createdAt;
         if (vistas[m.id]) return;
         vistas[m.id] = true;
-        var el = addMsg("bot", renderBot(m.text || ""));
+        var audio = !!(m.media && m.media.type === "audio");
+        var el = addMsg("bot", audio ? "" : renderBot(m.text || ""));
+        // Anexo do atendente (link assinado do EvaApp): montado com DOM, sem innerHTML.
+        if (m.media && /^https:\/\//.test(m.media.url)) {
+          var md = m.media, midia;
+          if (md.type === "image") { midia = document.createElement("img"); midia.alt = ""; midia.src = md.url; }
+          else if (audio || md.type === "video") { midia = document.createElement(md.type); midia.controls = true; midia.src = md.url; }
+          else { midia = document.createElement("a"); midia.href = md.url; midia.target = "_blank"; midia.rel = "noopener noreferrer"; midia.textContent = md.name || UI[lang()].file; }
+          midia.className = "live-msg-midia";
+          el.insertBefore(midia, el.firstChild);
+          if (audio && m.text) {
+            var tr = document.createElement("span");
+            tr.className = "live-transcript";
+            tr.textContent = UI[lang()].transcript + ": “" + m.text + "”";
+            el.appendChild(tr);
+          }
+        }
         var quem = document.createElement("small");
         quem.className = "live-msg-autor";
         quem.textContent = m.autor || UI[lang()].teamName;
