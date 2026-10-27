@@ -15,16 +15,16 @@ section.verticals::before, section.about::before, section.approach::before, sect
   background: var(--onda-bg); animation: onda-secao var(--onda-dur, 44s) linear infinite; will-change: transform;
 }
 @keyframes onda-secao {
-  0%, 100% { transform: translate3d(-4%, 0, 0); }
-  25% { transform: translate3d(0, -2.5%, 0); }
-  50% { transform: translate3d(4%, 0, 0); }
-  75% { transform: translate3d(0, 2.5%, 0); }
+  0%, 100% { transform: translate3d(-9%, 0, 0); }
+  25% { transform: translate3d(0, -5%, 0); }
+  50% { transform: translate3d(9%, 0, 0); }
+  75% { transform: translate3d(0, 5%, 0); }
 }
 
 /* três frentes: luz embaixo, nos dois cantos */
 section.verticals.on-dark {
   background: linear-gradient(180deg, hsl(220, 55%, 5%) 0%, hsl(220, 50%, 8%) 55%, hsl(218, 44%, 13%) 100%);
-  --onda-dur: 48s;
+  --onda-dur: 20s;
   --onda-bg:
     radial-gradient(48% 34% at 8% 100%, hsla(208, 52%, 54%, .55), transparent 72%),
     radial-gradient(44% 30% at 94% 104%, hsla(204, 48%, 60%, .42), transparent 72%);
@@ -33,7 +33,7 @@ section.verticals.on-dark {
 /* quem é a Eva (claro): lavado de azul bem suave, para o texto escuro continuar nítido */
 section.about.on-light {
   background: linear-gradient(180deg, hsl(220, 30%, 97%) 0%, hsl(214, 40%, 94%) 100%);
-  --onda-dur: 56s;
+  --onda-dur: 26s;
   --onda-bg:
     radial-gradient(46% 38% at 92% 100%, hsla(208, 72%, 78%, .5), transparent 70%),
     radial-gradient(40% 34% at 4% 0%, hsla(204, 70%, 84%, .55), transparent 70%);
@@ -42,7 +42,7 @@ section.about.on-light {
 /* como pensamos: a luz vem do alto, da direita */
 section.approach.on-dark {
   background: linear-gradient(0deg, hsl(220, 55%, 5%) 0%, hsl(220, 50%, 8%) 55%, hsl(218, 44%, 12%) 100%);
-  --onda-dur: 52s;
+  --onda-dur: 22s;
   --onda-bg:
     radial-gradient(50% 36% at 88% 0%, hsla(208, 52%, 52%, .38), transparent 72%),
     radial-gradient(40% 30% at 6% -4%, hsla(214, 54%, 38%, .34), transparent 72%);
@@ -51,30 +51,67 @@ section.approach.on-dark {
 /* chamada final: a luz grande embaixo, no centro, como na primeira tela */
 section.cta.on-dark {
   background: linear-gradient(180deg, hsl(220, 55%, 5%) 0%, hsl(220, 50%, 8%) 40%, hsl(216, 42%, 17%) 100%);
-  --onda-dur: 40s;
+  --onda-dur: 18s;
   --onda-bg:
     radial-gradient(62% 40% at 50% 104%, hsla(208, 54%, 58%, .62), transparent 72%),
     radial-gradient(40% 28% at 12% 100%, hsla(204, 48%, 52%, .38), transparent 72%),
     radial-gradient(40% 28% at 88% 100%, hsla(214, 52%, 44%, .36), transparent 72%);
 }
 
-/* topo das páginas internas (equipe, FAQ, contato, soluções) */
+/* topo das páginas internas: escuro no alto, azul-aço no meio e claro embaixo, que se funde com a seção clara seguinte */
 section.pg-hero {
-  background: linear-gradient(180deg, hsl(220, 55%, 5%) 0%, hsl(220, 50%, 8%) 58%, hsl(216, 42%, 15%) 100%);
-  --onda-dur: 46s;
+  padding-bottom: 270px;
+  background: linear-gradient(180deg, hsl(220, 52%, 5%) 0%, hsl(216, 40%, 10%) 50%, hsl(206, 28%, 22%) 68%, hsl(200, 20%, 44%) 80%, hsl(196, 24%, 76%) 91%, hsl(220, 30%, 97%) 100%);
+  --onda-dur: 17s;
   --onda-bg:
-    radial-gradient(56% 34% at 30% 106%, hsla(208, 52%, 56%, .46), transparent 72%),
-    radial-gradient(40% 28% at 84% 100%, hsla(204, 46%, 58%, .3), transparent 72%);
+    radial-gradient(44% 18% at 22% 99%, hsla(48, 72%, 92%, .75), transparent 72%),
+    radial-gradient(46% 20% at 78% 96%, hsla(196, 30%, 62%, .6), transparent 72%),
+    radial-gradient(38% 16% at 50% 86%, hsla(204, 36%, 52%, .34), transparent 72%);
 }
 
 /* rodapé: só um brilho discreto na base */
 footer.site-footer {
   background: linear-gradient(180deg, hsl(220, 55%, 4%) 0%, hsl(220, 50%, 6%) 100%);
-  --onda-dur: 60s;
+  --onda-dur: 30s;
   --onda-bg: radial-gradient(60% 40% at 50% 112%, hsla(208, 50%, 50%, .28), transparent 72%);
 }
 
 /* quem pede menos movimento no sistema vê as ondas bem mais devagar */
 @media (prefers-reduced-motion: reduce) {
   section.verticals::before, section.about::before, section.approach::before, section.cta::before, section.pg-hero::before, footer.site-footer::before { animation-duration: 140s; }
+}
+
+/* ===== variações a partir das referências: luz de canto, varredura diagonal, grão fino e listras verticais ===== */
+:root {
+  --grao: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+/* grão por cima de tudo nas seções escuras e na primeira tela */
+section.verticals::after, section.approach::after, section.cta::after, section.pg-hero::after, footer.site-footer::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--grao); background-size: 240px 240px; opacity: .11; mix-blend-mode: soft-light;
+}
+section.verticals::after, section.approach::after, section.cta::after, section.pg-hero::after, footer.site-footer::after { z-index: -1; }
+
+.hero-chat-wrap { z-index: 2; }
+
+/* três frentes: luz forte saindo do canto inferior direito, com listras verticais bem sutis */
+section.verticals.on-dark {
+  --onda-bg:
+    radial-gradient(58% 78% at 104% 108%, hsla(204, 58%, 70%, .78), hsla(206, 52%, 48%, .34) 42%, transparent 72%),
+    radial-gradient(34% 40% at 0% 106%, hsla(214, 52%, 40%, .3), transparent 72%);
+}
+section.verticals::after {
+  background-image: var(--grao);
+  background-size: 240px 240px; opacity: .14; mix-blend-mode: soft-light;
+}
+
+/* como pensamos: varredura diagonal do canto superior direito, que desliza devagar */
+section.approach.on-dark {
+  --onda-dur: 24s;
+  --onda-bg:
+    linear-gradient(225deg, hsla(200, 26%, 82%, .62) 0%, hsla(205, 34%, 46%, .5) 16%, hsla(214, 44%, 22%, .3) 34%, transparent 52%);
+}
+section.approach::before { animation-name: onda-diagonal; }
+@keyframes onda-diagonal {
+  0%, 100% { transform: translate3d(-5%, -3%, 0); }
+  50% { transform: translate3d(7%, 5%, 0); }
 }
