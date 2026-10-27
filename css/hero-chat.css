@@ -132,5 +132,5 @@
 .hero-chat-sec .hero-title { line-height: 1.1; }
 .hero-chat-sec .hero-title .line { white-space: nowrap; }
 @media (max-width: 640px) {
-  .hero-chat-sec .hero-title { font-size: min(10.2vw, 52px); letter-spacing: -.03em; }
+  .hero-chat-sec .hero-title { font-size: min(8vw, 40px); letter-spacing: -.03em; }
 }
