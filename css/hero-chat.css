@@ -1,0 +1,104 @@
+/* ===== Primeira tela: conversa estilo ChatGPT, fundo de pontos que se mexe =====
+   Título direto, um balão para digitar e nada mais. O painel "por trás" só abre sob demanda. */
+
+.hero-chat-sec {
+  position: relative; min-height: 100vh; min-height: 100lvh; display: flex; align-items: center; justify-content: center;
+  padding: 120px 20px 48px; overflow: hidden; background: hsl(220, 50%, 6%); color: var(--ink-100);
+}
+/* fundo: degradê escuro no alto, luz só na parte de baixo, em ondas lentas (paleta do site) */
+.hero-fundo { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(180deg, hsl(220, 55%, 4%) 0%, hsl(220, 50%, 7%) 42%, hsl(216, 42%, 15%) 74%, hsl(210, 38%, 30%) 100%); }
+.hero-fundo i { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+.hero-fundo i:nth-child(1) { width: 80vmax; height: 40vmax; left: -26vmax; bottom: -26vmax; background: radial-gradient(closest-side, hsla(208, 50%, 56%, .85), transparent); animation: onda-a 34s linear infinite; }
+.hero-fundo i:nth-child(2) { width: 74vmax; height: 36vmax; right: -24vmax; bottom: -24vmax; background: radial-gradient(closest-side, hsla(204, 46%, 62%, .7), transparent); animation: onda-b 42s linear infinite; }
+.hero-fundo i:nth-child(3) { width: 60vmax; height: 30vmax; left: 20vmax; bottom: -22vmax; background: radial-gradient(closest-side, hsla(214, 52%, 40%, .6), transparent); animation: onda-c 38s linear infinite; }
+.hero-fundo i:nth-child(4) { width: 50vmax; height: 26vmax; right: 6vmax; bottom: -16vmax; background: radial-gradient(closest-side, hsla(198, 40%, 34%, .5), transparent); animation: onda-d 46s linear infinite; }
+/* o alto fica sempre escuro, para o texto não esmaecer */
+.hero-fundo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, hsl(220, 55%, 4%) 0%, hsla(220, 55%, 4%, .88) 34%, hsla(220, 55%, 4%, .4) 56%, transparent 74%); }
+@keyframes onda-a { 0%, 100% { transform: translate3d(-12vmax, 0, 0); } 25% { transform: translate3d(0, -3vmax, 0); } 50% { transform: translate3d(14vmax, 0, 0); } 75% { transform: translate3d(0, 3vmax, 0); } }
+@keyframes onda-b { 0%, 100% { transform: translate3d(14vmax, 0, 0); } 25% { transform: translate3d(0, 3vmax, 0); } 50% { transform: translate3d(-14vmax, 0, 0); } 75% { transform: translate3d(0, -3vmax, 0); } }
+@keyframes onda-c { 0%, 100% { transform: translate3d(-16vmax, 1vmax, 0); } 25% { transform: translate3d(0, -4vmax, 0); } 50% { transform: translate3d(16vmax, 1vmax, 0); } 75% { transform: translate3d(0, 4vmax, 0); } }
+@keyframes onda-d { 0%, 100% { transform: translate3d(12vmax, 0, 0); } 25% { transform: translate3d(0, 3vmax, 0); } 50% { transform: translate3d(-12vmax, 0, 0); } 75% { transform: translate3d(0, -3vmax, 0); } }
+/* quem pede menos movimento no sistema ainda vê as ondas, só que mais devagar */
+@media (prefers-reduced-motion: reduce) { .hero-fundo i { animation-duration: 90s; } }
+.hero-chat-wrap { position: relative; z-index: 2; width: min(760px, 100%); display: flex; flex-direction: column; align-items: stretch; }
+
+/* título */
+.hero-chat-head { text-align: center; max-height: 340px; margin-bottom: 30px; transition: max-height .55s ease, opacity .4s ease, margin .55s ease; overflow: hidden; }
+.hero-chat-sec.is-conv .hero-chat-head { max-height: 0; opacity: 0; margin-bottom: 0; }
+.hero-chat-sec .hero-title { font-size: clamp(40px, 6.4vw, 78px); line-height: 1.04; letter-spacing: -.035em; font-weight: 600; margin: 0 0 18px; }
+.hero-chat-sec .hero-title .line { display: block; overflow: visible; margin: 0; padding: 0; }
+.hero-chat-sec .hero-title .line + .line { color: var(--accent-2); font-weight: 400; }
+.hero-chat-sec .hero-live-sub { margin: 0 auto; max-width: 460px; color: hsl(210, 40%, 88%); font-size: 17px; line-height: 1.55; text-align: center; text-shadow: 0 1px 14px rgba(3, 8, 20, .55); }
+
+/* palco do chat: sem moldura, sem cabeçalho */
+.hero-chat-sec .hero-live { padding: 0; background: none; overflow: visible; }
+.hero-chat-sec .hero-live::before { display: none; }
+.hero-chat-sec .live-stage { display: block; }
+.hero-chat-sec .live-chat { min-height: 0; max-height: none; background: none; border: 0; box-shadow: none; border-radius: 0; overflow: visible; display: block; }
+.hero-chat-sec .live-chat-top, .hero-chat-sec .live-hint { display: none; }
+
+/* mensagens (só depois que a conversa começa) */
+.hero-chat-sec .live-body { display: none; padding: 0 4px 18px; max-height: 44vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; gap: 18px; }
+.hero-chat-sec .hero-live.is-conv .live-body { display: flex; }
+.hero-chat-sec .live-msg { max-width: 100%; font-size: 17px; line-height: 1.6; }
+.hero-chat-sec .live-msg--bot { background: none; border: 0; padding: 0; border-radius: 0; color: var(--ink-100); }
+.hero-chat-sec .live-msg--user { background: rgba(255, 255, 255, .14); color: #fff; border-radius: 22px; padding: 11px 18px; max-width: 82%; }
+.hero-chat-sec .live-msg-autor { display: none; }
+
+/* o balão de digitar */
+.hero-chat-sec .live-form {
+  display: flex; align-items: center; gap: 6px; padding: 8px 10px 8px 20px; margin: 0;
+  background: rgba(8, 14, 30, .58); border: 1px solid rgba(255, 255, 255, .22); border-radius: 30px;
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .7);
+  transition: border-color .2s, box-shadow .2s;
+}
+.hero-chat-sec .live-form:focus-within { border-color: rgba(255, 255, 255, .5); box-shadow: 0 0 0 4px rgba(255, 255, 255, .08), 0 24px 60px -24px rgba(0, 0, 0, .7); }
+.hero-chat-sec .live-form .live-input { flex: 1; min-width: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 14px 4px; font-size: 18px; color: #fff; animation: none; }
+.hero-chat-sec .live-form .live-input::placeholder { color: rgba(255, 255, 255, .55); }
+.hero-chat-sec .live-attach, .hero-chat-sec .live-mic, .hero-chat-sec .live-cancel { width: 46px; height: 46px; border: 0; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, .78); flex-shrink: 0; }
+.hero-chat-sec .live-attach:hover, .hero-chat-sec .live-mic:hover, .hero-chat-sec .live-cancel:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+.hero-chat-sec .live-send { width: 46px; height: 46px; border-radius: 50%; background: #fff; color: #0a1020; flex-shrink: 0; }
+.hero-chat-sec .live-send:hover { background: var(--accent-2); }
+.hero-chat-sec .live-rec { background: rgba(248, 113, 113, .12); border-color: rgba(248, 113, 113, .35); border-radius: 22px; min-height: 46px; }
+.hero-chat-sec .live-pend { flex-basis: 100%; order: -1; }
+.hero-chat-sec .live-form.is-nudge .live-input { box-shadow: none; }
+
+/* sugestões */
+.hero-chat-sec .live-chips { justify-content: center; padding: 18px 0 0; gap: 10px; }
+.hero-chat-sec .live-chip { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .22); color: var(--ink-100); font-size: 14.5px; padding: 9px 16px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.hero-chat-sec .live-chip:hover { background: rgba(255, 255, 255, .16); border-color: rgba(255, 255, 255, .45); transform: none; }
+
+/* painel "por trás": escondido, abre sob demanda */
+.hero-chat-sec .live-trace { display: none; margin-top: 18px; max-height: 360px; min-height: 0; height: auto; overflow-y: auto; }
+.hero-chat-sec .hero-live.mostra-trace .live-trace { display: block; }
+.hero-trace-toggle {
+  align-self: center; margin-top: 14px; background: none; border: 0; color: rgba(255, 255, 255, .7); font: inherit; font-size: 14px;
+  cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(255, 255, 255, .35);
+}
+.hero-trace-toggle:hover { color: #fff; }
+.hero-trace-toggle[hidden] { display: none; }
+
+@media (max-width: 640px) {
+  .hero-chat-sec { padding: 104px 14px 28px; align-items: flex-start; }
+  .hero-chat-sec .hero-live-sub { font-size: 15.5px; }
+  .hero-chat-sec .live-form { padding: 6px 8px 6px 16px; border-radius: 26px; }
+  .hero-chat-sec .live-form .live-input { font-size: 16px; }
+  .hero-chat-sec .live-attach, .hero-chat-sec .live-mic, .hero-chat-sec .live-send, .hero-chat-sec .live-cancel { width: 42px; height: 42px; }
+  .hero-chat-sec .live-body { max-height: 46vh; }
+}
+
+/* ordem como no ChatGPT: mensagens, balão, sugestões */
+.hero-chat-sec .live-chat { display: flex; flex-direction: column; }
+.hero-chat-sec .live-body { order: 0; }
+.hero-chat-sec .live-form { order: 1; }
+.hero-chat-sec .live-chips { order: 2; padding: 16px 0 0; }
+
+/* celular: só o essencial (título, balão, duas sugestões), centrado na tela */
+@media (max-width: 640px) {
+  .hero-chat-sec { align-items: center; padding: 96px 14px 72px; }
+  .hero-chat-sec .hero-chat-head { margin-bottom: 22px; }
+  .hero-chat-sec .hero-live-sub { display: none; }
+  .hero-chat-sec .hero-title { margin-bottom: 0; font-size: clamp(36px, 11vw, 52px); }
+  .hero-chat-sec .live-chips .live-chip:nth-child(n+3) { display: none; }
+  .hero-chat-sec .live-chips { padding-top: 14px; }
+}

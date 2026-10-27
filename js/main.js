@@ -254,6 +254,9 @@
         .split("\n")
         .filter(function (l) { return !/^\s*(\u2705|\u2714\uFE0F?|\u2611\uFE0F?)?\s*(lead|contato|cadastro)\s+(registrad|salv|cadastrad)/i.test(l); })
         .join("\n")
+        // travessão na fala da Eva vira vírgula (a marca evita esse sinal)
+        .replace(/\s+[—–]\s+/g, ", ")
+        .replace(/[—–]/g, ", ")
         .replace(/^\s+/, "");
     }
 

@@ -77,9 +77,9 @@
   var UI = {
     pt: {
       status: "online agora", name: "Eva", sub: "agente de IA da Eva Holding",
-      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", heroRec: "Gravando", askS: ["Quanto custa um agente de IA?", "Quero automatizar o atendimento da empresa", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Escreva sua mensagem", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
+      nudge: "Sua vez: escreva aqui", askPh: "Pergunte algo sobre a Eva", heroRec: "Gravando", askS: ["Quanto custa um agente de IA?", "Quero automatizar o atendimento da empresa", "Como vocês cuidam da infraestrutura?"], askBtn: "Enviar", placeholder: "Pergunte à Eva", send: "Enviar", mic: "Gravar áudio", cancel: "Cancelar gravação", stopSend: "Enviar áudio",
       recording: "Gravando", voice: "Mensagem de voz", youSaid: "Você disse",
-      greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto ou por áudio, e acompanhe, ao lado, o que acontece por trás de cada resposta.",
+      greeting: "Oi! Eu sou a Eva. Me conta o que a sua empresa precisa, por texto, por áudio ou mandando um arquivo. Depois, se quiser, mostro o que acontece por trás de cada resposta.",
       barTitle: "Eva por dentro", live: "ao vivo",
       mResp: "Tempo de resposta", mIntent: "Intenção", mSteps: "Etapas", mSys: "Sistemas acionados",
       empty: "Mande uma mensagem, grave um áudio ou escolha uma sugestão. As etapas aparecem aqui, em tempo real.",
@@ -94,9 +94,9 @@
     },
     en: {
       status: "online now", name: "Eva", sub: "Eva Holding's AI agent",
-      nudge: "Your turn: type here", askPh: "Ask Eva anything", heroRec: "Recording", askS: ["How much does an AI agent cost?", "I want to automate our customer support", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Type your message", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
+      nudge: "Your turn: type here", askPh: "Ask Eva anything", heroRec: "Recording", askS: ["How much does an AI agent cost?", "I want to automate our customer support", "How do you handle infrastructure?"], askBtn: "Send", placeholder: "Ask Eva", send: "Send", mic: "Record audio", cancel: "Cancel recording", stopSend: "Send audio",
       recording: "Recording", voice: "Voice message", youSaid: "You said",
-      greeting: "Hi! I'm Eva. Tell me what your company needs, by text or by voice, and watch, next to the chat, what happens behind each answer.",
+      greeting: "Hi! I'm Eva. Tell me what your company needs, by text, by voice or with a file. Afterwards, if you like, I will show you what happens behind each answer.",
       barTitle: "Eva inside", live: "live",
       mResp: "Response time", mIntent: "Intent", mSteps: "Steps", mSys: "Systems used",
       empty: "Send a message, record audio or pick a suggestion. The steps show up here, in real time.",
@@ -111,9 +111,9 @@
     },
     es: {
       status: "en línea ahora", name: "Eva", sub: "agente de IA de Eva Holding",
-      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", heroRec: "Grabando", askS: ["¿Cuánto cuesta un agente de IA?", "Quiero automatizar la atención de la empresa", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Escribe tu mensaje", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
+      nudge: "Tu turno: escribe aquí", askPh: "Pregunta algo sobre Eva", heroRec: "Grabando", askS: ["¿Cuánto cuesta un agente de IA?", "Quiero automatizar la atención de la empresa", "¿Cómo cuidan la infraestructura?"], askBtn: "Enviar", placeholder: "Pregunta a Eva", send: "Enviar", mic: "Grabar audio", cancel: "Cancelar grabación", stopSend: "Enviar audio",
       recording: "Grabando", voice: "Mensaje de voz", youSaid: "Dijiste",
-      greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto o por audio, y mira, al lado, lo que ocurre detrás de cada respuesta.",
+      greeting: "¡Hola! Soy Eva. Cuéntame qué necesita tu empresa, por texto, por audio o con un archivo. Después, si quieres, te muestro lo que ocurre detrás de cada respuesta.",
       barTitle: "Eva por dentro", live: "en vivo",
       mResp: "Tiempo de respuesta", mIntent: "Intención", mSteps: "Etapas", mSys: "Sistemas activados",
       empty: "Envía un mensaje, graba un audio o elige una sugerencia. Las etapas aparecen aquí, en tiempo real.",
@@ -129,9 +129,9 @@
   };
 
   var CHIPS = {
-    pt: ["Quero automatizar o atendimento da minha empresa", "Como a Eva se integra ao meu CRM?", "Como vocês cuidam da infraestrutura?", "Quanto custa um agente de IA?"],
-    en: ["I want to automate my company's support", "How does Eva connect to my CRM?", "How do you handle infrastructure?", "How much does an AI agent cost?"],
-    es: ["Quiero automatizar la atención de mi empresa", "¿Cómo se integra Eva con mi CRM?", "¿Cómo manejan la infraestructura?", "¿Cuánto cuesta un agente de IA?"]
+    pt: ["Qual é o diferencial da Eva?", "Quero automatizar o atendimento da minha empresa", "Como a Eva se integra ao meu CRM?", "Quanto custa um agente de IA?"],
+    en: ["What makes Eva different?", "I want to automate my company's support", "How does Eva connect to my CRM?", "How much does an AI agent cost?"],
+    es: ["¿Cuál es el diferencial de Eva?", "Quiero automatizar la atención de mi empresa", "¿Cómo se integra Eva con mi CRM?", "¿Cuánto cuesta un agente de IA?"]
   };
 
   // intenções: palavras (pt, en, es), rótulo, etapa específica e quais sistemas acendem em cada etapa
@@ -807,6 +807,11 @@
     if (pendente) { enviarAnexo(input.value); return; }
     enviar(input.value);
   });
+  // no celular, o botão flutuante do balão sai de cima do campo enquanto a conversa da primeira tela está à vista
+  var fab = document.getElementById("chatFab"), heroLive = document.querySelector(".hero-chat-sec");
+  if (fab && heroLive && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { fab.classList.toggle("fab-oculto", es[0].intersectionRatio > 0.35); }, { threshold: [0, 0.35, 0.7, 1] }).observe(heroLive);
+  }
   var podeGravar = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
   if (micBtn) {
     if (!podeGravar) micBtn.hidden = true;

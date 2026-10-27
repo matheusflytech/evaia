@@ -34,10 +34,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="icon" href="/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/css/style.css?v=53">
+  <link rel="stylesheet" href="/css/style.css?v=57">
   <link rel="stylesheet" href="/css/crm-demo.css?v=5">
   <link rel="stylesheet" href="/css/eva-ai-demo.css?v=3">
   <link rel="stylesheet" href="/css/eva-live.css?v=11">
+  <link rel="stylesheet" href="/css/hero-chat.css?v=7">
   <link rel="stylesheet" href="/css/auto-hero.css?v=11">
 </head>
 <body class="is-loading">
@@ -120,38 +121,58 @@
 
   <main id="top">
 
-    <!-- HERO -->
-    <section class="hero">
-      <canvas id="bg-canvas"></canvas>
-      <div class="grain"></div>
+    <!-- HERO: título direto + um balão para conversar com a Eva, fundo de degradê que se mexe -->
+    <section class="hero hero-chat-sec">
+      <div class="hero-fundo" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
-      <div class="hero-inner">
-        <p class="eyebrow reveal" data-i18n="hero.eyebrow">Holding de Tecnologia</p>
+      <div class="hero-chat-wrap">
+        <div class="hero-chat-head">
+          <h1 class="hero-title">
+            <span class="line" data-i18n="hero.title1">Conheça a Eva.</span>
+            <span class="line" data-i18n="hero.title2">Fale com ela agora.</span>
+          </h1>
+          <p class="hero-live-sub" data-i18n="hero.sub">Escreva, mande um áudio ou um arquivo. É um agente de IA de verdade.</p>
+        </div>
 
-        <h1 class="hero-title">
-          <span class="line reveal-word"><em data-i18n="hero.title1">Construímos</em></span>
-          <span class="line reveal-word" data-i18n="hero.title2">o motor<span class="so-mob"> digital</span></span>
-          <span class="line reveal-word" data-i18n="hero.title3"><span class="so-desk">digital </span>do <em>futuro</em></span>
-        </h1>
-
-        <form class="hero-ask reveal" id="heroAsk" autocomplete="off">
-          <label for="heroAskInput" data-i18n="hero.try">Converse agora com a Eva, ao vivo</label>
-          <div class="hero-ask-row">
-            <span class="hero-ask-av" aria-hidden="true"><img src="/assets/logo-crisp.png" alt=""></span>
-            <input id="heroAskInput" type="text" maxlength="500" placeholder="Pergunte algo sobre a Eva" aria-label="Pergunte à Eva">
-            <div class="hero-rec" id="heroRec" hidden><span class="hero-rec-dot"></span><span id="heroRecLbl">Gravando</span><span class="hero-rec-time" id="heroRecTime">0:00</span></div>
-            <button type="button" class="hero-ask-ico" id="heroAskMic" aria-label="Gravar áudio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM19 11a7 7 0 01-14 0M12 18v3"/></svg></button>
-            <button type="button" class="hero-ask-ico" id="heroAskCancel" aria-label="Cancelar gravação" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-            <button type="submit" id="heroAskBtn"><span>Enviar</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          </div>
-          <div class="hero-ask-sug" id="heroAskSug"></div>
-        </form>
-
-        <div class="hero-foot">
-          <a href="#ao-vivo" class="scroll-cue reveal">
-            <span data-i18n="hero.explore">Explorar</span>
-            <i></i>
-          </a>
+        <div class="hero-live crm-demo eva-live on-dark" id="ao-vivo">
+          <div class="live-stage" id="evaLive">
+              <div class="live-chat" aria-label="Conversa com a Eva">
+                <div class="live-chat-top">
+                  <span class="live-avatar">E</span>
+                  <div><b id="liveName">Eva</b><span class="live-sub"><i></i><span id="liveSubTxt">agente de IA da Eva Holding · online agora</span></span></div>
+                </div>
+                <div class="live-body" id="liveBody" aria-live="polite"></div>
+                <div class="live-chips" id="liveChips"></div>
+                <form class="live-form" id="liveForm" autocomplete="off">
+                  <div class="live-rec" id="liveRec" hidden><span class="live-rec-dot"></span><span id="liveRecLbl">Gravando</span><span class="live-rec-time" id="liveRecTime">0:00</span></div>
+                  <div class="live-pend" id="livePend" hidden></div>
+                  <input class="live-input" id="liveInput" type="text" maxlength="500" placeholder="Escreva sua mensagem" aria-label="Mensagem para a Eva">
+                  <input class="live-hp" id="liveHp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                  <button class="live-attach" id="liveAttach" type="button" aria-label="Anexar imagem ou documento"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5 5 0 01-7.1-7.1l8.6-8.6a3.4 3.4 0 014.8 4.8l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"/></svg></button>
+                  <input type="file" id="liveFile" accept="image/*,.pdf,.docx,.txt,.csv" hidden>
+                  <button class="live-mic" id="liveMic" type="button" aria-label="Gravar áudio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM19 11a7 7 0 01-14 0M12 18v3"/></svg></button>
+                  <button class="live-cancel" id="liveRecCancel" type="button" hidden aria-label="Cancelar gravação"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                  <button class="live-send" id="liveSend" type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                </form>
+              </div>
+  
+              <div class="live-trace" aria-label="O que a Eva está fazendo por trás da conversa">
+                <div class="live-bar">
+                  <span class="live-dots"><i></i><i></i><i></i></span>
+                  <span class="live-bar-title" id="liveBarTitle">Eva por dentro</span>
+                  <span class="live-bar-live"><i></i><span id="liveBarLive">ao vivo</span></span>
+                </div>
+                <div class="live-metrics">
+                  <div class="live-metric"><span id="liveLblResp">Tempo de resposta</span><b id="liveMResp">—</b></div>
+                  <div class="live-metric live-metric--wide"><span id="liveLblIntent">Intenção</span><b id="liveMIntent">aguardando</b></div>
+                  <div class="live-metric"><span id="liveLblSteps">Etapas</span><b id="liveMSteps">0/0</b></div>
+                  <div class="live-metric"><span id="liveLblSys">Sistemas acionados</span><b id="liveMSys">0</b></div>
+                </div>
+                <div class="live-nodes" id="liveNodes"></div>
+                <ol class="live-steps" id="liveSteps"></ol>
+              </div>
+            </div>
+          <button type="button" class="hero-trace-toggle" id="heroTraceBtn" aria-expanded="false" hidden data-i18n="hero.por">Ver o que a Eva faz por trás</button>
         </div>
       </div>
     </section>
@@ -179,58 +200,6 @@
         <span data-i18n="marquee.10">DevOps &amp; Escalabilidade</span><span>·</span>
       </div>
     </div>
-
-    <!-- EVA AO VIVO: conversa de verdade + o que acontece por trás -->
-    <section class="crm-demo eva-live on-dark live-azul" id="ao-vivo" aria-labelledby="liveTitle">
-      <div class="crm-demo-inner">
-        <div class="crm-demo-head">
-          <p class="eyebrow" data-i18n="live.label">Experimente agora</p>
-          <h2 class="crm-demo-title" id="liveTitle" data-i18n="live.title">Mande uma mensagem e veja a Eva trabalhando por trás.</h2>
-          <p class="crm-demo-lead" data-i18n="live.lead">
-            Converse de verdade com o agente da Eva. Ao lado, acompanhe cada etapa: entender o pedido, consultar a base,
-            conferir as regras, acionar os sistemas e responder, com o tempo de resposta medido ao vivo.
-          </p>
-        </div>
-
-        <div class="live-stage" id="evaLive">
-          <div class="live-chat" aria-label="Conversa com a Eva">
-            <div class="live-chat-top">
-              <span class="live-avatar">E</span>
-              <div><b id="liveName">Eva</b><span class="live-sub"><i></i><span id="liveSubTxt">agente de IA da Eva Holding · online agora</span></span></div>
-            </div>
-            <div class="live-body" id="liveBody" aria-live="polite"></div>
-            <div class="live-chips" id="liveChips"></div>
-            <form class="live-form" id="liveForm" autocomplete="off">
-              <div class="live-rec" id="liveRec" hidden><span class="live-rec-dot"></span><span id="liveRecLbl">Gravando</span><span class="live-rec-time" id="liveRecTime">0:00</span></div>
-              <div class="live-pend" id="livePend" hidden></div>
-              <input class="live-input" id="liveInput" type="text" maxlength="500" placeholder="Escreva sua mensagem" aria-label="Mensagem para a Eva">
-              <input class="live-hp" id="liveHp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-              <button class="live-attach" id="liveAttach" type="button" aria-label="Anexar imagem ou documento"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5 5 0 01-7.1-7.1l8.6-8.6a3.4 3.4 0 014.8 4.8l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"/></svg></button>
-              <input type="file" id="liveFile" accept="image/*,.pdf,.docx,.txt,.csv" hidden>
-              <button class="live-mic" id="liveMic" type="button" aria-label="Gravar áudio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM19 11a7 7 0 01-14 0M12 18v3"/></svg></button>
-              <button class="live-cancel" id="liveRecCancel" type="button" hidden aria-label="Cancelar gravação"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-              <button class="live-send" id="liveSend" type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            </form>
-          </div>
-
-          <div class="live-trace" aria-label="O que a Eva está fazendo por trás da conversa">
-            <div class="live-bar">
-              <span class="live-dots"><i></i><i></i><i></i></span>
-              <span class="live-bar-title" id="liveBarTitle">Eva por dentro</span>
-              <span class="live-bar-live"><i></i><span id="liveBarLive">ao vivo</span></span>
-            </div>
-            <div class="live-metrics">
-              <div class="live-metric"><span id="liveLblResp">Tempo de resposta</span><b id="liveMResp">—</b></div>
-              <div class="live-metric live-metric--wide"><span id="liveLblIntent">Intenção</span><b id="liveMIntent">aguardando</b></div>
-              <div class="live-metric"><span id="liveLblSteps">Etapas</span><b id="liveMSteps">0/0</b></div>
-              <div class="live-metric"><span id="liveLblSys">Sistemas acionados</span><b id="liveMSys">0</b></div>
-            </div>
-            <div class="live-nodes" id="liveNodes"></div>
-            <ol class="live-steps" id="liveSteps"></ol>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- VERTICAIS -->
     <section class="verticals on-dark" id="verticais">
@@ -552,11 +521,12 @@
     </div>
   </div>
 
-  <script src="/js/main.js?v=12"></script>
-  <script src="/js/i18n.js?v=13"></script>
+  <script src="/js/main.js?v=13"></script>
+  <script src="/js/i18n.js?v=15"></script>
   <script src="/js/eva-ai-demo.js?v=4"></script>
   <script src="/js/crm-demo.js?v=5"></script>
-  <script src="/js/eva-live.js?v=17"></script>
+  <script src="/js/eva-live.js?v=23"></script>
+  <script src="/js/hero-fundo.js?v=2"></script>
   <script src="/js/auto-hero.js?v=12"></script>
   <script>
     // "Falar com a Eva agora" abre o mesmo balão de chat do canto da tela
