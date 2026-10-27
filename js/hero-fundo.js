@@ -28,4 +28,18 @@
       setTimeout(function () { try { formulario.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (e) { formulario.scrollIntoView(); } }, 350);
     });
   }
+
+  /* ---------- celular: abre só com a conversa; o link pequeno "Ver o site" mostra o resto ---------- */
+  var ver = document.querySelector(".hero-ver-site");
+  if (ver) {
+    ver.addEventListener("click", function (e) {
+      var html = document.documentElement;
+      if (html.classList.contains("ver-site") || !window.matchMedia("(max-width: 640px)").matches) return;
+      e.preventDefault();
+      html.classList.add("ver-site");
+      try { sessionStorage.setItem("evaSite", "1"); } catch (x) {}
+      var alvo = document.getElementById("motor");
+      if (alvo) window.scrollTo(0, alvo.getBoundingClientRect().top + window.pageYOffset - 60);
+    });
+  }
 })();

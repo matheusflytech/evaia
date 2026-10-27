@@ -40,6 +40,11 @@
       "sobre.lead": "Eva Holding brings together products, teams and technology under one purpose: transforming entire operations through software, artificial intelligence and infrastructure built to fit.",
       "hero.try": "Chat with Eva live, right now",
       "hero.explore": "Explore",
+      "motor.eyebrow": "Technology Holding",
+      "motor.t1": "We build",
+      "motor.t2": "the digital engine",
+      "motor.t3": "of the future",
+      "hero.site": "See the site",
 
       "marquee.1": "AI Agents", "marquee.2": "Process Automation", "marquee.3": "Smart Chatbots",
       "marquee.4": "Integrations &amp; APIs", "marquee.5": "Cloud Infrastructure", "marquee.6": "Generative AI",
@@ -317,6 +322,11 @@
       "sobre.lead": "Eva Holding reúne productos, equipos y tecnología bajo un mismo propósito: transformar operaciones enteras a través de software, inteligencia artificial e infraestructura a medida.",
       "hero.try": "Conversa con Eva en vivo, ahora",
       "hero.explore": "Explorar",
+      "motor.eyebrow": "Holding de Tecnología",
+      "motor.t1": "Construimos",
+      "motor.t2": "el motor digital",
+      "motor.t3": "del futuro",
+      "hero.site": "Ver el sitio",
 
       "marquee.1": "Agentes de IA", "marquee.2": "Automatización de Procesos", "marquee.3": "Chatbots Inteligentes",
       "marquee.4": "Integraciones &amp; APIs", "marquee.5": "Infraestructura Cloud", "marquee.6": "IA Generativa",
