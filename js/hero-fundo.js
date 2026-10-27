@@ -21,14 +21,11 @@
     });
   }
 
-  /* ---------- celular: acompanha a área visível real (teclado aberto encolhe a tela) ---------- */
-  var vv = window.visualViewport, raiz = document.documentElement;
-  var ajustaTela = function () {
-    var h = vv ? vv.height : window.innerHeight;
-    raiz.style.setProperty("--vvh", Math.round(h) + "px");
-    if (secao) secao.classList.toggle("teclado", !!vv && window.innerHeight - vv.height > 140 && window.innerWidth <= 640);
-  };
-  if (vv) { vv.addEventListener("resize", ajustaTela); vv.addEventListener("scroll", ajustaTela); }
-  window.addEventListener("orientationchange", function () { setTimeout(ajustaTela, 250); });
-  ajustaTela();
+  /* ---------- celular: ao tocar no campo, o navegador abre o teclado do jeito dele e a gente só garante que o balão apareça ---------- */
+  var campo = document.getElementById("liveInput"), formulario = document.getElementById("liveForm");
+  if (campo && formulario && window.matchMedia("(max-width: 640px)").matches) {
+    campo.addEventListener("focus", function () {
+      setTimeout(function () { try { formulario.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (e) { formulario.scrollIntoView(); } }, 350);
+    });
+  }
 })();

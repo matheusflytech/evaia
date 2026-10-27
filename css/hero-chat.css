@@ -104,7 +104,7 @@
 }
 
 /* ===== celular: comportamento de app (como o ChatGPT) =====
-   sem barra de rolagem visível, sem arrastar para os lados, campo sempre à vista e acima do teclado */
+   sem barra de rolagem visível, sem arrastar para os lados, campo sempre à vista */
 @media (max-width: 980px) {
   html { scrollbar-width: none; -webkit-text-size-adjust: 100%; overflow-x: clip; }
   html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
@@ -112,8 +112,8 @@
   .hero-chat-sec { touch-action: pan-y; }
 }
 @media (max-width: 640px) {
-  .hero-chat-sec { min-height: var(--vvh, 100svh); padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
-  .hero-chat-sec .live-body { scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; min-height: 120px; max-height: calc(var(--vvh, 100svh) - 250px); }
+  .hero-chat-sec { min-height: 100svh; padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
+  .hero-chat-sec .live-body { scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; min-height: 120px; max-height: calc(100svh - 250px); }
   .hero-chat-sec .live-body::-webkit-scrollbar { display: none; width: 0; height: 0; }
   .hero-chat-sec .live-trace { scrollbar-width: none; overscroll-behavior: contain; }
   .hero-chat-sec .live-trace::-webkit-scrollbar { display: none; }
@@ -124,9 +124,13 @@
   .hero-chat-sec .live-msg .chat-table-wrap::-webkit-scrollbar { display: none; }
   /* conversa em andamento: sobe para logo abaixo do menu, e o campo fica ao alcance do polegar */
   .hero-chat-sec.is-conv { align-items: flex-start; padding-top: 92px; }
-  /* teclado aberto: some o que não ajuda, para o campo e a conversa terem espaço */
-  .hero-chat-sec.teclado { align-items: flex-start; padding-top: 84px; padding-bottom: 12px; }
-  .hero-chat-sec.teclado .hero-chat-head { max-height: 0; opacity: 0; margin-bottom: 0; }
-  .hero-chat-sec.teclado .live-chips, .hero-chat-sec.teclado .hero-trace-toggle { display: none; }
-  .hero-chat-sec.teclado .live-body { max-height: calc(var(--vvh, 100svh) - 150px); }
+}
+
+/* ajustes: a perna do "g" não pode ser cortada e o título cabe em uma linha */
+.hero-chat-sec .hero-chat-head { padding-bottom: .14em; }
+.hero-chat-sec:not(.is-conv) .hero-chat-head { overflow: visible; }
+.hero-chat-sec .hero-title { line-height: 1.1; }
+.hero-chat-sec .hero-title .line { white-space: nowrap; }
+@media (max-width: 640px) {
+  .hero-chat-sec .hero-title { font-size: min(10.2vw, 52px); letter-spacing: -.03em; }
 }
