@@ -145,7 +145,6 @@
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   }
   .hero-ver-site::after { content: "↓"; font-size: 14px; }
-  .hero-chat-sec.is-conv .hero-ver-site { display: none; }
   .hero-motor {
     display: flex; align-items: center; min-height: 78svh; padding: 90px 24px; position: relative; overflow: hidden;
     background: radial-gradient(90% 55% at 50% 108%, hsla(208, 50%, 50%, .5), transparent 70%), linear-gradient(180deg, hsl(220, 55%, 5%), hsl(220, 48%, 9%));
@@ -163,4 +162,10 @@
   html:not(.ver-site) #chatFab, html:not(.ver-site) #chatPanel { display: none !important; }
   html:not(.ver-site) .hero-chat-sec { padding-top: 40px; }
   .hero-ver-site { padding: 6px 12px; font-size: 12px; font-weight: 400; background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; color: hsla(210, 40%, 90%, .62); }
+}
+
+/* sem a opção "ver o que a Eva faz por trás" embaixo do balão; o link do site continua depois que a conversa começa */
+.hero-trace-toggle, #heroTraceBtn { display: none !important; }
+@media (max-width: 640px) {
+  .hero-chat-sec.is-conv { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
 }
