@@ -169,3 +169,14 @@
 @media (max-width: 640px) {
   .hero-chat-sec.is-conv { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
 }
+
+/* alinhamento como no ChatGPT: a Eva fala à esquerda, em texto corrido na largura toda; a pessoa fala à direita, em balão cinza */
+.hero-chat-sec .live-body { display: none; flex-direction: column; align-items: stretch; padding: 0 0 20px; gap: 22px; }
+.hero-chat-sec .hero-live.is-conv .live-body { display: flex; }
+.hero-chat-sec .live-msg { margin: 0; width: auto; }
+.hero-chat-sec .live-msg--bot { align-self: flex-start; width: 100%; padding: 0 6px; text-align: left; }
+.hero-chat-sec .live-msg--user { align-self: flex-end; width: fit-content; max-width: 80%; text-align: left; border-bottom-right-radius: 22px; }
+.hero-chat-sec .live-msg--bot p { margin: 0 0 12px; } .hero-chat-sec .live-msg--bot p:last-child { margin-bottom: 0; }
+.hero-chat-sec .live-msg--bot ul { margin: 4px 0 12px 20px; }
+.hero-chat-sec .live-typing { align-self: flex-start; margin-left: 6px; }
+.hero-chat-sec .live-typing { background: none; border: 0; padding: 6px 0; }
