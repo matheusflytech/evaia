@@ -134,9 +134,3 @@
 @media (max-width: 640px) {
   .hero-chat-sec .hero-title { font-size: min(8vw, 40px); letter-spacing: -.03em; }
 }
-
-/* transição suave: a luz do topo esmaece antes do fim e a faixa de termos fica escura, sem salto de tom */
-.hero-fundo::after { background: linear-gradient(0deg, hsl(220, 55%, 5%) 0%, hsla(220, 55%, 5%, .0) 24%), linear-gradient(180deg, hsl(220, 55%, 4%) 0%, hsla(220, 55%, 4%, .88) 34%, hsla(220, 55%, 4%, .4) 56%, transparent 74%); }
-.hero-chat-sec + .marquee { background: hsl(220, 55%, 5%); border-top: 0; border-bottom: 1px solid hsla(220, 30%, 60%, .14); }
-.hero-chat-sec + .marquee .marquee-track span { color: hsl(215, 20%, 62%); }
-.hero-chat-sec + .marquee .marquee-track span:nth-child(2n) { color: hsl(210, 70%, 62%); }
