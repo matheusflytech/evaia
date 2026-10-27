@@ -20,4 +20,15 @@
       botao.setAttribute("aria-expanded", abriu ? "true" : "false");
     });
   }
+
+  /* ---------- celular: acompanha a área visível real (teclado aberto encolhe a tela) ---------- */
+  var vv = window.visualViewport, raiz = document.documentElement;
+  var ajustaTela = function () {
+    var h = vv ? vv.height : window.innerHeight;
+    raiz.style.setProperty("--vvh", Math.round(h) + "px");
+    if (secao) secao.classList.toggle("teclado", !!vv && window.innerHeight - vv.height > 140 && window.innerWidth <= 640);
+  };
+  if (vv) { vv.addEventListener("resize", ajustaTela); vv.addEventListener("scroll", ajustaTela); }
+  window.addEventListener("orientationchange", function () { setTimeout(ajustaTela, 250); });
+  ajustaTela();
 })();
