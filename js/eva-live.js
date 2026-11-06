@@ -277,6 +277,12 @@
     var m = document.createElement("div");
     m.className = "live-msg live-msg--" + who;
     if (asText) m.textContent = html; else m.innerHTML = html;
+    if (who === "bot") { // bolinha pequena da Eva ao lado de cada resposta
+      var orb = document.createElement("canvas");
+      orb.className = "live-msg-orb"; orb.setAttribute("data-eva-orb", ""); orb.setAttribute("data-n", "420"); orb.setAttribute("data-escala", "0.42"); orb.setAttribute("aria-hidden", "true");
+      m.insertBefore(orb, m.firstChild);
+      if (window.EvaOrb) window.EvaOrb.mount(orb);
+    }
     body.appendChild(m);
     if (who === "bot" && m.offsetHeight > body.clientHeight * 0.6) body.scrollTop = Math.max(0, m.offsetTop - 10);
     else body.scrollTop = body.scrollHeight;

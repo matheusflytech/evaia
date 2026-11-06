@@ -1068,4 +1068,5 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 /* chat do hero: sem a saudação em texto; no lugar, a bolinha pequena ao lado do nome da Eva */
 .hero-chat-sec .live-body > .live-msg--bot:first-child { display: none; }
 .live-orb { display: block; width: 56px; height: 56px; margin: -10px -4px -10px -6px; flex: none; cursor: pointer; }
-.hero-chat-sec .hero-live.is-conv .live-chat-top { display: flex; padding: 0 4px 10px; background: none; border: 0; }
+.hero-chat-sec .hero-live .live-msg--bot { position: relative; padding-left: 52px; }
+.live-msg-orb { position: absolute; left: -4px; top: -9px; width: 56px; height: 56px; cursor: pointer; }
