@@ -40,7 +40,7 @@
 
     // cursor em coordenadas da esfera (1 = borda), suavizado; "perto" vai de 0 (longe) a 1 (em cima)
     var alvo = { x: 0, y: 0, perto: 0 }, cursor = { x: 0, y: 0, perto: 0 };
-    var onda = 0, t = 0, amp = 0, anterior = performance.now(), visivel = true;
+    var onda = 0, t = 0, amp = 0, anterior = performance.now();
 
     function aoMover(e) {
       var rc = cv.getBoundingClientRect();
@@ -53,15 +53,13 @@
     window.addEventListener("pointermove", aoMover, { passive: true });
     cv.addEventListener("pointerdown", function () { onda = 1; });
 
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) { visivel = es[0].isIntersecting; }).observe(cv);
-    }
-
     function desenha(agora) {
       requestAnimationFrame(desenha);
       var passo = Math.min(0.05, (agora - anterior) / 1000);
       anterior = agora;
-      if (!visivel || document.hidden) return;
+      if (document.hidden || !cv.clientWidth) return; // aba em segundo plano ou canvas escondido (chat fechado)
+      var vr = cv.getBoundingClientRect(); // fora da tela: não gasta CPU
+      if (vr.bottom < 0 || vr.top > window.innerHeight) return;
       var calmo = reduz.matches;
       t += passo * (calmo ? 0.35 : 1);
 
