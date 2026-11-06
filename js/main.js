@@ -217,7 +217,7 @@
   // bolinha da Eva (canvas): carrega uma vez e monta todos os <canvas data-eva-orb> da página
   if (!window.EvaOrb) {
     var orbJs = document.createElement("script");
-    orbJs.src = "/js/eva-orb.js?v=3";
+    orbJs.src = "/js/eva-orb.js?v=4";
     orbJs.async = true;
     document.head.appendChild(orbJs);
   }

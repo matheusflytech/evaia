@@ -1069,3 +1069,6 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .hero-chat-sec .live-body > .live-msg--bot:first-child { display: none; }
 .live-orb { display: block; width: 56px; height: 56px; margin: -10px -4px -10px -6px; flex: none; cursor: pointer; }
 .hero-chat-sec .hero-live.is-conv .live-chat-top { display: flex; padding: 0 4px 10px; background: none; border: 0; }
+
+/* chat do hero: cabeçalho "Eva" com a bolinha ao lado, só durante a conversa */
+.hero-chat-sec .hero-live.is-conv .live-chat-top { display: flex; padding: 0 4px 10px; background: none; border: 0; }

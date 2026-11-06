@@ -46,6 +46,7 @@
     function aoMover(e) {
       var rc = cv.getBoundingClientRect();
       var raio = Math.min(rc.width, rc.height) * ESC;
+      if (!raio) return; // canvas escondido (largura 0): dividir por zero deixaria a esfera em branco para sempre
       var x = (e.clientX - (rc.left + rc.width / 2)) / raio;
       var yy = (e.clientY - (rc.top + rc.height / 2)) / raio;
       alvo.x = x; alvo.y = yy;
@@ -66,6 +67,7 @@
 
       // molas exponenciais: fala, cursor e onda chegam e saem sem degrau
       amp += (falandoAlvo - amp) * Math.min(1, passo * 3);
+      if (!isFinite(alvo.x + alvo.y + alvo.perto + cursor.x + cursor.y + cursor.perto)) { alvo.x = alvo.y = alvo.perto = cursor.x = cursor.y = cursor.perto = 0; } // nunca fica preso em NaN
       var kk = Math.min(1, passo * 6);
       cursor.x += (alvo.x - cursor.x) * kk;
       cursor.y += (alvo.y - cursor.y) * kk;
