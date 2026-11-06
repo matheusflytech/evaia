@@ -214,8 +214,31 @@
      cai na página Leads do Eva Studio. EVA_STUDIO_ORIGIN aponta pro
      localhost enquanto testamos — trocar pra https://evapp.vercel.app antes
      de subir esse site de verdade. */
+  // bolinha da Eva (canvas): carrega uma vez e monta todos os <canvas data-eva-orb> da página
+  if (!window.EvaOrb) {
+    var orbJs = document.createElement("script");
+    orbJs.src = "/js/eva-orb.js?v=1";
+    orbJs.async = true;
+    document.head.appendChild(orbJs);
+  }
+
   var chatFab = document.getElementById("chatFab");
   if (chatFab) {
+    // o botão flutuante é um <div>: vira botão de verdade para teclado e leitor de tela
+    chatFab.setAttribute("role", "button");
+    chatFab.setAttribute("tabindex", "0");
+    chatFab.setAttribute("aria-label", "Perguntar à Eva");
+    chatFab.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); chatFab.click(); } });
+    // cabeçalho do chat: a bolinha aparece no lugar do ícone assim que a conversa começa
+    var cabAvatar = document.querySelector("#chatPanel .chat-avatar");
+    if (cabAvatar) {
+      var cabOrb = document.createElement("canvas");
+      cabOrb.className = "chat-head-orb";
+      cabOrb.setAttribute("data-eva-orb", "");
+      cabOrb.setAttribute("data-n", "520");
+      cabOrb.setAttribute("aria-hidden", "true");
+      cabAvatar.parentNode.insertBefore(cabOrb, cabAvatar);
+    }
     var EVA_STUDIO_ORIGIN = "https://evapp.vercel.app";
     var EVA_AGENT_ID = "d7a79443-3a8b-40c9-b493-743127938986";
     var WEBHOOK_URL = EVA_STUDIO_ORIGIN + "/api/widget/" + EVA_AGENT_ID + "/message";
@@ -380,7 +403,9 @@
     }
 
     function appendMsg(text, who) {
+      if (who === "user") removeSuggestions();
       var d = renderMsg(text, who);
+      if (who === "bot") { clearTimeout(seguirTimer); seguirTimer = setTimeout(renderFollowups, 60); }
       var msgs = loadMessages();
       msgs.push({ text: text, who: who });
       saveMessages(msgs);
@@ -407,35 +432,89 @@
       return d;
     }
 
-    var SUGGESTIONS = [
-      "Como funciona um agente de IA?",
-      "Quero automatizar meu negócio",
-      "Quais integrações vocês fazem?"
-    ];
+    /* Tela de boas-vindas (bolinha da Eva + perguntas sugeridas) e sugestões novas depois de cada resposta,
+       no mesmo jeito do chat do app. */
+    var UI = {
+      pt: { title: "Oi! O que você quer saber hoje?", sub: "Eu explico agentes de IA, infraestrutura e automações.", ask: "Perguntar à Eva",
+        sug: ["Como funciona um agente de IA?", "Quero automatizar meu negócio", "Quais integrações vocês fazem?"],
+        pool: ["Como funciona na prática?", "Quanto tempo leva para implantar?", "Quais integrações vocês fazem?", "Quero automatizar meu negócio", "Quero falar com a equipe"] },
+      en: { title: "Hi! What would you like to know today?", sub: "I explain AI agents, infrastructure and automation.", ask: "Ask Eva",
+        sug: ["How does an AI agent work?", "I want to automate my business", "Which integrations do you build?"],
+        pool: ["How does it work in practice?", "How long does it take to launch?", "Which integrations do you build?", "I want to automate my business", "I want to talk to the team"] },
+      es: { title: "¡Hola! ¿Qué quieres saber hoy?", sub: "Explico agentes de IA, infraestructura y automatización.", ask: "Preguntar a Eva",
+        sug: ["¿Cómo funciona un agente de IA?", "Quiero automatizar mi negocio", "¿Qué integraciones hacen?"],
+        pool: ["¿Cómo funciona en la práctica?", "¿Cuánto tarda en implantarse?", "¿Qué integraciones hacen?", "Quiero automatizar mi negocio", "Quiero hablar con el equipo"] }
+    };
+    function ui() { var l = (window.EvaI18n && window.EvaI18n.getLang && window.EvaI18n.getLang()) || "pt"; return UI[l] || UI.pt; }
+    var SPARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>';
+
+    function cabecalho(vazio) {
+      chatPanel.classList.toggle("is-empty", vazio);
+      if (window.EvaOrb) window.EvaOrb.scan();
+    }
 
     function renderSuggestions() {
       if (document.getElementById("chatSuggestions")) return;
+      var u = ui();
       var wrap = document.createElement("div");
-      wrap.className = "chat-suggestions";
+      wrap.className = "chat-welcome";
       wrap.id = "chatSuggestions";
-      SUGGESTIONS.forEach(function (text) {
+      wrap.innerHTML = '<canvas class="chat-welcome-orb" data-eva-orb aria-hidden="true"></canvas><h3></h3><p></p><div class="chat-welcome-sug"></div>';
+      wrap.querySelector("h3").textContent = u.title;
+      wrap.querySelector("p").textContent = u.sub;
+      var box = wrap.querySelector(".chat-welcome-sug");
+      u.sug.forEach(function (text, i) {
         var chip = document.createElement("button");
         chip.type = "button";
-        chip.className = "chip";
-        chip.textContent = text;
+        chip.className = "chat-sug-card";
+        chip.style.animationDelay = (0.18 + i * 0.07) + "s";
+        chip.innerHTML = SPARK + "<span></span>";
+        chip.lastChild.textContent = text;
         chip.addEventListener("click", function () {
           chatInput.value = text;
           sendChat();
         });
-        wrap.appendChild(chip);
+        box.appendChild(chip);
       });
       chatBody.appendChild(wrap);
-      chatBody.scrollTop = chatBody.scrollHeight;
+      cabecalho(true);
     }
+
+    // refaz o texto da tela de boas-vindas quando troca o idioma do site
+    document.addEventListener("evalangchange", function () {
+      if (document.getElementById("chatSuggestions")) { document.getElementById("chatSuggestions").remove(); renderSuggestions(); }
+    });
 
     function removeSuggestions() {
       var existing = document.getElementById("chatSuggestions");
       if (existing) existing.remove();
+      var f = chatBody.querySelector(".chat-followups");
+      if (f) f.remove();
+      cabecalho(false);
+    }
+
+    // depois de cada resposta: até 3 perguntas que a pessoa ainda não fez
+    var seguirTimer = null;
+    function renderFollowups() {
+      var antigo = chatBody.querySelector(".chat-followups");
+      if (antigo) antigo.remove();
+      var ultimo = chatBody.lastElementChild;
+      if (!ultimo || !ultimo.classList.contains("chat-msg") || !ultimo.classList.contains("bot") || ultimo.classList.contains("typing")) return;
+      var feitas = loadMessages().filter(function (m) { return m.who === "user"; }).map(function (m) { return m.text; });
+      var lista = ui().pool.filter(function (t) { return feitas.indexOf(t) < 0; }).slice(0, 3);
+      if (!lista.length) return;
+      var wrap = document.createElement("div");
+      wrap.className = "chat-followups";
+      lista.forEach(function (text) {
+        var chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "chip";
+        chip.textContent = text;
+        chip.addEventListener("click", function () { chatInput.value = text; sendChat(); });
+        wrap.appendChild(chip);
+      });
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
     }
 
     function toggleChat() {
@@ -487,6 +566,7 @@
 
     async function sendToEva(payload) {
       var typing = appendTyping();
+      if (window.EvaOrb) window.EvaOrb.falando(true); // a bolinha deforma mais enquanto a Eva responde
       try {
         var res = await fetch(WEBHOOK_URL, {
           method: "POST",
@@ -510,6 +590,8 @@
       } catch (err) {
         typing.remove();
         appendMsg("Assistente indisponível no momento. Fale com a gente por e-mail!", "bot");
+      } finally {
+        if (window.EvaOrb) window.EvaOrb.falando(false);
       }
     }
 
