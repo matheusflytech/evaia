@@ -1004,7 +1004,7 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 .chat-panel > * { position: relative; }
 .chat-head { padding: 16px 14px 8px 16px; border-bottom: 0; }
 .chat-avatar { background: linear-gradient(135deg, rgba(110, 170, 255, .28), rgba(91, 141, 255, .2)); box-shadow: 0 0 0 1px var(--line); }
-.chat-head-orb { display: none; width: 60px; height: 60px; margin: -12px -6px -12px -6px; flex: none; }
+.chat-head-orb { display: none; width: 56px; height: 56px; margin: -10px -4px -10px -6px; flex: none; }
 .chat-panel:not(.is-empty) .chat-head-orb { display: block; }
 .chat-panel:not(.is-empty) .chat-avatar { display: none; }
 .chat-head .status i { background: #4ade80; animation: eva-pulsa 2s ease-in-out infinite; }
@@ -1061,3 +1061,6 @@ button.contact-card { font: inherit; text-align: left; width: 100%; cursor: poin
 @media (max-width: 520px) { .hero-chat-head .hero-orb { width: 180px; height: 180px; margin: -32px auto -28px; } }
 .chat-body { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .22) transparent; }
 @media (max-height: 680px) { .chat-welcome-orb { width: 120px; height: 120px; margin: -20px 0 -18px; } .chat-welcome-sug { margin-top: 8px; } }
+
+/* a saudação em texto some: a tela de boas-vindas já recebe a pessoa */
+.chat-panel .chat-greeting, .chat-panel [data-i18n="chat.greeting"] { display: none; }

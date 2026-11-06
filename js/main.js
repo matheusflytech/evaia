@@ -217,7 +217,7 @@
   // bolinha da Eva (canvas): carrega uma vez e monta todos os <canvas data-eva-orb> da página
   if (!window.EvaOrb) {
     var orbJs = document.createElement("script");
-    orbJs.src = "/js/eva-orb.js?v=2";
+    orbJs.src = "/js/eva-orb.js?v=3";
     orbJs.async = true;
     document.head.appendChild(orbJs);
   }
@@ -235,7 +235,8 @@
       var cabOrb = document.createElement("canvas");
       cabOrb.className = "chat-head-orb";
       cabOrb.setAttribute("data-eva-orb", "");
-      cabOrb.setAttribute("data-n", "520");
+      cabOrb.setAttribute("data-n", "800");
+      cabOrb.setAttribute("data-escala", "0.42");
       cabOrb.setAttribute("aria-hidden", "true");
       cabAvatar.parentNode.insertBefore(cabOrb, cabAvatar);
     }
@@ -382,6 +383,7 @@
     function renderMsg(text, who) {
       var d = document.createElement("div");
       d.className = "chat-msg " + who;
+      if (who === "bot" && /^(Olá! Sou a Eva|Hi! I.m Eva|¡Hola! Soy Eva)/.test(text)) d.className += " chat-greeting";
       if (who === "bot") {
         d.innerHTML = renderMarkdown(text);
       } else {

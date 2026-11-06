@@ -31,6 +31,7 @@
     var ctx = cv.getContext("2d");
     if (!ctx) return;
     var N = parseInt(cv.getAttribute("data-n"), 10) || 1600;
+    var ESC = parseFloat(cv.getAttribute("data-escala")) || 0.32; // raio da esfera em relação ao canvas (menor = mais folga para esticar)
     var ouro = Math.PI * (3 - Math.sqrt(5));
     var pts = [];
     for (var k = 0; k < N; k++) {
@@ -44,7 +45,7 @@
 
     function aoMover(e) {
       var rc = cv.getBoundingClientRect();
-      var raio = Math.min(rc.width, rc.height) * 0.32;
+      var raio = Math.min(rc.width, rc.height) * ESC;
       var x = (e.clientX - (rc.left + rc.width / 2)) / raio;
       var yy = (e.clientY - (rc.top + rc.height / 2)) / raio;
       alvo.x = x; alvo.y = yy;
@@ -78,7 +79,7 @@
 
       // respiração + um passeio pequeno do centro: a esfera nunca fica parada
       var respira = 1 + Math.sin(t * 1.4) * 0.025 + amp * Math.sin(t * 7) * 0.02;
-      var R = Math.min(w, hh) * 0.32 * respira;
+      var R = Math.min(w, hh) * ESC * respira;
       var cx = w / 2 + Math.sin(t * 0.5) * R * 0.04 + cursor.x * cursor.perto * R * 0.08;
       var cy = hh / 2 + Math.cos(t * 0.37) * R * 0.04 + cursor.y * cursor.perto * R * 0.08;
 
